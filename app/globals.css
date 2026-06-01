@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  /* Theory-IL design tokens */
+  --th-bg: #f8f7f4;
+  --th-fg: #1a1a1a;
+  --th-card: #ffffff;
+  --th-border: #e2e0db;
+  --th-accent: #2563eb;
+  --th-accent-hover: #1d4ed8;
+  --th-success: #16a34a;
+  --th-error: #dc2626;
+  --th-muted: #6b7280;
+  --th-muted-bg: #f1f0ed;
+  --th-radius: 0.75rem;
+}
+
+@theme inline {
+  --color-background: var(--th-bg);
+  --color-foreground: var(--th-fg);
+  --font-sans: var(--font-heebo), Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --th-bg: #0f0f0f;
+    --th-fg: #f0eeea;
+    --th-card: #1a1a1a;
+    --th-border: #2e2c28;
+    --th-muted: #9ca3af;
+    --th-muted-bg: #1f1f1f;
+  }
+}
+
+body {
+  background: var(--th-bg);
+  color: var(--th-fg);
+}
