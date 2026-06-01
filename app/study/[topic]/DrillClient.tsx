@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
+import ExportMenu from "@/components/ExportMenu";
 
 interface DrillClientProps {
   topic: string;
@@ -64,15 +65,16 @@ export default function DrillClient({ topic, questions }: DrillClientProps) {
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-6">
-      {/* Back link + topic title */}
-      <div className="w-full max-w-2xl flex items-center justify-between">
+      {/* Back link + topic title + export */}
+      <div className="w-full max-w-2xl flex items-center justify-between gap-3">
         <Link
           href="/study"
-          className="text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors"
+          className="text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors shrink-0"
         >
           ← כל הנושאים
         </Link>
         <span className="text-sm font-semibold">{topic}</span>
+        <ExportMenu topic={topic} questions={questions} />
       </div>
 
       {/* Progress bar */}
