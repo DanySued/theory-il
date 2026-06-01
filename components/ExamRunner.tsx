@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 import type { Question } from "@/components/QuestionCard";
 import { saveAttempt, generateId } from "@/lib/storage";
 
@@ -21,8 +22,12 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
   const startedAt = useRef(Date.now());
 
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(questions.length).fill(null));
-  const [markedForReview, setMarkedForReview] = useState<boolean[]>(() => new Array(questions.length).fill(false));
+  const [answers, setAnswers] = useState<(number | null)[]>(() =>
+    new Array(questions.length).fill(null)
+  );
+  const [markedForReview, setMarkedForReview] = useState<boolean[]>(() =>
+    new Array(questions.length).fill(false)
+  );
   const [secondsLeft, setSecondsLeft] = useState(EXAM_DURATION);
   const [submitted, setSubmitted] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -53,13 +58,11 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
     router.push(`/results/${examId.current}`);
   }, [questions, router]);
 
-  // Countdown timer
   useEffect(() => {
     const interval = setInterval(() => {
       setSecondsLeft((s) => {
         if (s <= 1) {
           clearInterval(interval);
-          // auto-submit after state update
           setTimeout(() => doSubmit(), 0);
           return 0;
         }
@@ -77,7 +80,8 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
     const isAnswered = answers[i] !== null;
     const isMarked = markedForReview[i];
     const isCurrent = i === currentIdx;
-    let cls = "w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center cursor-pointer transition-all border-2 ";
+    let cls =
+      "w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center cursor-pointer transition-all border-2 ";
     cls += isCurrent ? "border-[var(--th-accent)] scale-110 " : "border-transparent ";
     if (isMarked && isAnswered) cls += "bg-orange-300 text-orange-900 ";
     else if (isMarked) cls += "bg-yellow-200 text-yellow-800 ";
@@ -89,27 +93,47 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
   return (
     <main className="flex flex-1 flex-col">
       {/* Sticky top bar */}
-      <div className="sticky top-0 z-10 bg-[var(--th-card)] border-b border-[var(--th-border)] px-4 py-3 flex items-center justify-between gap-4">
-        <span className={`font-mono text-xl font-bold tabular-nums ${isLowTime ? "text-[var(--th-error)]" : ""}`}>
-          {formatTime(secondsLeft)}
-        </span>
-        <span className="text-sm text-[var(--th-muted)] hidden sm:block">
-          {answeredCount}/{questions.length} נענו
-        </span>
-        <button
-          disabled={submitted}
-          onClick={() => answeredCount < questions.length ? setShowConfirm(true) : doSubmit()}
-          className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
-        >
-          סיים מבחן
-        </button>
+      <div className="sticky top-0 z-10 bg-[var(--th-card)] border-b border-[var(--th-border)]">
+        <div className="px-4 py-3 flex items-center justify-between gap-4">
+          <span
+            className={`font-mono text-xl font-bold tabular-nums ${
+              isLowTime ? "text-[var(--th-error)]" : ""
+            }`}
+          >
+            {formatTime(secondsLeft)}
+          </span>
+          <span className="text-sm text-[var(--th-muted)] hidden sm:block">
+            {answeredCount}/{questions.length} נענו
+          </span>
+          <button
+            disabled={submitted}
+            onClick={() =>
+              answeredCount < questions.length ? setShowConfirm(true) : doSubmit()
+            }
+            className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
+          >
+            סיים מבחן
+          </button>
+        </div>
+        {/* Animated progress bar */}
+        <div className="h-1 bg-[var(--th-muted-bg)] w-full">
+          <motion.div
+            className="h-full bg-[var(--th-accent)] origin-start"
+            animate={{ width: `${(answeredCount / questions.length) * 100}%` }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          />
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col items-center px-4 py-6 gap-6 max-w-2xl mx-auto w-full">
         {/* Question navigator */}
         <div className="flex flex-wrap gap-2 justify-center">
           {questions.map((_, i) => (
-            <button key={i} className={navCircleClass(i)} onClick={() => setCurrentIdx(i)}>
+            <button
+              key={i}
+              className={navCircleClass(i)}
+              onClick={() => setCurrentIdx(i)}
+            >
               {i + 1}
             </button>
           ))}
@@ -118,9 +142,15 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
         {/* Question area */}
         <div className="w-full flex flex-col gap-4">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-[var(--th-muted)]">שאלה {currentIdx + 1} מתוך {questions.length}</span>
+            <span className="text-[var(--th-muted)]">
+              שאלה {currentIdx + 1} מתוך {questions.length}
+            </span>
             <button
-              onClick={() => setMarkedForReview((prev) => prev.map((m, i) => (i === currentIdx ? !m : m)))}
+              onClick={() =>
+                setMarkedForReview((prev) =>
+                  prev.map((m, i) => (i === currentIdx ? !m : m))
+                )
+              }
               className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
                 markedForReview[currentIdx]
                   ? "bg-yellow-200 border-yellow-400 text-yellow-800"
@@ -135,7 +165,11 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
             {q.image && (
               <div className="flex justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={q.image} alt={q.text} className="max-h-48 object-contain rounded-lg" />
+                <img
+                  src={q.image}
+                  alt={q.text}
+                  className="max-h-48 object-contain rounded-lg"
+                />
               </div>
             )}
             <p className="text-lg font-semibold leading-relaxed">{q.text}</p>
@@ -143,9 +177,14 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
               {q.answers.map((answer, idx) => {
                 const isSelected = answers[currentIdx] === idx;
                 return (
-                  <button
+                  <motion.button
                     key={idx}
-                    onClick={() => setAnswers((prev) => prev.map((a, i) => (i === currentIdx ? idx : a)))}
+                    onClick={() =>
+                      setAnswers((prev) =>
+                        prev.map((a, i) => (i === currentIdx ? idx : a))
+                      )
+                    }
+                    whileTap={{ scale: 0.98 }}
                     className={`w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors ${
                       isSelected
                         ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-white"
@@ -154,7 +193,7 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
                   >
                     <span className="font-bold me-2">{LABELS[idx]}.</span>
                     {answer}
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
@@ -209,7 +248,10 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
                 המשך מבחן
               </button>
               <button
-                onClick={() => { setShowConfirm(false); doSubmit(); }}
+                onClick={() => {
+                  setShowConfirm(false);
+                  doSubmit();
+                }}
                 className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
               >
                 סיים בכל זאת

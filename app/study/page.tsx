@@ -1,28 +1,17 @@
 import type { Metadata } from "next";
 import questionsData from "@/lib/data/questions.json";
-import TopicGrid from "@/components/TopicGrid";
+import type { Question } from "@/components/QuestionCard";
+import TopicGridClient from "@/components/TopicGridClient";
 
 export const metadata: Metadata = {
   title: "לימוד לפי נושאים — תיאוריה",
 };
 
-interface Question {
-  id: string;
-  topic: string;
-  text: string;
-  image?: string;
-  answers: [string, string, string, string];
-  correctIndex: 0 | 1 | 2 | 3;
-  explanation?: string;
-}
-
 const questions = questionsData as Question[];
 
-// Ordered list of topic labels so we display them in a meaningful order
 const TOPIC_ORDER = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"];
 
 export default function StudyPage() {
-  // Compute per-topic counts
   const counts: Record<string, number> = {};
   for (const q of questions) {
     counts[q.topic] = (counts[q.topic] ?? 0) + 1;
@@ -40,7 +29,7 @@ export default function StudyPage() {
         <h1 className="text-3xl font-bold">לימוד לפי נושאים</h1>
         <p className="text-[var(--th-muted)]">בחר נושא ללמידה</p>
       </div>
-      <TopicGrid topics={topics} />
+      <TopicGridClient topics={topics} questions={questions} />
     </main>
   );
 }

@@ -109,3 +109,27 @@ export async function generateDocx(
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+export async function exportResultCard(element: HTMLElement): Promise<void> {
+  const { toPng } = await import("html-to-image");
+  const dataUrl = await toPng(element, { pixelRatio: 2 });
+
+  if (typeof navigator !== "undefined" && navigator.share && navigator.canShare) {
+    try {
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], "תיאוריה-תוצאה.png", { type: "image/png" });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "תוצאת מבחן תיאוריה" });
+        return;
+      }
+    } catch {
+      // fall through to download
+    }
+  }
+
+  const a = document.createElement("a");
+  a.download = "תיאוריה-תוצאה.png";
+  a.href = dataUrl;
+  a.click();
+}

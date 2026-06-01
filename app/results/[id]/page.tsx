@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getAttempt, type Attempt } from "@/lib/storage";
+import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt } from "@/lib/storage";
+import { exportResultCard } from "@/lib/export";
+import ShareCard from "@/components/ShareCard";
 
 const PASS_SCORE = 26;
 const LABELS = ["א", "ב", "ג", "ד"] as const;
@@ -19,10 +21,42 @@ export default function ResultsPage() {
   const id = Array.isArray(params.id) ? params.id[0] : (params.id ?? "");
 
   const [attempt, setAttempt] = useState<Attempt | null | "loading">("loading");
+  const [displayScore, setDisplayScore] = useState(0);
+  const [sharing, setSharing] = useState(false);
+  const shareCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setAttempt(getAttempt(id));
+    const a = getAttempt(id);
+    setAttempt(a);
+    if (a && !a.answersRecorded) {
+      recordAnswersBatch(a.questions, a.answers);
+      updateStreak();
+      saveAttempt({ ...a, answersRecorded: true });
+    }
   }, [id]);
+
+  // Animate score counter
+  const animateScore = useCallback((target: number) => {
+    const duration = 900;
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayScore(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, []);
+
+  useEffect(() => {
+    if (!attempt || attempt === "loading") return;
+    const correct = attempt.questions.filter(
+      (q, i) => attempt.answers[i] === q.correctIndex
+    ).length;
+    animateScore(correct);
+  }, [attempt, animateScore]);
 
   if (attempt === "loading") return null;
 
@@ -39,6 +73,17 @@ export default function ResultsPage() {
 
   const correct = attempt.questions.filter((q, i) => attempt.answers[i] === q.correctIndex).length;
   const passed = correct >= PASS_SCORE;
+  const duration = formatDuration(attempt.timeSpentSeconds);
+
+  async function handleShare() {
+    if (!shareCardRef.current || sharing) return;
+    setSharing(true);
+    try {
+      await exportResultCard(shareCardRef.current);
+    } finally {
+      setSharing(false);
+    }
+  }
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-8">
@@ -50,17 +95,21 @@ export default function ResultsPage() {
           }`}
         >
           <span
-            className={`text-6xl font-bold ${passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"}`}
+            className={`text-6xl font-bold tabular-nums ${
+              passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
+            }`}
           >
-            {correct}/30
+            {displayScore}/30
           </span>
           <span
-            className={`text-2xl font-bold ${passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"}`}
+            className={`text-2xl font-bold ${
+              passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
+            }`}
           >
             {passed ? "עברת! ✓" : "לא עברת ✗"}
           </span>
           <span className="text-sm text-[var(--th-muted)]">
-            זמן: {formatDuration(attempt.timeSpentSeconds)} · ציון מעבר: {PASS_SCORE}/30
+            זמן: {duration} · ציון מעבר: {PASS_SCORE}/30
           </span>
         </div>
 
@@ -78,6 +127,29 @@ export default function ResultsPage() {
           >
             חזרה ללמוד
           </Link>
+          <button
+            onClick={handleShare}
+            disabled={sharing}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+            {sharing ? "מכין..." : "שתף תוצאות"}
+          </button>
         </div>
 
         {/* Per-question review */}
@@ -155,6 +227,14 @@ export default function ResultsPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* Off-screen share card for image export */}
+      <div
+        aria-hidden="true"
+        style={{ position: "absolute", top: -9999, left: -9999, pointerEvents: "none" }}
+      >
+        <ShareCard ref={shareCardRef} correct={correct} passed={passed} duration={duration} />
       </div>
     </main>
   );

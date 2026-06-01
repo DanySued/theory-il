@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import ExportMenu from "@/components/ExportMenu";
 import StudyGuide from "@/components/StudyGuide";
+import { getQStats, updateStreak } from "@/lib/storage";
 import type { TopicGuide } from "@/lib/data/guides";
 
 interface DrillClientProps {
@@ -19,39 +20,83 @@ type View = "guide" | "drill";
 export default function DrillClient({ topic, questions, guide }: DrillClientProps) {
   const [view, setView] = useState<View>(guide ? "guide" : "drill");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [showAnswer, setShowAnswer] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [jumpInput, setJumpInput] = useState("");
+  const [weakOnly, setWeakOnly] = useState(false);
+  const [weakIds, setWeakIds] = useState<Set<string>>(new Set());
 
   const total = questions.length;
 
+  // Load weak question IDs from localStorage
+  useEffect(() => {
+    const stats = getQStats();
+    const weak = new Set(
+      questions
+        .filter((q) => {
+          const s = stats[q.id];
+          return s && s.seen >= 1 && s.wrong / s.seen > 0.4;
+        })
+        .map((q) => q.id)
+    );
+    setWeakIds(weak);
+  }, [questions]);
+
+  // Track study session for streak
+  useEffect(() => {
+    updateStreak();
+  }, []);
+
+  const activeQuestions = weakOnly
+    ? questions.filter((q) => weakIds.has(q.id))
+    : questions;
+
+  const activeTotal = activeQuestions.length;
+
   const goTo = useCallback(
     (idx: number) => {
-      const clamped = Math.max(0, Math.min(total - 1, idx));
+      const clamped = Math.max(0, Math.min(activeTotal - 1, idx));
+      setDirection(clamped >= currentIndex ? 1 : -1);
       setCurrentIndex(clamped);
       setShowAnswer(false);
       setSelectedAnswer(null);
       setJumpInput("");
     },
-    [total]
+    [activeTotal, currentIndex]
   );
 
   const handleReveal = useCallback(() => setShowAnswer(true), []);
-  const handleAnswer = useCallback((idx: number) => { setSelectedAnswer(idx); setShowAnswer(true); }, []);
+  const handleAnswer = useCallback(
+    (idx: number) => {
+      setSelectedAnswer(idx);
+      setShowAnswer(true);
+    },
+    []
+  );
   const handleNext = useCallback(() => goTo(currentIndex + 1), [currentIndex, goTo]);
   const handlePrev = useCallback(() => goTo(currentIndex - 1), [currentIndex, goTo]);
 
   const handleJump = (e: React.FormEvent) => {
     e.preventDefault();
     const n = parseInt(jumpInput, 10);
-    if (!isNaN(n) && n >= 1 && n <= total) goTo(n - 1);
+    if (!isNaN(n) && n >= 1 && n <= activeTotal) goTo(n - 1);
+  };
+
+  const handleWeakToggle = () => {
+    setWeakOnly((w) => !w);
+    setCurrentIndex(0);
+    setShowAnswer(false);
+    setSelectedAnswer(null);
   };
 
   if (total === 0) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-4">
         <p className="text-[var(--th-muted)]">לא נמצאו שאלות לנושא זה.</p>
-        <Link href="/study" className="text-[var(--th-accent)] underline">חזרה לנושאים</Link>
+        <Link href="/study" className="text-[var(--th-accent)] underline">
+          חזרה לנושאים
+        </Link>
       </main>
     );
   }
@@ -65,7 +110,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-6">
-      {/* Header: back · tabs · export */}
+      {/* Header */}
       <div className="w-full max-w-2xl flex items-center justify-between gap-3">
         <Link
           href="/study"
@@ -90,53 +135,80 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
         <ExportMenu topic={topic} questions={questions} />
       </div>
 
-      {/* Topic title (shown only when guide tab is active, so user knows where they are) */}
       {guide && view === "guide" && (
         <div className="w-full max-w-2xl">
           <h1 className="text-2xl font-bold">{topic}</h1>
         </div>
       )}
 
-      {/* Guide view */}
-      {view === "guide" && guide && (
-        <StudyGuide guide={guide} questions={questions} />
-      )}
+      {view === "guide" && guide && <StudyGuide guide={guide} questions={questions} />}
 
-      {/* Drill view */}
       {view === "drill" && (
         <>
-          <div className="w-full max-w-2xl">
-            <ProgressBar current={currentIndex + 1} total={total} />
+          {/* Weak questions toggle */}
+          <div className="w-full max-w-2xl flex items-center justify-between gap-3">
+            <ProgressBar current={currentIndex + 1} total={activeTotal} />
+            <button
+              onClick={handleWeakToggle}
+              className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+                weakOnly
+                  ? "bg-[var(--th-error)] border-[var(--th-error)] text-white"
+                  : "border-[var(--th-border)] text-[var(--th-muted)] hover:border-[var(--th-error)] hover:text-[var(--th-error)]"
+              }`}
+            >
+              {weakOnly ? "✕ שאלות קשות" : "שאלות קשות"}
+            </button>
           </div>
 
-          <QuestionCard
-            question={questions[currentIndex]}
-            showAnswer={showAnswer}
-            selectedAnswer={selectedAnswer}
-            onReveal={handleReveal}
-            onAnswer={handleAnswer}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            currentIndex={currentIndex}
-            total={total}
-          />
+          {/* No weak questions message */}
+          {weakOnly && activeTotal === 0 && (
+            <div className="w-full max-w-2xl rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-card)] p-6 text-center text-[var(--th-muted)] text-sm">
+              אין עדיין שאלות קשות — ענה על כמה שאלות קודם
+            </div>
+          )}
 
-          <form onSubmit={handleJump} className="flex items-center gap-2 text-sm text-[var(--th-muted)]">
-            <label htmlFor="jump-input" className="whitespace-nowrap">קפוץ לשאלה:</label>
-            <input
-              id="jump-input"
-              type="number"
-              min={1}
-              max={total}
-              value={jumpInput}
-              onChange={(e) => setJumpInput(e.target.value)}
-              className="w-16 text-center rounded-lg border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)]"
-              placeholder="מס׳"
-            />
-            <button type="submit" className="px-3 py-1 rounded-lg border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors">
-              עבור
-            </button>
-          </form>
+          {activeTotal > 0 && (
+            <>
+              <QuestionCard
+                question={activeQuestions[currentIndex]}
+                showAnswer={showAnswer}
+                selectedAnswer={selectedAnswer}
+                onReveal={handleReveal}
+                onAnswer={handleAnswer}
+                onNext={handleNext}
+                onPrev={handlePrev}
+                currentIndex={currentIndex}
+                total={activeTotal}
+                direction={direction}
+                trackStats
+              />
+
+              <form
+                onSubmit={handleJump}
+                className="flex items-center gap-2 text-sm text-[var(--th-muted)]"
+              >
+                <label htmlFor="jump-input" className="whitespace-nowrap">
+                  קפוץ לשאלה:
+                </label>
+                <input
+                  id="jump-input"
+                  type="number"
+                  min={1}
+                  max={activeTotal}
+                  value={jumpInput}
+                  onChange={(e) => setJumpInput(e.target.value)}
+                  className="w-16 text-center rounded-lg border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)]"
+                  placeholder="מס׳"
+                />
+                <button
+                  type="submit"
+                  className="px-3 py-1 rounded-lg border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
+                >
+                  עבור
+                </button>
+              </form>
+            </>
+          )}
         </>
       )}
     </main>

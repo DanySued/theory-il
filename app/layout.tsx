@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
+import { LangProvider } from "@/lib/lang-context";
+import NavBar from "@/components/NavBar";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -21,7 +23,10 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[var(--th-bg)] text-[var(--th-fg)] font-sans antialiased">
-        {children}
+        <LangProvider>
+          <NavBar />
+          {children}
+        </LangProvider>
       </body>
     </html>
   );
