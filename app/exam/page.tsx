@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
+import { generateExam } from "@/lib/exam";
+import ExamRunner from "@/components/ExamRunner";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "מבחן מדומה — תיאוריה",
+};
+
 export default function ExamPage() {
-  return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6 py-16">
-      <h1 className="text-3xl font-bold mb-4">מבחן מדומה</h1>
-      <p className="text-[var(--th-muted)]">בקרוב</p>
-    </main>
-  );
+  const questions = generateExam();
+  return <ExamRunner questions={questions} />;
 }
