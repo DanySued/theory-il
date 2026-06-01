@@ -10,7 +10,7 @@ const allQuestions = questionsData as Question[];
 
 export function generateStaticParams() {
   return TOPIC_KEYS.map((topic) => ({
-    topic: encodeURIComponent(topic),
+    topic, // raw value — Next.js handles URL encoding
   }));
 }
 

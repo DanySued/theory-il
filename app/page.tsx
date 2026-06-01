@@ -26,8 +26,8 @@ export default function Home() {
             מבחן מדומה
           </Link>
         </div>
-        <p className="mt-16 text-sm text-[var(--th-muted)]">
-          בקרוב — האתר בבנייה
+        <p className="mt-16 text-xs text-[var(--th-muted)]">
+          שאלות: משרד התחבורה והבטיחות בדרכים, data.gov.il, רישיון CC-BY
         </p>
       </div>
     </main>
