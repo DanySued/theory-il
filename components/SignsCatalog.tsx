@@ -111,7 +111,7 @@ export default function SignsCatalog({ signs }: Props) {
                       <img
                         src={sign.image}
                         alt={sign.name}
-                        className="w-16 h-16 object-contain mb-1"
+                        className="w-20 h-20 object-contain mb-2"
                       />
                     )}
                     <span className="font-semibold text-sm text-[var(--th-fg)] leading-snug">
