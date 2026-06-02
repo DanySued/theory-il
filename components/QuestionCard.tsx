@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { recordAnswer } from "@/lib/storage";
 import { useLang } from "@/lib/lang-context";
@@ -49,6 +49,16 @@ export default function QuestionCard({
   trackStats = false,
 }: QuestionCardProps) {
   const { locale } = useLang();
+
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number; btnIdx: number }[]>([]);
+  const rippleCounter = useRef(0);
+
+  function addRipple(e: React.MouseEvent<HTMLButtonElement>, btnIdx: number) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const id = rippleCounter.current++;
+    setRipples((prev) => [...prev, { id, x: e.clientX - rect.left, y: e.clientY - rect.top, btnIdx }]);
+    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
+  }
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -162,8 +172,9 @@ export default function QuestionCard({
             {displayAnswers.map((answer, idx) => (
               <motion.button
                 key={idx}
-                className={getButtonStyle(idx)}
-                onClick={() => {
+                className={`${getButtonStyle(idx)} relative overflow-hidden`}
+                onClick={(e) => {
+                  addRipple(e, idx);
                   if (!showAnswer) {
                     if (trackStats) recordAnswer(question.id, idx === question.correctIndex);
                     onAnswer(idx);
@@ -174,10 +185,25 @@ export default function QuestionCard({
                 transition={{ duration: 0.3 }}
                 whileTap={!showAnswer ? { scale: 0.98 } : {}}
               >
-                <span className="font-bold me-2 text-[var(--th-accent)]">
-                  {LABELS[idx]}.
+                <AnimatePresence>
+                  {ripples.filter((r) => r.btnIdx === idx).map((r) => (
+                    <motion.span
+                      key={r.id}
+                      className="absolute rounded-full pointer-events-none"
+                      style={{ left: r.x - 4, top: r.y - 4, width: 8, height: 8, background: "currentColor" }}
+                      initial={{ scale: 0, opacity: 0.25 }}
+                      animate={{ scale: 50, opacity: 0 }}
+                      exit={{}}
+                      transition={{ duration: 0.55, ease: "easeOut" }}
+                    />
+                  ))}
+                </AnimatePresence>
+                <span className="relative">
+                  <span className="font-bold me-2 text-[var(--th-accent)]">
+                    {LABELS[idx]}.
+                  </span>
+                  {answer}
                 </span>
-                {answer}
               </motion.button>
             ))}
           </div>

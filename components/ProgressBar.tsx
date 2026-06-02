@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "motion/react";
+
 interface ProgressBarProps {
   current: number;
   total: number;
@@ -16,10 +20,23 @@ export default function ProgressBar({ current, total, className = "" }: Progress
       aria-valuemax={total}
       aria-label={`${current} מתוך ${total}`}
     >
-      <div
-        className="h-full bg-[var(--th-accent)] rounded-full transition-all duration-300"
-        style={{ width: `${pct}%` }}
-      />
+      <motion.div
+        className="relative h-full bg-[var(--th-accent)] rounded-full overflow-hidden"
+        animate={{ width: `${pct}%` }}
+        transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.8 }}
+      >
+        <motion.div
+          key={pct}
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
+          }}
+          initial={{ x: "-100%" }}
+          animate={{ x: "200%" }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        />
+      </motion.div>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import type { Question } from "@/components/QuestionCard";
 import { saveAttempt, generateId } from "@/lib/storage";
 
@@ -20,6 +20,16 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
   const router = useRouter();
   const examId = useRef(generateId());
   const startedAt = useRef(Date.now());
+
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number; btnIdx: number }[]>([]);
+  const rippleCounter = useRef(0);
+
+  function addRipple(e: React.MouseEvent<HTMLButtonElement>, btnIdx: number) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const id = rippleCounter.current++;
+    setRipples((prev) => [...prev, { id, x: e.clientX - rect.left, y: e.clientY - rect.top, btnIdx }]);
+    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
+  }
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(() =>
@@ -179,20 +189,36 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
                 return (
                   <motion.button
                     key={idx}
-                    onClick={() =>
+                    onClick={(e) => {
+                      addRipple(e, idx);
                       setAnswers((prev) =>
                         prev.map((a, i) => (i === currentIdx ? idx : a))
-                      )
-                    }
+                      );
+                    }}
                     whileTap={{ scale: 0.98 }}
-                    className={`w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors ${
+                    className={`relative overflow-hidden w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors ${
                       isSelected
                         ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-white"
                         : "bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)]"
                     }`}
                   >
-                    <span className="font-bold me-2">{LABELS[idx]}.</span>
-                    {answer}
+                    <AnimatePresence>
+                      {ripples.filter((r) => r.btnIdx === idx).map((r) => (
+                        <motion.span
+                          key={r.id}
+                          className="absolute rounded-full pointer-events-none"
+                          style={{ left: r.x - 4, top: r.y - 4, width: 8, height: 8, background: "currentColor" }}
+                          initial={{ scale: 0, opacity: 0.25 }}
+                          animate={{ scale: 50, opacity: 0 }}
+                          exit={{}}
+                          transition={{ duration: 0.55, ease: "easeOut" }}
+                        />
+                      ))}
+                    </AnimatePresence>
+                    <span className="relative">
+                      <span className="font-bold me-2">{LABELS[idx]}.</span>
+                      {answer}
+                    </span>
                   </motion.button>
                 );
               })}

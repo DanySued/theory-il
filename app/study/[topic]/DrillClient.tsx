@@ -5,7 +5,10 @@ import Link from "next/link";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import ExportMenu from "@/components/ExportMenu";
+import { motion } from "motion/react";
 import StudyGuide from "@/components/StudyGuide";
+import SignsCatalog from "@/components/SignsCatalog";
+import { SIGNS } from "@/lib/data/signs";
 import { getQStats, updateStreak } from "@/lib/storage";
 import type { TopicGuide } from "@/lib/data/guides";
 
@@ -101,11 +104,9 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     );
   }
 
-  const tabBtn = (v: View, label: string) =>
-    `px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
-      view === v
-        ? "bg-[var(--th-accent)] text-white"
-        : "text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]"
+  const tabBtn = (v: View) =>
+    `relative px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+      view === v ? "text-white" : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
     }`;
 
   return (
@@ -121,12 +122,18 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
         {guide ? (
           <div className="flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-full p-1">
-            <button className={tabBtn("guide", "לימוד")} onClick={() => setView("guide")}>
-              לימוד
-            </button>
-            <button className={tabBtn("drill", "תרגול")} onClick={() => setView("drill")}>
-              תרגול
-            </button>
+            {(["guide", "drill"] as const).map((v) => (
+              <button key={v} className={tabBtn(v)} onClick={() => setView(v)}>
+                {view === v && (
+                  <motion.div
+                    layoutId="tab-pill"
+                    className="absolute inset-0 bg-[var(--th-accent)] rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative">{v === "guide" ? "לימוד" : "תרגול"}</span>
+              </button>
+            ))}
           </div>
         ) : (
           <span className="text-sm font-semibold">{topic}</span>
@@ -141,7 +148,16 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
         </div>
       )}
 
-      {view === "guide" && guide && <StudyGuide guide={guide} questions={questions} />}
+      {view === "guide" && guide && (
+        <>
+          <StudyGuide guide={guide} questions={questions} />
+          {topic === "תמרורים" && (
+            <div className="w-full px-4 py-2">
+              <SignsCatalog signs={SIGNS} />
+            </div>
+          )}
+        </>
+      )}
 
       {view === "drill" && (
         <>
