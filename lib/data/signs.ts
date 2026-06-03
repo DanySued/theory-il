@@ -74,7 +74,7 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "מסילת ברזל (מעבר לא חסום)",
     behavior: "האט מאוד, הסתכל לשני הכיוונים ועצור אם רכבת מתקרבת.",
-    image: W(133),
+    image: W(132),
   },
   {
     id: "w-10",
@@ -167,7 +167,7 @@ export const SIGNS: TrafficSign[] = [
     category: "חובה",
     name: "פנה את הדרך",
     behavior: "האט והיה מוכן לעצור. ותר לכל הרכבים בדרך שאליה אתה מצטרף.",
-    image: W(306),
+    image: W(305),
   },
   {
     id: "m-03",

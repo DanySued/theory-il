@@ -150,12 +150,12 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
       {view === "guide" && guide && (
         <>
-          <StudyGuide guide={guide} questions={questions} />
           {topic === "תמרורים" && (
-            <div className="w-full px-4 py-2">
+            <div className="w-full max-w-2xl">
               <SignsCatalog signs={SIGNS} />
             </div>
           )}
+          <StudyGuide guide={guide} questions={questions} />
         </>
       )}
 
