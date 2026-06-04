@@ -1,5 +1,6 @@
 import type { Question } from "@/components/QuestionCard";
 import type { TrafficSign, SignCategory } from "@/lib/data/signs";
+import type { Attempt } from "@/lib/storage";
 
 const LABELS = ["א", "ב", "ג", "ד"];
 
@@ -243,6 +244,167 @@ export async function exportSignsToDocx(signs: TrafficSign[]): Promise<void> {
   const a = document.createElement("a");
   a.href = url;
   a.download = "מילון-התמרורים.docx";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+export async function exportAttemptToDocx(attempt: Attempt): Promise<void> {
+  const { Document, Packer, Paragraph, TextRun, AlignmentType } = await import("docx");
+
+  const total = attempt.questions.length;
+  const correct = attempt.questions.filter(
+    (q, i) => attempt.answers[i] === q.correctIndex
+  ).length;
+  const passed = total === 30 && correct >= 26;
+  const dateStr = new Date(attempt.finishedAt).toLocaleDateString("he-IL");
+
+  const scoreColor =
+    correct / total >= 26 / 30
+      ? "16a34a"
+      : total === 30
+      ? "dc2626"
+      : "333333";
+
+  const children: InstanceType<typeof Paragraph>[] = [];
+
+  // Title
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({ text: "תוצאות מבחן תיאוריה", bold: true, size: 36, font: "Arial" }),
+      ],
+      alignment: AlignmentType.RIGHT,
+      bidirectional: true,
+      spacing: { after: 200 },
+    })
+  );
+
+  // Summary 1
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `${correct}/${total} נכון`,
+          bold: true,
+          size: 26,
+          font: "Arial",
+          color: scoreColor,
+        }),
+      ],
+      alignment: AlignmentType.RIGHT,
+      bidirectional: true,
+      spacing: { after: 80 },
+    })
+  );
+
+  // Summary 2
+  if (total === 30) {
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: passed ? "עברת ✓" : "לא עברת ✗",
+            bold: true,
+            size: 22,
+            font: "Arial",
+            color: scoreColor,
+          }),
+        ],
+        alignment: AlignmentType.RIGHT,
+        bidirectional: true,
+        spacing: { after: 80 },
+      })
+    );
+  }
+
+  // Summary 3
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `תאריך: ${dateStr}`,
+          size: 18,
+          font: "Arial",
+          color: "666666",
+        }),
+      ],
+      alignment: AlignmentType.RIGHT,
+      bidirectional: true,
+      spacing: { after: 400 },
+    })
+  );
+
+  for (let i = 0; i < attempt.questions.length; i++) {
+    const q = attempt.questions[i];
+    const userAnswer = attempt.answers[i];
+
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({ text: `${i + 1}. ${q.text}`, bold: true, size: 22, font: "Arial" }),
+        ],
+        alignment: AlignmentType.RIGHT,
+        bidirectional: true,
+        spacing: { before: 200, after: 80 },
+        keepNext: true,
+      })
+    );
+
+    for (let j = 0; j < 4; j++) {
+      const isCorrect = j === q.correctIndex;
+      const isUser = j === userAnswer;
+      let suffix = "";
+      if (isCorrect) suffix = "  ✓";
+      else if (isUser) suffix = "  ← תשובתך";
+
+      const color = isCorrect ? "16a34a" : isUser ? "dc2626" : "333333";
+
+      children.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `${LABELS[j]}. ${q.answers[j]}${suffix}`,
+              bold: isCorrect || isUser,
+              color,
+              size: 20,
+              font: "Arial",
+            }),
+          ],
+          alignment: AlignmentType.RIGHT,
+          bidirectional: true,
+          spacing: { after: 40 },
+          ...(j < 3 ? { keepNext: true } : {}),
+        })
+      );
+    }
+  }
+
+  // Attribution
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "שאלות: משרד התחבורה והבטיחות בדרכים, data.gov.il, רישיון CC-BY",
+          size: 16,
+          font: "Arial",
+          color: "999999",
+          italics: true,
+        }),
+      ],
+      alignment: AlignmentType.RIGHT,
+      bidirectional: true,
+      spacing: { before: 600 },
+    })
+  );
+
+  const doc = new Document({ sections: [{ children }] });
+  const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `תוצאות-מבחן-${dateStr}.docx`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

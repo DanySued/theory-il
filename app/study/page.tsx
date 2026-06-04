@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import questionsData from "@/lib/data/questions.json";
 import type { Question } from "@/components/QuestionCard";
 import TopicGridClient from "@/components/TopicGridClient";
+import BackButton from "@/components/BackButton";
 
 export const metadata: Metadata = {
   title: "לימוד לפי נושאים — תיאוריה",
@@ -24,6 +25,10 @@ export default function StudyPage() {
   }));
 
   return (
+    <>
+      <div className="w-full px-4 pt-3 flex justify-start">
+        <BackButton />
+      </div>
     <main className="flex flex-1 flex-col items-center px-6 py-12 gap-8">
       <div className="w-full max-w-2xl flex flex-col gap-2">
         <h1 className="text-3xl font-bold">לימוד לפי נושאים</h1>
@@ -31,5 +36,6 @@ export default function StudyPage() {
       </div>
       <TopicGridClient topics={topics} questions={questions} />
     </main>
+    </>
   );
 }

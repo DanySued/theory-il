@@ -16,7 +16,7 @@ function formatTime(s: number): string {
   return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
-export default function ExamRunner({ questions }: { questions: Question[] }) {
+export default function ExamRunner({ questions, noTimer = false }: { questions: Question[]; noTimer?: boolean }) {
   const router = useRouter();
   const examId = useRef(generateId());
   const startedAt = useRef(Date.now());
@@ -69,6 +69,7 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
   }, [questions, router]);
 
   useEffect(() => {
+    if (noTimer) return;
     const interval = setInterval(() => {
       setSecondsLeft((s) => {
         if (s <= 1) {
@@ -80,7 +81,7 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [doSubmit]);
+  }, [doSubmit, noTimer]);
 
   const q = questions[currentIdx];
   const answeredCount = answers.filter((a) => a !== null).length;
@@ -105,13 +106,15 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
       {/* Sticky top bar */}
       <div className="sticky top-0 z-10 bg-[var(--th-card)] border-b border-[var(--th-border)]">
         <div className="px-4 py-3 flex items-center justify-between gap-4">
-          <span
-            className={`font-mono text-xl font-bold tabular-nums ${
-              isLowTime ? "text-[var(--th-error)]" : ""
-            }`}
-          >
-            {formatTime(secondsLeft)}
-          </span>
+          {!noTimer && (
+            <span
+              className={`font-mono text-xl font-bold tabular-nums ${
+                isLowTime ? "text-[var(--th-error)]" : ""
+              }`}
+            >
+              {formatTime(secondsLeft)}
+            </span>
+          )}
           <span className="text-sm text-[var(--th-muted)] hidden sm:block">
             {answeredCount}/{questions.length} נענו
           </span>

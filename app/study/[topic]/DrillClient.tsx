@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
+import BackButton from "@/components/BackButton";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import ExportMenu from "@/components/ExportMenu";
@@ -113,12 +114,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-6">
       {/* Header */}
       <div className="w-full max-w-2xl flex items-center justify-between gap-3">
-        <Link
-          href="/study"
-          className="text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors shrink-0"
-        >
-          ← כל הנושאים
-        </Link>
+        <BackButton />
 
         {guide ? (
           <div className="flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-full p-1">

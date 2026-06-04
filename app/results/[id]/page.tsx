@@ -4,8 +4,9 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt } from "@/lib/storage";
-import { exportResultCard } from "@/lib/export";
+import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
+import BackButton from "@/components/BackButton";
 
 const PASS_SCORE = 26;
 const LABELS = ["א", "ב", "ג", "ד"] as const;
@@ -23,6 +24,7 @@ export default function ResultsPage() {
   const [attempt, setAttempt] = useState<Attempt | null | "loading">("loading");
   const [displayScore, setDisplayScore] = useState(0);
   const [sharing, setSharing] = useState(false);
+  const [exportingDocx, setExportingDocx] = useState(false);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,8 +74,11 @@ export default function ResultsPage() {
   }
 
   const correct = attempt.questions.filter((q, i) => attempt.answers[i] === q.correctIndex).length;
-  const passed = correct >= PASS_SCORE;
+  const total = attempt.questions.length;
+  const isFullExam = total === 30;
+  const passed = isFullExam && correct >= PASS_SCORE;
   const duration = formatDuration(attempt.timeSpentSeconds);
+  const wrongCount = attempt.questions.filter((q, i) => attempt.answers[i] !== q.correctIndex).length;
 
   async function handleShare() {
     if (!shareCardRef.current || sharing) return;
@@ -85,31 +90,54 @@ export default function ResultsPage() {
     }
   }
 
+  async function handleExportDocx() {
+    if (!attempt || attempt === "loading" || exportingDocx) return;
+    setExportingDocx(true);
+    try {
+      await exportAttemptToDocx(attempt);
+    } finally {
+      setExportingDocx(false);
+    }
+  }
+
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-8">
+      <div className="w-full px-0 pb-2 flex justify-start">
+        <BackButton />
+      </div>
       <div className="w-full max-w-2xl flex flex-col gap-6">
         {/* Score banner */}
         <div
           className={`rounded-[var(--th-radius)] border p-6 text-center flex flex-col gap-2 ${
-            passed ? "bg-green-50 border-green-300" : "bg-red-50 border-red-300"
+            isFullExam
+              ? passed
+                ? "bg-green-50 border-green-300"
+                : "bg-red-50 border-red-300"
+              : "bg-[var(--th-muted-bg)] border-[var(--th-border)]"
           }`}
         >
           <span
             className={`text-6xl font-bold tabular-nums ${
-              passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
+              isFullExam
+                ? passed
+                  ? "text-[var(--th-success)]"
+                  : "text-[var(--th-error)]"
+                : "text-[var(--th-fg)]"
             }`}
           >
-            {displayScore}/30
+            {displayScore}/{total}
           </span>
-          <span
-            className={`text-2xl font-bold ${
-              passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
-            }`}
-          >
-            {passed ? "עברת! ✓" : "לא עברת ✗"}
-          </span>
+          {isFullExam && (
+            <span
+              className={`text-2xl font-bold ${
+                passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
+              }`}
+            >
+              {passed ? "עברת! ✓" : "לא עברת ✗"}
+            </span>
+          )}
           <span className="text-sm text-[var(--th-muted)]">
-            זמן: {duration} · ציון מעבר: {PASS_SCORE}/30
+            {isFullExam ? `זמן: ${duration} · ציון מעבר: ${PASS_SCORE}/30` : `זמן: ${duration}`}
           </span>
         </div>
 
@@ -127,9 +155,24 @@ export default function ResultsPage() {
           >
             חזרה ללמוד
           </Link>
+          {wrongCount > 0 ? (
+            <Link
+              href={`/exam/retake/${id}`}
+              className="px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+            >
+              חזור על השגיאות ({wrongCount})
+            </Link>
+          ) : (
+            <button
+              disabled
+              className="px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium opacity-50 cursor-not-allowed"
+            >
+              חזור על השגיאות
+            </button>
+          )}
           <button
             onClick={handleShare}
-            disabled={sharing}
+            disabled={sharing || !isFullExam}
             className="flex items-center gap-2 px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
           >
             <svg
@@ -149,6 +192,27 @@ export default function ResultsPage() {
               <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
             </svg>
             {sharing ? "מכין..." : "שתף תוצאות"}
+          </button>
+          <button
+            onClick={handleExportDocx}
+            disabled={exportingDocx}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            {exportingDocx ? "מכין..." : "ייצוא DOCX"}
           </button>
         </div>
 

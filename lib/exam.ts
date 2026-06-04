@@ -20,6 +20,11 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+export function generateExamByTopic(topic: string): Question[] {
+  const pool = ALL_QUESTIONS.filter((q) => q.topic === topic);
+  return shuffle(pool).slice(0, 30);
+}
+
 export function generateExam(): Question[] {
   const byTopic = new Map<string, Question[]>();
   for (const q of ALL_QUESTIONS) {

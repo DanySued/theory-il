@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import type { Question } from "@/components/QuestionCard";
+import BackButton from "@/components/BackButton";
 
 const LABELS = ["א", "ב", "ג", "ד"];
 
@@ -19,6 +20,9 @@ export default function PrintView({ topic, questions, showAnswers }: PrintViewPr
 
   return (
     <>
+      <div className="print:hidden w-full px-4 pt-3 flex justify-start">
+        <BackButton />
+      </div>
       <style>{`
         @media screen {
           body { background: #f5f5f5; }

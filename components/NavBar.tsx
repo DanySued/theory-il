@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NavBar() {
   return (
-    <header className="bg-[var(--th-card)] border-b border-[var(--th-border)] px-4 py-3 flex items-center justify-between gap-4">
+    <header className="bg-[var(--th-card)] border-b border-[var(--th-border)] px-4 py-3 flex items-center gap-2">
       <Link href="/" className="font-bold text-lg tracking-tight text-[var(--th-fg)]">
         תיאוריה
       </Link>
