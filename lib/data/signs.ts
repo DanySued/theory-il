@@ -12,6 +12,9 @@ export type TrafficSign = {
 const W = (n: string | number) =>
   `https://commons.wikimedia.org/wiki/Special:FilePath/Israel_road_sign_${n}.svg`;
 
+const F = (filename: string) =>
+  `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}`;
+
 export const SIGNS: TrafficSign[] = [
   // ────────── אזהרה ──────────
   {
@@ -88,7 +91,7 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "ילדים",
     behavior: "האט לפחות ל-30 קמ\"ש והיה ערני במיוחד לילדים שעלולים לצאת לכביש בפתאומיות.",
-    imageUnverified: true,
+    image: F("Children_warning_sign_israel.svg"),
   },
   {
     id: "w-12",
@@ -363,7 +366,7 @@ export const SIGNS: TrafficSign[] = [
     category: "איסור",
     name: "אסורה כניסה למשאיות",
     behavior: "משאיות ורכבים כבדים אסורים להיכנס.",
-    imageUnverified: true,
+    image: W(415),
   },
   {
     id: "p-16",
