@@ -46,7 +46,6 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "מדרון תלול למעלה",
     behavior: "האט וודא שיש לך הילוך מתאים לעלייה לפני תחילתה.",
-    image: W(122),
   },
   {
     id: "w-06",
@@ -95,7 +94,7 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "בעלי חיים",
     behavior: "האט — עלולים להיות בעלי חיים על הכביש. היה מוכן לעצור.",
-    image: W(146),
+    image: W("146a"),
   },
   {
     id: "w-13",
@@ -230,7 +229,6 @@ export const SIGNS: TrafficSign[] = [
     category: "חובה",
     name: "חובה לאורות",
     behavior: "הפעל אורות קדמיים ואחוריים — ללא קשר לשעה ולמזג האוויר.",
-    image: W(220),
   },
   {
     id: "m-12",

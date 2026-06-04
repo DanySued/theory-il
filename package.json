@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "validate:signs": "tsx scripts/validate-signs.ts"
   },
   "dependencies": {
     "docx": "^9.7.1",
