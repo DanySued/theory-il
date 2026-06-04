@@ -3,8 +3,6 @@
 import { useEffect, useCallback, useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { recordAnswer } from "@/lib/storage";
-import { useLang } from "@/lib/lang-context";
-import { t } from "@/lib/i18n";
 
 export interface Question {
   id: string;
@@ -48,8 +46,6 @@ export default function QuestionCard({
   direction = 1,
   trackStats = false,
 }: QuestionCardProps) {
-  const { locale } = useLang();
-
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number; btnIdx: number }[]>([]);
   const rippleCounter = useRef(0);
 
@@ -105,24 +101,15 @@ export default function QuestionCard({
     return {};
   }
 
-  const displayText =
-    locale === "en" && question.textEn ? question.textEn : question.text;
-  const displayAnswers =
-    locale === "en" && question.answersEn ? question.answersEn : question.answers;
-  const displayExplanation =
-    locale === "en" && question.explanationEn
-      ? question.explanationEn
-      : question.explanation;
+  const displayText = question.text;
+  const displayAnswers = question.answers;
+  const displayExplanation = question.explanation;
 
   return (
     <div className="w-full max-w-2xl flex flex-col gap-5">
       {/* Counter */}
       <div className="flex items-center justify-between text-sm text-[var(--th-muted)]">
-        <span>
-          {t("q.of", locale) === "מתוך"
-            ? `שאלה ${currentIndex + 1} מתוך ${total}`
-            : `Question ${currentIndex + 1} of ${total}`}
-        </span>
+        <span>{`שאלה ${currentIndex + 1} מתוך ${total}`}</span>
         <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--th-muted-bg)]">
           {question.topic}
         </span>
@@ -215,7 +202,7 @@ export default function QuestionCard({
               onClick={onReveal}
               className="mt-1 self-start text-sm text-[var(--th-muted)] underline underline-offset-2 hover:text-[var(--th-fg)] transition-colors"
             >
-              {t("q.reveal", locale)}
+              הצג תשובה
             </button>
           )}
 
@@ -233,22 +220,24 @@ export default function QuestionCard({
         <button
           onClick={onPrev}
           disabled={currentIndex === 0}
-          className="flex items-center gap-1 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
-          &#8592; {t("q.prev", locale)}
+          <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
+          הקודמת
         </button>
         <button
           onClick={onNext}
           disabled={currentIndex === total - 1}
-          className="flex items-center gap-1 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
-          {t("q.next", locale)} &#8594;
+          הבאה
+          <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8592;</span>
         </button>
       </div>
 
       {/* Keyboard hint */}
       <p className="text-xs text-center text-[var(--th-muted)]">
-        {t("q.keyboard_hint", locale)}
+        ← → לניווט · 1–4 לבחירה · רווח להצגת תשובה
       </p>
     </div>
   );

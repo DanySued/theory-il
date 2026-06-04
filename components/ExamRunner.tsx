@@ -229,16 +229,18 @@ export default function ExamRunner({ questions }: { questions: Question[] }) {
             <button
               disabled={currentIdx === 0}
               onClick={() => setCurrentIdx((i) => i - 1)}
-              className="px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
-              ← הקודמת
+              <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
+              הקודמת
             </button>
             <button
               disabled={currentIdx === questions.length - 1}
               onClick={() => setCurrentIdx((i) => i + 1)}
-              className="px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
-              הבאה →
+              הבאה
+              <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8592;</span>
             </button>
           </div>
         </div>

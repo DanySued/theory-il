@@ -5,8 +5,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import type { SuperMemoGrade } from "supermemo";
 import { getDueCards, reviewCard } from "@/lib/srs";
-import { useLang } from "@/lib/lang-context";
-import { t } from "@/lib/i18n";
 import type { Question } from "@/components/QuestionCard";
 
 interface Props {
@@ -15,7 +13,6 @@ interface Props {
 }
 
 export default function FlashcardRunner({ topic, questions }: Props) {
-  const { locale } = useLang();
   const [dueIds, setDueIds] = useState<string[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -50,20 +47,20 @@ export default function FlashcardRunner({ topic, questions }: Props) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-6 text-center">
         <div className="text-5xl">🎉</div>
-        <h1 className="text-3xl font-bold">{t("flashcards.done_title", locale)}</h1>
+        <h1 className="text-3xl font-bold">סיימת!</h1>
         <p className="text-[var(--th-muted)]">
-          {t("flashcards.done_body", locale, { count: reviewed })}
+          {`עברת על ${reviewed} כרטיסיות היום.`}
         </p>
         {nextDate && (
           <p className="text-sm text-[var(--th-muted)]">
-            {t("flashcards.done_next", locale, { date: nextDate })}
+            {`הבא: ${nextDate}`}
           </p>
         )}
         <Link
           href="/flashcards"
           className="mt-4 px-6 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
         >
-          {t("flashcards.back", locale)}
+          חזרה לכרטיסיות
         </Link>
       </main>
     );
@@ -72,18 +69,18 @@ export default function FlashcardRunner({ topic, questions }: Props) {
   if (dueIds.length === 0) return null;
 
   const q = questions.find((q) => q.id === dueIds[currentIdx])!;
-  const displayText = locale === "en" && q.textEn ? q.textEn : q.text;
-  const displayAnswer =
-    locale === "en" && q.answersEn ? q.answersEn[q.correctIndex] : q.answers[q.correctIndex];
+  const displayText = q.text;
+  const displayAnswer = q.answers[q.correctIndex];
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-6">
       <div className="w-full max-w-lg flex items-center justify-between">
         <Link
           href="/flashcards"
-          className="text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors"
+          className="flex items-center gap-2 text-sm font-medium text-[var(--th-fg)] hover:text-[var(--th-accent)] transition-colors"
         >
-          ← {t("flashcards.back", locale)}
+          <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
+          חזרה לכרטיסיות
         </Link>
         <span className="text-sm text-[var(--th-muted)] tabular-nums">
           {currentIdx + 1} / {dueIds.length}
@@ -153,19 +150,19 @@ export default function FlashcardRunner({ topic, questions }: Props) {
               onClick={() => handleRate(1 as SuperMemoGrade)}
               className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-error)] text-[var(--th-error)] text-sm font-semibold hover:bg-red-50 transition-colors"
             >
-              {t("flashcards.forgot", locale)}
+              לא ידעתי
             </button>
             <button
               onClick={() => handleRate(3 as SuperMemoGrade)}
               className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-border)] text-[var(--th-fg)] text-sm font-semibold hover:bg-[var(--th-muted-bg)] transition-colors"
             >
-              {t("flashcards.kinda", locale)}
+              בערך
             </button>
             <button
               onClick={() => handleRate(5 as SuperMemoGrade)}
               className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-success)] text-[var(--th-success)] text-sm font-semibold hover:bg-green-50 transition-colors"
             >
-              {t("flashcards.knew", locale)}
+              ידעתי
             </button>
           </motion.div>
         )}
