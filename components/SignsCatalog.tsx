@@ -116,6 +116,15 @@ function SignCard({
           {mastered && (
             <span className="absolute top-2 start-2 text-green-500 text-[11px] font-bold">✓</span>
           )}
+          {sign.imageUnverified && (
+            <span
+              className="absolute top-1.5 end-1.5 text-amber-500 text-sm font-bold leading-none cursor-help"
+              title="ייתכן שהתמונה אינה תואמת את התמרור — לא אומת מול מקור רשמי"
+              aria-label="התמונה אינה מאומתת"
+            >
+              *
+            </span>
+          )}
           <img
             src={sign.image}
             alt={sign.name}
@@ -124,6 +133,7 @@ function SignCard({
           />
           <span className="text-[10px] text-[var(--th-fg)] text-center leading-snug mt-1 line-clamp-2 font-medium">
             {sign.name}
+            {sign.imageUnverified && <span className="text-amber-500"> *</span>}
           </span>
           <span className="text-[9px] text-[var(--th-muted)] opacity-50 mt-0.5">הקש לפרטים ←</span>
         </div>

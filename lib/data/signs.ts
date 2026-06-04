@@ -6,6 +6,7 @@ export type TrafficSign = {
   category: SignCategory;
   behavior: string;
   image?: string;
+  imageUnverified?: boolean;
 };
 
 const W = (n: string | number) =>
@@ -60,6 +61,7 @@ export const SIGNS: TrafficSign[] = [
     name: "גשר צר",
     behavior: "האט ועבור לנסיעה ישרה ובמרכז הנתיב. אם הגשר צר לרכב אחד, ותר לרכב הנוסע לכיוונך.",
     image: W(117),
+    imageUnverified: true,
   },
   {
     id: "w-08",
@@ -88,6 +90,7 @@ export const SIGNS: TrafficSign[] = [
     name: "ילדים",
     behavior: "האט לפחות ל-30 קמ\"ש והיה ערני במיוחד לילדים שעלולים לצאת לכביש בפתאומיות.",
     image: W(136),
+    imageUnverified: true,
   },
   {
     id: "w-12",
@@ -130,6 +133,7 @@ export const SIGNS: TrafficSign[] = [
     name: "דרך מתפצלת",
     behavior: "החלט מראש לאיזה כיוון אתה פונה ועבור לנתיב המתאים בזמן.",
     image: W(105),
+    imageUnverified: true,
   },
   {
     id: "w-18",
@@ -137,6 +141,7 @@ export const SIGNS: TrafficSign[] = [
     name: "כניסה לכביש ראשי",
     behavior: "האט — אתה עומד להצטרף לדרך ראשית. ותר לרכבים הנוסעים בה.",
     image: W(118),
+    imageUnverified: true,
   },
   {
     id: "w-19",
@@ -363,6 +368,7 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה כניסה למשאיות",
     behavior: "משאיות ורכבים כבדים אסורים להיכנס.",
     image: W(415),
+    imageUnverified: true,
   },
   {
     id: "p-16",
@@ -370,6 +376,7 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה כניסה לאוטובוסים",
     behavior: "אוטובוסים אסורים להיכנס.",
     image: W(414),
+    imageUnverified: true,
   },
   {
     id: "p-17",
@@ -463,6 +470,7 @@ export const SIGNS: TrafficSign[] = [
     name: "בית חולים",
     behavior: "בית חולים בקרבת מקום. נסע בשקט, הימנע מצופר ועבור לנתיב המתאים לרכבי חירום.",
     image: W(621),
+    imageUnverified: true,
   },
   {
     id: "i-08",
@@ -470,6 +478,7 @@ export const SIGNS: TrafficSign[] = [
     name: "תחנת דלק",
     behavior: "תחנת דלק זמינה בקרוב. אין חובת פעולה.",
     image: W(622),
+    imageUnverified: true,
   },
   {
     id: "i-09",
@@ -491,6 +500,7 @@ export const SIGNS: TrafficSign[] = [
     name: "מידע לנוסע (i)",
     behavior: "מרכז מידע לתיירים בקרבת מקום. אין חובת פעולה.",
     image: W(627),
+    imageUnverified: true,
   },
   {
     id: "i-12",
@@ -505,6 +515,7 @@ export const SIGNS: TrafficSign[] = [
     name: "תחנת אמבולנס / עזרה ראשונה",
     behavior: "עזרה רפואית זמינה בקרבת מקום. שמור על מעבר חופשי.",
     image: W(623),
+    imageUnverified: true,
   },
 
   // ────────── סימוני כביש ──────────
