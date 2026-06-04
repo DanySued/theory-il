@@ -27,7 +27,7 @@ export default async function FlashcardsTopicPage({
 
   return (
     <>
-      <div className="w-full px-4 pt-3 flex justify-start">
+      <div className="w-full px-4 pt-3 flex justify-end">
         <BackButton />
       </div>
       <FlashcardRunner topic={decoded} questions={questions} />

@@ -22,7 +22,7 @@ export default function BackButton({ className }: { className?: string }) {
       onClick={handleClick}
       className={className ? `${base} ${className}` : base}
     >
-      <span>&#8592;</span>
+      <span aria-hidden="true">&#8594;</span>
       חזרה
     </button>
   );

@@ -26,7 +26,7 @@ export default function StudyPage() {
 
   return (
     <>
-      <div className="w-full px-4 pt-3 flex justify-start">
+      <div className="w-full px-4 pt-3 flex justify-end">
         <BackButton />
       </div>
     <main className="flex flex-1 flex-col items-center px-6 py-12 gap-8">

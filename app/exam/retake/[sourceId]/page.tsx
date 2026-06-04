@@ -62,7 +62,7 @@ export default function RetakePage() {
   }
   return (
     <>
-      <div className="w-full px-4 pt-3 flex justify-start">
+      <div className="w-full px-4 pt-3 flex justify-end">
         <BackButton />
       </div>
       <ExamRunner questions={state.questions} noTimer />
