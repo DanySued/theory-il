@@ -70,7 +70,18 @@ function SignCard({
         className={`rounded-[var(--th-radius)] border border-[var(--th-border)] border-s-4 ${CATEGORY_COLOR[sign.category]} bg-[var(--th-card)] p-3 flex flex-col gap-1 transition-opacity ${mastered ? "opacity-60" : ""}`}
       >
         <div className="flex items-start justify-between gap-1">
-          <span className="font-semibold text-sm text-[var(--th-fg)] leading-snug">{sign.name}</span>
+          <span className="font-semibold text-sm text-[var(--th-fg)] leading-snug">
+            {sign.name}
+            {sign.imageUnverified && (
+              <span
+                className="text-amber-500"
+                title="ייתכן שהתמונה אינה תואמת את התמרור — לא אומת מול מקור רשמי"
+                aria-label="התמונה אינה מאומתת"
+              >
+                {" *"}
+              </span>
+            )}
+          </span>
           {mastered && <span className="text-green-500 text-xs shrink-0">✓</span>}
         </div>
         <span className="text-xs text-[var(--th-muted)] leading-relaxed">{sign.behavior}</span>
