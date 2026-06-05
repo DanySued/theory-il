@@ -38,34 +38,57 @@ export default function TopicGridClient({ topics, questions }: Props) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
-      {topics.map((t) => {
+      {topics.map((t, i) => {
         const p = progress[t.key] ?? { seen: 0, correct: 0 };
         const seenPct = t.count > 0 ? (p.seen / t.count) * 100 : 0;
         const correctPct = p.seen > 0 ? (p.correct / p.seen) * seenPct : 0;
+        const hasProgress = seenPct > 0;
 
         return (
           <Link
             key={t.key}
             href={`/study/${encodeURIComponent(t.key)}`}
-            className="flex flex-col gap-2 p-6 rounded-[var(--th-radius)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-sm transition-all"
+            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
           >
-            <span className="text-xl font-bold">{t.label}</span>
-            <span className="text-sm text-[var(--th-muted)]">{t.count} שאלות</span>
-            {seenPct > 0 && (
-              <span className="text-xs text-[var(--th-muted)]">
-                {p.seen}/{t.count} נצפו · {p.correct} נכונות
+            <div className="flex items-baseline justify-between">
+              <span className="text-[0.7rem] font-bold tracking-[0.18em] text-[var(--th-muted)] tabular-nums">
+                {String(i + 1).padStart(2, "0")}
               </span>
-            )}
-            <div className="mt-1 h-1.5 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden relative">
-              <div
-                className="absolute inset-y-0 start-0 bg-[var(--th-muted)] rounded-full transition-all duration-700"
-                style={{ width: `${seenPct}%`, opacity: 0.5 }}
-              />
-              <div
-                className="absolute inset-y-0 start-0 bg-[var(--th-success)] rounded-full transition-all duration-700"
-                style={{ width: `${correctPct}%` }}
-              />
+              <span
+                aria-hidden
+                className="text-[var(--th-muted)] group-hover:text-[var(--th-accent)] group-hover:-translate-x-1 transition-all"
+              >
+                ←
+              </span>
             </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-2xl font-extrabold tracking-tight leading-tight">
+                {t.label}
+              </span>
+              <span className="text-sm text-[var(--th-muted)]">
+                {t.count} שאלות
+                {hasProgress && (
+                  <>
+                    {" · "}
+                    <span className="text-[var(--th-muted-strong)]">
+                      {p.seen}/{t.count} נצפו
+                    </span>
+                  </>
+                )}
+              </span>
+            </div>
+            {hasProgress && (
+              <div className="mt-1 h-1 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden relative">
+                <div
+                  className="absolute inset-y-0 start-0 bg-[var(--th-muted)]/40 rounded-full transition-all duration-700"
+                  style={{ width: `${seenPct}%` }}
+                />
+                <div
+                  className="absolute inset-y-0 start-0 bg-[var(--th-success)] rounded-full transition-all duration-700"
+                  style={{ width: `${correctPct}%` }}
+                />
+              </div>
+            )}
           </Link>
         );
       })}
