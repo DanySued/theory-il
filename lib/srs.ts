@@ -17,6 +17,13 @@ export function getSRSCards(): Record<string, SRSCard> {
   }
 }
 
+function localDateStr(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 export function reviewCard(id: string, grade: SuperMemoGrade): SRSCard {
   const cards = getSRSCards();
   const existing: SuperMemoItem = cards[id] ?? { interval: 0, repetition: 0, efactor: 2.5 };
@@ -26,7 +33,7 @@ export function reviewCard(id: string, grade: SuperMemoGrade): SRSCard {
   const updated: SRSCard = {
     id,
     ...result,
-    dueDate: due.toISOString().slice(0, 10),
+    dueDate: localDateStr(due),
   };
   cards[id] = updated;
   localStorage.setItem(SRS_KEY, JSON.stringify(cards));
@@ -35,7 +42,7 @@ export function reviewCard(id: string, grade: SuperMemoGrade): SRSCard {
 
 export function getDueCards(allIds: string[]): string[] {
   const cards = getSRSCards();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr(new Date());
   return allIds.filter((id) => {
     const c = cards[id];
     return !c || c.dueDate <= today;
@@ -46,7 +53,7 @@ export function getDueCountByTopic(
   questions: { id: string; topic: string }[]
 ): Record<string, number> {
   const cards = getSRSCards();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateStr(new Date());
   const result: Record<string, number> = {};
   for (const q of questions) {
     const c = cards[q.id];

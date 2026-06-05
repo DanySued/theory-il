@@ -33,10 +33,10 @@ function RelatedQuestion({ question }: { question: Question }) {
 
   function buttonClass(idx: number) {
     const base = "w-full text-start px-3 py-2 rounded-lg border text-xs font-medium transition-colors ";
-    if (!revealed) return base + "bg-white border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] cursor-pointer";
-    if (idx === question.correctIndex) return base + "bg-green-100 border-green-400 text-green-800 cursor-default";
-    if (idx === selected) return base + "bg-red-100 border-red-400 text-red-800 cursor-default";
-    return base + "bg-white border-[var(--th-border)] opacity-50 cursor-default";
+    if (!revealed) return base + "bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] cursor-pointer";
+    if (idx === question.correctIndex) return base + "bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success)] cursor-default";
+    if (idx === selected) return base + "bg-[var(--th-error-soft)] border-[var(--th-error)] text-[var(--th-error)] cursor-default";
+    return base + "bg-[var(--th-card)] border-[var(--th-border)] opacity-50 cursor-default";
   }
 
   return (

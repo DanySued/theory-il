@@ -7,7 +7,6 @@ import type { Question } from "@/components/QuestionCard";
 import { saveAttempt, generateId } from "@/lib/storage";
 
 const EXAM_DURATION = 40 * 60;
-const PASS_SCORE = 26;
 const LABELS = ["א", "ב", "ג", "ד"] as const;
 
 function formatTime(s: number): string {

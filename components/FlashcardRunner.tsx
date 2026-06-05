@@ -8,11 +8,10 @@ import { getDueCards, reviewCard } from "@/lib/srs";
 import type { Question } from "@/components/QuestionCard";
 
 interface Props {
-  topic: string;
   questions: Question[];
 }
 
-export default function FlashcardRunner({ topic, questions }: Props) {
+export default function FlashcardRunner({ questions }: Props) {
   const [dueIds, setDueIds] = useState<string[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -148,7 +147,7 @@ export default function FlashcardRunner({ topic, questions }: Props) {
           >
             <button
               onClick={() => handleRate(1 as SuperMemoGrade)}
-              className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-error)] text-[var(--th-error)] text-sm font-semibold hover:bg-red-50 transition-colors"
+              className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-error)] text-[var(--th-error)] text-sm font-semibold hover:bg-[var(--th-error-soft)] transition-colors"
             >
               לא ידעתי
             </button>
@@ -160,7 +159,7 @@ export default function FlashcardRunner({ topic, questions }: Props) {
             </button>
             <button
               onClick={() => handleRate(5 as SuperMemoGrade)}
-              className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-success)] text-[var(--th-success)] text-sm font-semibold hover:bg-green-50 transition-colors"
+              className="flex-1 py-3 rounded-[var(--th-radius)] border border-[var(--th-success)] text-[var(--th-success)] text-sm font-semibold hover:bg-[var(--th-success-soft)] transition-colors"
             >
               ידעתי
             </button>

@@ -30,7 +30,7 @@ export default async function FlashcardsTopicPage({
       <div className="w-full px-4 pt-3 flex justify-end">
         <BackButton />
       </div>
-      <FlashcardRunner topic={decoded} questions={questions} />
+      <FlashcardRunner questions={questions} />
     </>
   );
 }

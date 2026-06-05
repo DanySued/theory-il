@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "motion/react";
-import { updateStreak, type StreakData } from "@/lib/storage";
+import { getStreak, type StreakData } from "@/lib/storage";
 
 export default function StreakBadge() {
   const [streak, setStreak] = useState<StreakData | null>(null);
@@ -10,7 +10,7 @@ export default function StreakBadge() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const data = updateStreak();
+    const data = getStreak();
     setStreak(data);
     if (data && data.current > 0) {
       const start = Math.max(1, data.current - 3);
