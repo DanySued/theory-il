@@ -12,9 +12,9 @@ export default function Home() {
         </h1>
 
         <p className="text-lg text-[var(--th-muted-strong)] leading-relaxed max-w-md">
-          לימוד לפי נושאים, מבחן מדומה וכרטיסיות חזרה —
+          הגעת למקום הנכון :)
           <br />
-          הכל מתוך השאלות הרשמיות.
+          לעבור תיאוריה זה לא כזה פשוט. אבל אנחנו פה בשבלך
         </p>
 
         <StreakBadge />
@@ -45,11 +45,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="th-rule w-32 mt-8" />
 
-        <p className="text-xs text-[var(--th-muted)] tracking-wide">
-          שאלות: משרד התחבורה והבטיחות בדרכים · data.gov.il · CC-BY
-        </p>
       </div>
     </main>
   );
