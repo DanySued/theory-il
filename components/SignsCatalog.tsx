@@ -14,12 +14,12 @@ const CATEGORY_ORDER: SignCategory[] = [
   "סימוני כביש",
 ];
 
-const CATEGORY_COLOR: Record<SignCategory, string> = {
-  "אזהרה": "border-amber-400",
-  "חובה": "border-blue-500",
-  "איסור": "border-red-500",
-  "מידע": "border-green-600",
-  "סימוני כביש": "border-gray-400",
+const CATEGORY_ACCENT: Record<SignCategory, string> = {
+  "אזהרה": "#f59e0b",
+  "חובה": "#3b82f6",
+  "איסור": "#ef4444",
+  "מידע": "#22c55e",
+  "סימוני כביש": "#94a3b8",
 };
 
 const CATEGORY_BADGE: Record<SignCategory, string> = {
@@ -27,7 +27,7 @@ const CATEGORY_BADGE: Record<SignCategory, string> = {
   "חובה": "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
   "איסור": "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
   "מידע": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-  "סימוני כביש": "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+  "סימוני כביש": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
 };
 
 interface Props {
@@ -49,179 +49,173 @@ function saveMastered(ids: Set<string>): void {
 
 function SignCard({
   sign,
-  mastered,
-  onToggleMastered,
   index,
 }: {
   sign: TrafficSign;
-  mastered: boolean;
-  onToggleMastered: (id: string) => void;
+  mastered?: boolean;
   index: number;
 }) {
   const [flipped, setFlipped] = useState(false);
   const hasImage = !!sign.image;
   const description = sign.meaning ?? sign.behavior;
+  const accent = CATEGORY_ACCENT[sign.category];
 
   if (!hasImage) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.025, duration: 0.18 }}
-        className={`rounded-[var(--th-radius)] border border-[var(--th-border)] border-s-4 ${CATEGORY_COLOR[sign.category]} bg-[var(--th-card)] p-3 flex flex-col gap-1 transition-opacity ${mastered ? "opacity-60" : ""}`}
+        transition={{ delay: index * 0.02, duration: 0.2 }}
+        className="rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] p-4 flex flex-col gap-2 transition-shadow hover:shadow-md"
+        style={{ borderTop: `3px solid ${accent}` }}
       >
-        <div className="flex items-start justify-between gap-1">
-          <span className="font-semibold text-sm text-[var(--th-fg)] leading-snug flex items-center gap-1.5 flex-wrap">
-            {sign.officialNumber && (
-              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[var(--th-muted-bg)] text-[var(--th-muted)] tabular-nums">
-                {sign.officialNumber}
-              </span>
-            )}
-            <span>{sign.name}</span>
-            {sign.isLightEmitting && (
-              <span
-                className="text-[9px] font-bold px-1 rounded bg-yellow-200 text-yellow-900 dark:bg-yellow-500/20 dark:text-yellow-300"
-                title="תמרור מאיר"
-              >
-                פ
-              </span>
-            )}
-            {sign.imageUnverified && (
-              <span
-                className="text-amber-500"
-                title="ייתכן שהתמונה אינה תואמת את התמרור — לא אומת מול מקור רשמי"
-                aria-label="התמונה אינה מאומתת"
-              >
-                *
-              </span>
-            )}
-          </span>
-          {mastered && <span className="text-green-500 text-xs shrink-0">✓</span>}
-        </div>
-        <span className="text-xs text-[var(--th-muted)] leading-relaxed">{description}</span>
-        {sign.scope && (
-          <span className="text-[10px] text-[var(--th-muted)] leading-relaxed mt-0.5">
-            <span className="font-semibold text-[var(--th-fg)]">כוחו יפה:</span> {sign.scope}
+        {sign.officialNumber && (
+          <span
+            className="font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded-md px-2 py-0.5 self-start"
+            style={{ fontSize: "clamp(0.65rem, 1.6vw, 0.8rem)" }}
+          >
+            {sign.officialNumber}
           </span>
         )}
-        <button
-          onClick={() => onToggleMastered(sign.id)}
-          className={`self-start text-[10px] px-2 py-0.5 rounded-full border transition-all mt-1 ${
-            mastered
-              ? "bg-green-100 border-green-400 text-green-700 dark:bg-green-900/30 dark:border-green-600 dark:text-green-300"
-              : "border-[var(--th-border)] text-[var(--th-muted)] hover:border-green-400 hover:text-green-600"
-          }`}
-        >
-          {mastered ? "✓ שלטתי" : "שלטתי"}
-        </button>
+        <span className="font-semibold text-[var(--th-fg)] leading-snug" style={{ fontSize: "clamp(0.75rem, 2vw, 0.9rem)" }}>
+          {sign.name}
+          {sign.isLightEmitting && (
+            <span className="mr-1.5 text-[0.65em] font-bold px-1 rounded bg-yellow-200 text-yellow-900 dark:bg-yellow-500/20 dark:text-yellow-300">
+              פ
+            </span>
+          )}
+        </span>
+        <span className="text-[var(--th-muted)] leading-relaxed" style={{ fontSize: "clamp(0.7rem, 1.8vw, 0.82rem)" }}>
+          {description}
+        </span>
+        {sign.scope && (
+          <span className="text-[var(--th-muted)] leading-relaxed" style={{ fontSize: "clamp(0.65rem, 1.6vw, 0.75rem)" }}>
+            <span className="font-semibold text-[var(--th-fg-soft)]">כוחו יפה: </span>
+            {sign.scope}
+          </span>
+        )}
       </motion.div>
     );
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.025, duration: 0.18 }}
-      whileHover={{ scale: flipped ? 1 : 1.03 }}
-      style={{ perspective: "600px", height: "172px" }}
+      transition={{ delay: index * 0.02, duration: 0.2 }}
+      style={{ perspective: "800px", aspectRatio: "4/5" }}
+      className="relative"
     >
       <div
+        onClick={() => setFlipped((f) => !f)}
         style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
+          position: "absolute",
+          inset: 0,
           transformStyle: "preserve-3d",
-          transition: "transform 0.38s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           cursor: "pointer",
+          borderRadius: "1rem",
         }}
-        onClick={() => setFlipped((f) => !f)}
+        className="group"
       >
-        {/* Front: image + sign name */}
+        {/* Front */}
         <div
-          style={{ backfaceVisibility: "hidden" }}
-          className={`absolute inset-0 rounded-[var(--th-radius)] border border-[var(--th-border)] border-s-4 ${CATEGORY_COLOR[sign.category]} bg-[var(--th-card)] p-3 flex flex-col items-center justify-center gap-1 select-none`}
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            borderTop: `3px solid ${accent}`,
+          }}
+          className="absolute inset-0 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-2 px-3 py-4 select-none transition-shadow group-hover:shadow-lg"
         >
-          {mastered && (
-            <span className="absolute top-2 start-2 text-green-500 text-[11px] font-bold">✓</span>
+          {sign.officialNumber && (
+            <span
+              className="absolute top-2 start-2 font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
+              style={{ fontSize: "clamp(0.65rem, 1.8vw, 0.82rem)" }}
+            >
+              {sign.officialNumber}
+              {sign.isLightEmitting && (
+                <span className="text-yellow-600 dark:text-yellow-400">פ</span>
+              )}
+            </span>
           )}
           {sign.imageUnverified && (
             <span
-              className="absolute top-1.5 end-1.5 text-amber-500 text-sm font-bold leading-none cursor-help"
-              title="ייתכן שהתמונה אינה תואמת את התמרור — לא אומת מול מקור רשמי"
-              aria-label="התמונה אינה מאומתת"
+              className="absolute top-2 end-2 text-amber-400"
+              style={{ fontSize: "clamp(0.65rem, 1.5vw, 0.75rem)" }}
+              title="ייתכן שהתמונה אינה תואמת את התמרור"
             >
               *
             </span>
           )}
+
           <img
             src={sign.image}
             alt={sign.name}
-            className="w-16 h-16 object-contain"
             draggable={false}
+            className="object-contain w-[45%] max-w-[70px]"
+            style={{ flex: "0 0 auto" }}
           />
-          {sign.officialNumber && (
-            <span className="absolute top-1.5 start-1.5 text-[9px] font-mono font-bold px-1 py-0.5 rounded bg-[var(--th-muted-bg)] text-[var(--th-muted)] tabular-nums">
-              {sign.officialNumber}
-              {sign.isLightEmitting && <span className="text-yellow-600 dark:text-yellow-400">פ</span>}
-            </span>
-          )}
-          <span className="text-[10px] text-[var(--th-fg)] text-center leading-snug mt-1 line-clamp-2 font-medium">
+
+          <span
+            className="text-center text-[var(--th-fg)] font-semibold leading-snug mt-1"
+            style={{ fontSize: "clamp(0.68rem, 1.9vw, 0.85rem)" }}
+          >
             {sign.name}
-            {sign.imageUnverified && <span className="text-amber-500"> *</span>}
           </span>
-          <span className="text-[9px] text-[var(--th-muted)] opacity-50 mt-0.5">הקש לפרטים ←</span>
+
+          <span
+            className="text-[var(--th-muted)] opacity-60 mt-auto"
+            style={{ fontSize: "clamp(0.6rem, 1.4vw, 0.7rem)" }}
+          >
+            הקש לפרטים
+          </span>
         </div>
 
-        {/* Back: description + mastered button */}
+        {/* Back */}
         <div
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-          className={`absolute inset-0 rounded-[var(--th-radius)] border border-[var(--th-border)] border-s-4 ${CATEGORY_COLOR[sign.category]} bg-[var(--th-card)] p-3 flex flex-col gap-2 justify-between select-none`}
-          onClick={(e) => e.stopPropagation()}
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+            borderTop: `3px solid ${accent}`,
+          }}
+          className="absolute inset-0 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-3 px-4 py-4 select-none text-center"
         >
-          <div className="flex flex-col gap-1 overflow-hidden">
-            <span className="font-semibold text-xs text-[var(--th-fg)] leading-snug flex items-center gap-1 flex-wrap">
-              {sign.officialNumber && (
-                <span className="text-[9px] font-mono font-bold px-1 rounded bg-[var(--th-muted-bg)] text-[var(--th-muted)] tabular-nums">
-                  {sign.officialNumber}
-                </span>
-              )}
-              <span>{sign.name}</span>
-            </span>
-            <span className="text-[10px] text-[var(--th-muted)] leading-relaxed line-clamp-3">
-              {description}
-            </span>
-            {sign.scope && (
-              <span className="text-[9px] text-[var(--th-muted)] leading-relaxed line-clamp-2">
-                <span className="font-semibold text-[var(--th-fg)]">כוחו יפה:</span> {sign.scope}
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleMastered(sign.id);
+          <span
+            className="font-bold text-[var(--th-fg)] leading-snug"
+            style={{ fontSize: "clamp(0.75rem, 2.2vw, 0.95rem)" }}
+          >
+            {sign.name}
+          </span>
+
+          <span
+            className="text-[var(--th-muted-strong)] leading-relaxed overflow-hidden"
+            style={{
+              fontSize: "clamp(0.72rem, 2vw, 0.88rem)",
+              display: "-webkit-box",
+              WebkitLineClamp: 5,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {description}
+          </span>
+
+          {sign.scope && (
+            <span
+              className="text-[var(--th-muted)] leading-relaxed"
+              style={{
+                fontSize: "clamp(0.66rem, 1.7vw, 0.78rem)",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
               }}
-              className={`text-[10px] px-2 py-0.5 rounded-full border transition-all ${
-                mastered
-                  ? "bg-green-100 border-green-400 text-green-700 dark:bg-green-900/30 dark:border-green-600 dark:text-green-300"
-                  : "border-[var(--th-border)] text-[var(--th-muted)] hover:border-green-400 hover:text-green-600"
-              }`}
             >
-              {mastered ? "✓ שלטתי" : "שלטתי"}
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setFlipped(false);
-              }}
-              className="text-[10px] text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors underline underline-offset-2"
-            >
-              ← חזרה
-            </button>
-          </div>
+              <span className="font-semibold text-[var(--th-fg-soft)]">כוחו יפה: </span>
+              {sign.scope}
+            </span>
+          )}
         </div>
       </div>
     </motion.div>
@@ -292,15 +286,15 @@ export default function SignsCatalog({ signs }: Props) {
   }
 
   return (
-    <div className="w-full flex flex-col gap-5 mt-4">
+    <div className="w-full flex flex-col gap-6 mt-4">
       {/* Header + global progress */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
           <button
             onClick={handleExportSigns}
             disabled={exportLoading}
-            className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-xs font-medium hover:bg-[var(--th-muted-bg)] transition-colors disabled:opacity-50 shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--th-border)] text-xs font-medium hover:bg-[var(--th-muted-bg)] transition-colors disabled:opacity-50 shrink-0"
             title="ייצוא מילון התמרורים לקובץ Word"
           >
             {exportLoading ? "..." : "📄 ייצוא"}
@@ -308,7 +302,7 @@ export default function SignsCatalog({ signs }: Props) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex-1 h-2 rounded-full bg-[var(--th-border)] overflow-hidden">
+          <div className="flex-1 h-1.5 rounded-full bg-[var(--th-border)] overflow-hidden">
             <motion.div
               className="h-full bg-green-500 rounded-full"
               initial={{ width: 0 }}
@@ -322,7 +316,7 @@ export default function SignsCatalog({ signs }: Props) {
         </div>
 
         <p className="text-xs text-[var(--th-muted)]">
-          לחץ על תמרור להפוך אותו ולראות את ההסבר · סמן ✓ כשאתה שולט בו
+          לחץ על תמרור לראות את ההסבר
         </p>
       </div>
 
@@ -347,20 +341,26 @@ export default function SignsCatalog({ signs }: Props) {
         const isOpen = openCategories.has(cat);
         const { count, total } = catProgress(cat);
         const allDone = count === total && total > 0;
+        const accent = CATEGORY_ACCENT[cat];
 
         return (
           <section key={cat}>
             <button
               onClick={() => toggle(cat)}
-              className="w-full flex items-center justify-between gap-3 py-2 text-start group"
+              className="w-full flex items-center justify-between gap-3 py-2.5 text-start group"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span
-                  className={`text-base font-bold transition-colors ${
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ background: accent }}
+                />
+                <span
+                  className={`font-bold transition-colors ${
                     allDone
                       ? "text-green-600 dark:text-green-400"
                       : "text-[var(--th-fg)] group-hover:text-[var(--th-accent)]"
                   }`}
+                  style={{ fontSize: "clamp(0.9rem, 2.5vw, 1.05rem)" }}
                 >
                   {allDone && "✓ "}
                   {cat}
@@ -368,15 +368,15 @@ export default function SignsCatalog({ signs }: Props) {
                 <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CATEGORY_BADGE[cat]}`}>
                   {group.length}
                 </span>
-                <span className="text-xs text-[var(--th-muted)] tabular-nums">
-                  {count}/{total}
-                </span>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <div className="w-20 h-1.5 rounded-full bg-[var(--th-border)] overflow-hidden">
+                <div className="w-16 h-1 rounded-full bg-[var(--th-border)] overflow-hidden">
                   <div
-                    className="h-full bg-green-500 rounded-full transition-all duration-500"
-                    style={{ width: `${total > 0 ? (count / total) * 100 : 0}%` }}
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${total > 0 ? (count / total) * 100 : 0}%`,
+                      background: accent,
+                    }}
                   />
                 </div>
                 <span className="text-[var(--th-muted)] text-xs">{isOpen ? "▲" : "▼"}</span>
@@ -391,21 +391,26 @@ export default function SignsCatalog({ signs }: Props) {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.22, ease: "easeInOut" }}
-                  className="overflow-hidden"
+                  style={{ overflow: "hidden" }}
                 >
-                  <div
-                    className="mt-3 grid gap-3"
-                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(clamp(120px, 18vw, 180px), 1fr))" }}
-                  >
-                    {group.map((sign, i) => (
-                      <SignCard
-                        key={sign.id}
-                        sign={sign}
-                        mastered={mastered.has(sign.id)}
-                        onToggleMastered={toggleMastered}
-                        index={i}
-                      />
-                    ))}
+                  {/* Extra padding so hover shadow isn't clipped */}
+                  <div className="pt-3 pb-4 px-1">
+                    <div
+                      className="grid gap-3"
+                      style={{
+                        gridTemplateColumns:
+                          "repeat(auto-fill, minmax(clamp(130px, 22vw, 190px), 1fr))",
+                      }}
+                    >
+                      {group.map((sign, i) => (
+                        <SignCard
+                          key={sign.id}
+                          sign={sign}
+                          mastered={mastered.has(sign.id)}
+                          index={i}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               )}
