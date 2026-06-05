@@ -395,7 +395,7 @@ export default function SignsCatalog({ signs }: Props) {
                 >
                   <div
                     className="mt-3 grid gap-3"
-                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(155px, 1fr))" }}
+                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(clamp(120px, 18vw, 180px), 1fr))" }}
                   >
                     {group.map((sign, i) => (
                       <SignCard

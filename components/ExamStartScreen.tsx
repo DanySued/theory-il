@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 
 const TOPICS = [
   { value: "all", label: "כל הנושאים" },
@@ -57,14 +58,20 @@ export default function ExamStartScreen({
           </div>
         </div>
 
-        <button
+        <motion.button
+          key={topic}
           type="button"
           onClick={() => onStart(topic === "all" ? null : topic)}
-          className="mt-2 inline-flex items-center justify-center h-14 px-8 rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
+          initial={{ scale: 0.92, opacity: 0.6 }}
+          animate={{ scale: [0.92, 1.06, 1], opacity: 1 }}
+          transition={{ duration: 0.45, times: [0, 0.55, 1], ease: "easeOut" }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="mt-2 inline-flex items-center justify-center h-14 px-8 rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md"
         >
           התחל מבחן
           <span aria-hidden className="mr-2">←</span>
-        </button>
+        </motion.button>
       </div>
     </main>
   );
