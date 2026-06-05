@@ -1,4 +1,5 @@
 import type { Question } from "@/components/QuestionCard";
+import { localDateStr } from "@/lib/utils";
 
 export type Attempt = {
   id: string;
@@ -107,13 +108,6 @@ export function getStreak(): StreakData {
   } catch {
     return { current: 0, longest: 0, lastStudyDate: "" };
   }
-}
-
-function localDateStr(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
 }
 
 function todayStr(): string {

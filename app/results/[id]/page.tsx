@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt } from "@/lib/storage";
@@ -52,13 +52,18 @@ export default function ResultsPage() {
     requestAnimationFrame(tick);
   }, []);
 
+  const correct = useMemo(
+    () =>
+      attempt && attempt !== "loading"
+        ? attempt.questions.filter((q, i) => attempt.answers[i] === q.correctIndex).length
+        : 0,
+    [attempt]
+  );
+
   useEffect(() => {
     if (!attempt || attempt === "loading") return;
-    const correct = attempt.questions.filter(
-      (q, i) => attempt.answers[i] === q.correctIndex
-    ).length;
     animateScore(correct);
-  }, [attempt, animateScore]);
+  }, [attempt, animateScore, correct]);
 
   if (attempt === "loading") return null;
 
@@ -73,12 +78,11 @@ export default function ResultsPage() {
     );
   }
 
-  const correct = attempt.questions.filter((q, i) => attempt.answers[i] === q.correctIndex).length;
   const total = attempt.questions.length;
   const isFullExam = total === 30;
   const passed = isFullExam && correct >= PASS_SCORE;
   const duration = formatDuration(attempt.timeSpentSeconds);
-  const wrongCount = attempt.questions.filter((q, i) => attempt.answers[i] !== q.correctIndex).length;
+  const wrongCount = total - correct;
 
   async function handleShare() {
     if (!shareCardRef.current || sharing) return;

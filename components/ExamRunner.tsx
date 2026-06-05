@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import type { Question } from "@/components/QuestionCard";
@@ -84,7 +84,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
   }, [doSubmit, noTimer]);
 
   const q = questions[currentIdx];
-  const answeredCount = answers.filter((a) => a !== null).length;
+  const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
   const isLowTime = secondsLeft < 5 * 60;
 
   function navCircleClass(i: number): string {
