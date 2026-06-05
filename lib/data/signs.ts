@@ -63,7 +63,7 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "גשר צר",
     behavior: "האט ועבור לנסיעה ישרה ובמרכז הנתיב. אם הגשר צר לרכב אחד, ותר לרכב הנוסע לכיוונך.",
-    imageUnverified: true,
+    image: W("112L"),
   },
   {
     id: "w-08",
@@ -126,7 +126,7 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "ערפל",
     behavior: "האט, הפעל אורות ערפל, הגדל ריחוק והמנע מעקיפה.",
-    image: W(175),
+    imageUnverified: true,
   },
   {
     id: "w-17",
@@ -140,14 +140,14 @@ export const SIGNS: TrafficSign[] = [
     category: "אזהרה",
     name: "כניסה לכביש ראשי",
     behavior: "האט — אתה עומד להצטרף לדרך ראשית. ותר לרכבים הנוסעים בה.",
-    imageUnverified: true,
+    image: W(125),
   },
   {
     id: "w-19",
     category: "אזהרה",
     name: "אבנים מידרדרות מימין",
     behavior: "האט ועבור עם מרחק מהשוליים — עלולות ליפול אבנים מהמדרון.",
-    image: W(142),
+    image: W(143),
   },
   {
     id: "w-20",
@@ -480,7 +480,7 @@ export const SIGNS: TrafficSign[] = [
     category: "מידע",
     name: "מחלף קרוב (מספר)",
     behavior: "מחלף מתקרב. עבור לנתיב המתאים ליעדך לפני הכניסה.",
-    image: W(636),
+    imageUnverified: true,
   },
   {
     id: "i-10",
@@ -501,7 +501,7 @@ export const SIGNS: TrafficSign[] = [
     category: "מידע",
     name: "מעבר הולכי רגל",
     behavior: "מעבר חצייה חוקי. עצור ותן עדיפות לכל הולך רגל שנמצא על המעבר.",
-    image: W(631),
+    imageUnverified: true,
   },
   {
     id: "i-13",
