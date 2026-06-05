@@ -5,8 +5,6 @@ export default function Home() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-2xl flex flex-col items-center text-center gap-8">
-        <span className="th-eyebrow">מאגר משרד התחבורה · רישיון ב׳</span>
-
         <h1 className="th-display text-[var(--th-fg)]">
           מתכוננים
           <br />
