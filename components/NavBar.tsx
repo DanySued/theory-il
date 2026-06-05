@@ -15,10 +15,6 @@ export default function NavBar() {
           className="group inline-flex items-baseline gap-2 text-[var(--th-fg)]"
         >
           <span className="text-lg font-extrabold tracking-tight">תיאוריה</span>
-          <span
-            aria-hidden
-            className="h-1.5 w-1.5 rounded-full bg-[var(--th-accent)] translate-y-[-2px] transition-transform group-hover:scale-125"
-          />
         </Link>
         <nav className="flex items-center gap-1 text-sm">
           {links.map((l) => (
