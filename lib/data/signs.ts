@@ -4,9 +4,21 @@ export type TrafficSign = {
   id: string;
   name: string;
   category: SignCategory;
+  /** Original behavior description — kept for back-compat */
   behavior: string;
   image?: string;
   imageUnverified?: boolean;
+  // ── Extended fields (optional, added 2024) ──────────────────────────
+  /** Official לות"ם catalog number, e.g. "302", "127פ" */
+  officialNumber?: string;
+  /** Short instruction / meaning of the sign */
+  meaning?: string;
+  /** כוחו יפה — where / how far the sign's effect reaches */
+  scope?: string;
+  shape?: "triangle" | "circle" | "octagon" | "rectangle" | "diamond";
+  colorScheme?: "red" | "blue" | "yellow" | "white" | "green";
+  /** True for the light-emitting "פ" variant */
+  isLightEmitting?: boolean;
 };
 
 const W = (n: string | number) =>
@@ -23,6 +35,9 @@ export const SIGNS: TrafficSign[] = [
     name: "צומת הצטלבות",
     behavior: "היה ערני לרכבים המגיעים מכיוונים אחרים. האט ובדוק זכות קדימה לפני הכניסה לצומת.",
     image: W(114),
+    officialNumber: "114",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-02",
@@ -30,6 +45,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מהמורה",
     behavior: "האט לפני המהמורה כדי למנוע נזק לרכב ואובדן שליטה.",
     image: W(144),
+    officialNumber: "144",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-03",
@@ -37,6 +55,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כביש משובש",
     behavior: "האט — הכביש לא ישר ועלול לגרום לרכב לאבד יציבות.",
     image: W(101),
+    officialNumber: "101",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-04",
@@ -44,12 +65,18 @@ export const SIGNS: TrafficSign[] = [
     name: "מדרון תלול למטה",
     behavior: "עבור להילוך נמוך, האט לפני תחילת הירידה והשתמש בבלם המנוע.",
     image: W(140),
+    officialNumber: "140",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-05",
     category: "אזהרה",
     name: "מדרון תלול למעלה",
     behavior: "האט וודא שיש לך הילוך מתאים לעלייה לפני תחילתה.",
+    officialNumber: "139",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-06",
@@ -57,6 +84,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כביש מצטמצם",
     behavior: "האט — נתיב הנסיעה מתצמצם. ותר לרכבים שאינם יכולים לפנות מקום.",
     image: W(109),
+    officialNumber: "109",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-07",
@@ -64,6 +94,9 @@ export const SIGNS: TrafficSign[] = [
     name: "גשר צר",
     behavior: "האט ועבור לנסיעה ישרה ובמרכז הנתיב. אם הגשר צר לרכב אחד, ותר לרכב הנוסע לכיוונך.",
     image: W("112L"),
+    officialNumber: "112",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-08",
@@ -71,6 +104,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מסילת ברזל (מעבר חסום)",
     behavior: "עצור לפני פסי הרכבת, הסתכל לשני הכיוונים, וחצה רק כשהדרך פנויה לחלוטין.",
     image: W(133),
+    officialNumber: "133",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-09",
@@ -78,6 +114,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מסילת ברזל (מעבר לא חסום)",
     behavior: "האט מאוד, הסתכל לשני הכיוונים ועצור אם רכבת מתקרבת.",
     image: W(134),
+    officialNumber: "134",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-10",
@@ -85,6 +124,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מעבר חציה בקרבת מקום",
     behavior: "האט והיה מוכן לעצור — עשויים להיות הולכי רגל חוצים בקרוב.",
     image: W(135),
+    officialNumber: "135",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-11",
@@ -92,6 +134,9 @@ export const SIGNS: TrafficSign[] = [
     name: "ילדים",
     behavior: "האט לפחות ל-30 קמ\"ש והיה ערני במיוחד לילדים שעלולים לצאת לכביש בפתאומיות.",
     image: F("Children_warning_sign_israel.svg"),
+    officialNumber: "136",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-12",
@@ -99,6 +144,9 @@ export const SIGNS: TrafficSign[] = [
     name: "בעלי חיים",
     behavior: "האט — עלולים להיות בעלי חיים על הכביש. היה מוכן לעצור.",
     image: W("146a"),
+    officialNumber: "146",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-13",
@@ -106,6 +154,9 @@ export const SIGNS: TrafficSign[] = [
     name: "עבודות כביש",
     behavior: "האט בהתאם לתמרורי המהירות שבאזור העבודות וצפה לפועלים ומכשולים.",
     image: W(901),
+    officialNumber: "901",
+    shape: "triangle",
+    colorScheme: "yellow",
   },
   {
     id: "w-14",
@@ -113,6 +164,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מפרץ חירום קרוב",
     behavior: "אם הרכב מתקלקל, עצור במפרץ ולא על נתיב הנסיעה.",
     image: W(637),
+    officialNumber: "637",
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "w-15",
@@ -120,6 +174,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כביש חלקלק",
     behavior: "האט, הגדל מרחק בטיחות ממה שלפניך, והמנע מבלימה חדה.",
     image: W(141),
+    officialNumber: "141",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-16",
@@ -127,6 +184,8 @@ export const SIGNS: TrafficSign[] = [
     name: "ערפל",
     behavior: "האט, הפעל אורות ערפל, הגדל ריחוק והמנע מעקיפה.",
     imageUnverified: true,
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-17",
@@ -134,6 +193,8 @@ export const SIGNS: TrafficSign[] = [
     name: "דרך מתפצלת",
     behavior: "החלט מראש לאיזה כיוון אתה פונה ועבור לנתיב המתאים בזמן.",
     imageUnverified: true,
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-18",
@@ -141,6 +202,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כניסה לכביש ראשי",
     behavior: "האט — אתה עומד להצטרף לדרך ראשית. ותר לרכבים הנוסעים בה.",
     image: W(125),
+    officialNumber: "125",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-19",
@@ -148,6 +212,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אבנים מידרדרות מימין",
     behavior: "האט ועבור עם מרחק מהשוליים — עלולות ליפול אבנים מהמדרון.",
     image: W(143),
+    officialNumber: "143",
+    shape: "triangle",
+    colorScheme: "red",
   },
   {
     id: "w-20",
@@ -155,6 +222,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כביש עקלתון",
     behavior: "האט לפני הכניסה לפניות ונסע עם הנתיב מבלי לחצות את קו האמצע.",
     image: W(106),
+    officialNumber: "106",
+    shape: "triangle",
+    colorScheme: "red",
   },
 
   // ────────── חובה ──────────
@@ -164,6 +234,10 @@ export const SIGNS: TrafficSign[] = [
     name: "עצור (STOP)",
     behavior: "עצירה מוחלטת חובה לפני קו העצירה. אסור להמשיך לפני שהדרך פנויה לחלוטין.",
     image: W(302),
+    officialNumber: "302",
+    shape: "octagon",
+    colorScheme: "red",
+    scope: "בצומת / מעבר הגבול שלפניו; כוחו יפה עד שהדרך פנויה לחלוטין",
   },
   {
     id: "m-02",
@@ -171,6 +245,10 @@ export const SIGNS: TrafficSign[] = [
     name: "פנה את הדרך",
     behavior: "האט והיה מוכן לעצור. ותר לכל הרכבים בדרך שאליה אתה מצטרף.",
     image: W(301),
+    officialNumber: "301",
+    shape: "triangle",
+    colorScheme: "red",
+    scope: "בצומת שלפניו",
   },
   {
     id: "m-03",
@@ -178,6 +256,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חובה לנסוע ישר",
     behavior: "נסע ישר בלבד — פנייה ימינה או שמאלה אסורה בנקודה זו.",
     image: W(203),
+    officialNumber: "203",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-04",
@@ -185,6 +266,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חובה לפנות ימינה",
     behavior: "חובה לפנות ימינה — אין אפשרות לנסוע ישר או שמאל.",
     image: W(204),
+    officialNumber: "204",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-05",
@@ -192,6 +276,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חובה לפנות שמאלה",
     behavior: "חובה לפנות שמאלה — אין אפשרות לנסוע ישר או ימינה.",
     image: W(205),
+    officialNumber: "205",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-06",
@@ -199,6 +286,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חובה ישר או ימינה",
     behavior: "ניתן לנסוע ישר או לפנות ימינה. פנייה שמאלה אסורה.",
     image: W(201),
+    officialNumber: "201",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-07",
@@ -206,6 +296,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חובה ישר או שמאלה",
     behavior: "ניתן לנסוע ישר או לפנות שמאלה. פנייה ימינה אסורה.",
     image: W(202),
+    officialNumber: "202",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-08",
@@ -213,6 +306,9 @@ export const SIGNS: TrafficSign[] = [
     name: "עבור מצד ימין",
     behavior: "עקוף את המכשול או האי מצד ימין בלבד.",
     image: W(214),
+    officialNumber: "214",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-09",
@@ -220,6 +316,9 @@ export const SIGNS: TrafficSign[] = [
     name: "עבור מצד שמאל",
     behavior: "עקוף את המכשול או האי מצד שמאל בלבד.",
     image: W(215),
+    officialNumber: "215",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-10",
@@ -227,12 +326,18 @@ export const SIGNS: TrafficSign[] = [
     name: "כיכר (כיוון חובה)",
     behavior: "נסע בכיוון החץ בכיכר. תן עדיפות לרכבים שכבר נמצאים בכיכר.",
     image: W(303),
+    officialNumber: "303",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-11",
     category: "חובה",
     name: "חובה לאורות",
     behavior: "הפעל אורות קדמיים ואחוריים — ללא קשר לשעה ולמזג האוויר.",
+    officialNumber: "220",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-12",
@@ -240,6 +345,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כביש חד סטרי",
     behavior: "נסע בכיוון החץ בלבד. נסיעה בכיוון הנגדי אסורה לחלוטין.",
     image: W(618),
+    officialNumber: "618",
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "m-13",
@@ -247,12 +355,17 @@ export const SIGNS: TrafficSign[] = [
     name: "דרך למהירות מינימלית",
     behavior: "אסור לנסוע לאט יותר מהמהירות המצוינת בתמרור, אלא אם כן הדרך מחייבת זאת.",
     image: W(218),
+    officialNumber: "218",
+    shape: "circle",
+    colorScheme: "blue",
   },
   {
     id: "m-14",
     category: "חובה",
     name: "עצור לפני מסילת ברזל",
     behavior: "עצור עצירה מוחלטת לפני המסילה, הסתכל לשני הכיוונים, וחצה רק כשהדרך פנויה. מוצג עם תמרור עצור רגיל (302).",
+    shape: "octagon",
+    colorScheme: "red",
   },
   {
     id: "m-15",
@@ -260,6 +373,9 @@ export const SIGNS: TrafficSign[] = [
     name: "שביל אופניים",
     behavior: "רוכבי אופניים חייבים להשתמש בשביל זה. רכב מנועי אסור לנסוע בו.",
     image: W(227),
+    officialNumber: "227",
+    shape: "circle",
+    colorScheme: "blue",
   },
 
   // ────────── איסור ──────────
@@ -269,6 +385,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה הכניסה",
     behavior: "כניסה אסורה לחלוטין לכל כלי רכב. פנה לדרך חלופית.",
     image: W(402),
+    officialNumber: "402",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-02",
@@ -276,6 +395,10 @@ export const SIGNS: TrafficSign[] = [
     name: "אסור לעקוף",
     behavior: "אסור לעקוף רכב נוסע אחר. האיסור תקף עד לצומת הבא או תמרור סיום.",
     image: W(420),
+    officialNumber: "420",
+    shape: "circle",
+    colorScheme: "red",
+    scope: "מהתמרור עד לצומת הסמוך, תמרור סיום, או תמרור המבטל אותו",
   },
   {
     id: "p-03",
@@ -283,6 +406,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסור לעקוף רכב כבד",
     behavior: "משאיות ורכבים כבדים אסורים לעקוף. לרכב פרטי — מותר (בכפוף לחוקים אחרים).",
     image: W(422),
+    officialNumber: "422",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-04",
@@ -290,6 +416,10 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 30",
     behavior: "מהירות מרבית מותרת: 30 קמ\"ש. בדרך כלל ליד בתי ספר — שמור על ערנות מוגברת.",
     image: W("426-30"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
+    scope: "מהתמרור עד לצומת הסמוך, תמרור סיום, או תמרור מגבלת מהירות אחר",
   },
   {
     id: "p-05",
@@ -297,6 +427,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 40",
     behavior: "מהירות מרבית מותרת: 40 קמ\"ש.",
     image: W("426-40"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-06",
@@ -304,6 +437,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 50",
     behavior: "מהירות מרבית מותרת: 50 קמ\"ש (המגבלה הרגילה בתוך יישוב).",
     image: W("426-50"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-07",
@@ -311,6 +447,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 60",
     behavior: "מהירות מרבית מותרת: 60 קמ\"ש.",
     image: W("426-60"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-08",
@@ -318,6 +457,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 70",
     behavior: "מהירות מרבית מותרת: 70 קמ\"ש.",
     image: W("426-70"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-09",
@@ -325,6 +467,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 80",
     behavior: "מהירות מרבית מותרת: 80 קמ\"ש (דרכים בין-עירוניות רגילות).",
     image: W("426-80"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-10",
@@ -332,6 +477,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 90",
     behavior: "מהירות מרבית מותרת: 90 קמ\"ש.",
     image: W("426-90"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-11",
@@ -339,6 +487,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 100",
     behavior: "מהירות מרבית מותרת: 100 קמ\"ש (כבישים מהירים).",
     image: W("426-100"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-12",
@@ -346,6 +497,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מגבלת מהירות 110",
     behavior: "מהירות מרבית מותרת: 110 קמ\"ש (כבישים מהירים ייעודיים).",
     image: W("426-110"),
+    officialNumber: "426",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-13",
@@ -353,6 +507,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסור לרכב מנועי",
     behavior: "רכבים בעלי מנוע אסורים להיכנס. אופניים והולכי רגל מותרים.",
     image: W(405),
+    officialNumber: "405",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-14",
@@ -360,6 +517,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסור לאופנוע",
     behavior: "אופנועים אסורים להיכנס. כל שאר הרכבים מותרים (בכפוף לאיסורים אחרים).",
     image: W(409),
+    officialNumber: "409",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-15",
@@ -367,6 +527,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה כניסה למשאיות",
     behavior: "משאיות ורכבים כבדים אסורים להיכנס.",
     image: W(415),
+    officialNumber: "415",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-16",
@@ -374,6 +537,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה כניסה לאוטובוסים",
     behavior: "אוטובוסים אסורים להיכנס.",
     imageUnverified: true,
+    officialNumber: "410",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-17",
@@ -381,6 +547,10 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה חניה",
     behavior: "חניה אסורה. ניתן לעצור לזמן קצר לצורך הורדה/העלאה בלבד.",
     image: W(432),
+    officialNumber: "432",
+    shape: "circle",
+    colorScheme: "red",
+    scope: "בצד הכביש שבו מוצב התמרור",
   },
   {
     id: "p-18",
@@ -388,6 +558,10 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה כל עצירה וחניה",
     behavior: "אסורים לחלוטין עצירה וחניה — אפילו לרגע קצר.",
     image: W(433),
+    officialNumber: "433",
+    shape: "circle",
+    colorScheme: "red",
+    scope: "בצד הכביש שבו מוצב התמרור",
   },
   {
     id: "p-19",
@@ -395,6 +569,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה הפניה ימינה",
     behavior: "פנייה ימינה אסורה. ניתן לנסוע ישר או לפנות שמאלה.",
     image: W(428),
+    officialNumber: "428",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-20",
@@ -402,6 +579,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה הפניה שמאלה",
     behavior: "פנייה שמאלה אסורה. ניתן לנסוע ישר או לפנות ימינה.",
     image: W(429),
+    officialNumber: "429",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-21",
@@ -409,6 +589,9 @@ export const SIGNS: TrafficSign[] = [
     name: "אסורה פנית פרסה שמאל",
     behavior: "פנייה של 180 מעלות אסורה. המשך ישר ומצא נקודת סיבוב מתאימה.",
     image: W(431),
+    officialNumber: "431",
+    shape: "circle",
+    colorScheme: "red",
   },
   {
     id: "p-22",
@@ -416,6 +599,9 @@ export const SIGNS: TrafficSign[] = [
     name: "סוף כל ההגבלות",
     behavior: "כל האיסורים שהוטלו על ידי תמרורים קודמים (מהירות, עקיפה וכו') מסתיימים כאן.",
     image: W(501),
+    officialNumber: "501",
+    shape: "circle",
+    colorScheme: "white",
   },
 
   // ────────── מידע ──────────
@@ -425,6 +611,9 @@ export const SIGNS: TrafficSign[] = [
     name: "כניסה לדרך מהירה",
     behavior: "אתה על כביש מהיר. כניסה ויציאה במחלפים בלבד. מהירות מרבית: 100–110 קמ\"ש.",
     image: W(216),
+    officialNumber: "216",
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-02",
@@ -432,6 +621,9 @@ export const SIGNS: TrafficSign[] = [
     name: "קצה הדרך המהירה",
     behavior: "הכביש המהיר מסתיים. חוקי מהירות ועקיפה חוזרים לנורמה הרגילה.",
     image: W(217),
+    officialNumber: "217",
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-03",
@@ -439,6 +631,10 @@ export const SIGNS: TrafficSign[] = [
     name: "לך זכות קדימה בדרך",
     behavior: "אתה בדרך ראשית — יש לך עדיפות על פני רכבים הנכנסים מדרכי משנה.",
     image: W(309),
+    officialNumber: "309",
+    shape: "diamond",
+    colorScheme: "yellow",
+    scope: "לאורך כל הדרך הראשית עד תמרור 310 (קצה זכות קדימה)",
   },
   {
     id: "i-04",
@@ -446,6 +642,9 @@ export const SIGNS: TrafficSign[] = [
     name: "קצה זכות קדימה",
     behavior: "הדרך הראשית מסתיימת. בצומת הבא חלים כללי זכות קדימה רגילים.",
     image: W(310),
+    officialNumber: "310",
+    shape: "diamond",
+    colorScheme: "yellow",
   },
   {
     id: "i-05",
@@ -453,6 +652,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חניה",
     behavior: "מגרש חניה בקרבת מקום. ניתן לחנות בו.",
     image: W(626),
+    officialNumber: "626",
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-06",
@@ -460,6 +662,9 @@ export const SIGNS: TrafficSign[] = [
     name: "חניה מותרת",
     behavior: "חניה מותרת בצד זה של הכביש, בכפוף לזמנים ולהגבלות המצוינות בתמרור.",
     image: W(628),
+    officialNumber: "628",
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-07",
@@ -467,6 +672,8 @@ export const SIGNS: TrafficSign[] = [
     name: "בית חולים",
     behavior: "בית חולים בקרבת מקום. נסע בשקט, הימנע מצופר ועבור לנתיב המתאים לרכבי חירום.",
     imageUnverified: true,
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-08",
@@ -474,6 +681,8 @@ export const SIGNS: TrafficSign[] = [
     name: "תחנת דלק",
     behavior: "תחנת דלק זמינה בקרוב. אין חובת פעולה.",
     imageUnverified: true,
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-09",
@@ -481,6 +690,8 @@ export const SIGNS: TrafficSign[] = [
     name: "מחלף קרוב (מספר)",
     behavior: "מחלף מתקרב. עבור לנתיב המתאים ליעדך לפני הכניסה.",
     imageUnverified: true,
+    shape: "rectangle",
+    colorScheme: "green",
   },
   {
     id: "i-10",
@@ -488,6 +699,9 @@ export const SIGNS: TrafficSign[] = [
     name: "מקום היציאה",
     behavior: "יציאה קרובה. עבור לנתיב הימני בהקדם והאט בהדרגה.",
     image: W(608),
+    officialNumber: "608",
+    shape: "rectangle",
+    colorScheme: "green",
   },
   {
     id: "i-11",
@@ -495,6 +709,8 @@ export const SIGNS: TrafficSign[] = [
     name: "מידע לנוסע (i)",
     behavior: "מרכז מידע לתיירים בקרבת מקום. אין חובת פעולה.",
     imageUnverified: true,
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-12",
@@ -502,6 +718,8 @@ export const SIGNS: TrafficSign[] = [
     name: "מעבר הולכי רגל",
     behavior: "מעבר חצייה חוקי. עצור ותן עדיפות לכל הולך רגל שנמצא על המעבר.",
     imageUnverified: true,
+    shape: "rectangle",
+    colorScheme: "blue",
   },
   {
     id: "i-13",
@@ -509,6 +727,8 @@ export const SIGNS: TrafficSign[] = [
     name: "תחנת אמבולנס / עזרה ראשונה",
     behavior: "עזרה רפואית זמינה בקרבת מקום. שמור על מעבר חופשי.",
     imageUnverified: true,
+    shape: "rectangle",
+    colorScheme: "blue",
   },
 
   // ────────── סימוני כביש ──────────
@@ -559,5 +779,125 @@ export const SIGNS: TrafficSign[] = [
     category: "סימוני כביש",
     name: "שביל אופניים מסומן",
     behavior: "שביל מיועד לאופניים בלבד. רכב מנועי אסור לנסוע או לחנות עליו.",
+  },
+
+  // ────────── חובה — זכות קדימה (304–308) ──────────
+  {
+    id: "m-16",
+    category: "חובה",
+    name: "חובה לתת זכות קדימה לרכב מולך",
+    behavior: "הדרך צרה. תן עדיפות לרכב הנוסע בכיוון המנוגד. עצור בצד והמתן עד שיעבור.",
+    officialNumber: "304",
+    shape: "rectangle",
+    colorScheme: "red",
+    scope: "בקטע הצר שלפניך",
+    meaning: "עצור ותן זכות קדימה לרכב הנוסע ממול",
+  },
+  {
+    id: "m-17",
+    category: "חובה",
+    name: "לך זכות קדימה על פני רכב מולך",
+    behavior: "יש לך עדיפות מעבר בדרך הצרה. רכב הנוסע ממולך מחויב לתת לך זכות קדימה.",
+    officialNumber: "305",
+    shape: "rectangle",
+    colorScheme: "blue",
+    scope: "בקטע הצר שלפניך",
+    meaning: "עדיפות מעבר לך מול תנועה נגדית",
+  },
+  {
+    id: "m-18",
+    category: "חובה",
+    name: "חובה לתת זכות קדימה לרכב מימין",
+    behavior: "בצומת ללא תמרורי עדיפות אחרים — תן זכות קדימה לרכב הגיע מימין.",
+    officialNumber: "306",
+    shape: "circle",
+    colorScheme: "red",
+    scope: "בצומת שלפניך",
+    meaning: "ותר לרכב הנוסע מימינך",
+  },
+  {
+    id: "m-19",
+    category: "חובה",
+    name: "חובה לתת זכות קדימה בכניסה לכביש ראשי",
+    behavior: "אתה נכנס לכביש ראשי. ותר לכל הרכבים הנוסעים בו, בשני הכיוונים.",
+    officialNumber: "307",
+    image: W(301),
+    shape: "triangle",
+    colorScheme: "red",
+    scope: "בנקודת הצטרפות לכביש הראשי",
+    meaning: "כניסה לכביש ראשי — ותר לכל",
+  },
+  {
+    id: "m-20",
+    category: "חובה",
+    name: "חובה לתת זכות קדימה לרכב מסילה / אוטובוס",
+    behavior: "רכב מסילה (חשמלית / רכבת קלה) או אוטובוס יוצא מתחנה — חובה לתת לו עדיפות.",
+    officialNumber: "308",
+    shape: "circle",
+    colorScheme: "red",
+    scope: "בנקודה שבה מסומן התמרור",
+    meaning: "עדיפות לרכב ציבורי / מסילה",
+  },
+
+  // ────────── איסור — הגבלות (415–417, 430) ──────────
+  {
+    id: "p-23",
+    category: "איסור",
+    name: "הגבלת משקל",
+    behavior: "כלי רכב שמשקלו הכולל (עם מטען) עולה על הכתוב אסורים לעבור.",
+    officialNumber: "415",
+    image: W(415),
+    shape: "circle",
+    colorScheme: "red",
+    scope: "מהתמרור עד לצומת הסמוך או תמרור מבטל",
+    meaning: "איסור כניסה לרכב כבד ממשקל מצוין (טון)",
+  },
+  {
+    id: "p-24",
+    category: "איסור",
+    name: "הגבלת גובה",
+    behavior: "כלי רכב שגובהו עולה על הכתוב (בדרך כלל מטר) אסורים לעבור — סכנת פגיעה בגשר / מנהרה.",
+    officialNumber: "416",
+    image: W(416),
+    shape: "circle",
+    colorScheme: "red",
+    scope: "עד לנקודת החסימה (גשר / מנהרה)",
+    meaning: "איסור כניסה לרכב גבוה מהמצוין",
+  },
+  {
+    id: "p-25",
+    category: "איסור",
+    name: "הגבלת רוחב",
+    behavior: "כלי רכב שרוחבו עולה על הכתוב אסורים לעבור — דרך צרה מדי.",
+    officialNumber: "417",
+    image: W(417),
+    shape: "circle",
+    colorScheme: "red",
+    scope: "עד לנקודת הצרות בדרך",
+    meaning: "איסור כניסה לרכב רחב מהמצוין",
+  },
+  {
+    id: "p-26",
+    category: "איסור",
+    name: "אסורה פנית פרסה ימין",
+    behavior: "פנייה של 180 מעלות ימינה אסורה. המשך ישר ומצא נקודת סיבוב מתאימה.",
+    officialNumber: "430",
+    image: W(430),
+    shape: "circle",
+    colorScheme: "red",
+    meaning: "אסור לבצע פניית פרסה ימינה",
+  },
+
+  // ────────── אזהרה — מים עמוקים (153, תוספת 2022) ──────────
+  {
+    id: "w-21",
+    category: "אזהרה",
+    name: "מים עמוקים",
+    behavior: "סכנת הצפה — ייתכן שהכביש מוצף. אל תיכנס למים אם אינך יודע את עומקם. רכב עלול להיסחף.",
+    officialNumber: "153",
+    shape: "triangle",
+    colorScheme: "red",
+    meaning: "אזהרה מפני מים עמוקים על הכביש",
+    scope: "בקטע שלפניך עד שהסכנה חולפת",
   },
 ];

@@ -41,6 +41,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
   const [secondsLeft, setSecondsLeft] = useState(EXAM_DURATION);
   const [submitted, setSubmitted] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   // Refs so the timer callback always reads the latest state
   const answersRef = useRef(answers);
@@ -106,6 +107,15 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
       {/* Sticky top bar */}
       <div className="sticky top-0 z-10 bg-[var(--th-card)] border-b border-[var(--th-border)]">
         <div className="px-4 py-3 flex items-center justify-between gap-4">
+          <button
+            type="button"
+            onClick={() => setShowExitConfirm(true)}
+            aria-label="יציאה מהמבחן"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors border border-[var(--th-border)]"
+          >
+            <span aria-hidden="true">&#8594;</span>
+            יציאה
+          </button>
           {!noTimer && (
             <span
               className={`font-mono text-xl font-bold tabular-nums ${
@@ -261,6 +271,35 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
           </span>
         </div>
       </div>
+
+      {/* Exit confirmation dialog */}
+      {showExitConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-[var(--th-card)] rounded-[var(--th-radius)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
+            <h2 className="text-xl font-bold">לצאת מהמבחן?</h2>
+            <p className="text-[var(--th-muted)] text-sm">
+              ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowExitConfirm(false)}
+                className="px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+              >
+                המשך מבחן
+              </button>
+              <button
+                onClick={() => {
+                  setShowExitConfirm(false);
+                  router.push("/");
+                }}
+                className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+              >
+                צא מהמבחן
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Confirmation dialog */}
       {showConfirm && (

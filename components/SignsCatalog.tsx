@@ -60,6 +60,7 @@ function SignCard({
 }) {
   const [flipped, setFlipped] = useState(false);
   const hasImage = !!sign.image;
+  const description = sign.meaning ?? sign.behavior;
 
   if (!hasImage) {
     return (
@@ -70,21 +71,39 @@ function SignCard({
         className={`rounded-[var(--th-radius)] border border-[var(--th-border)] border-s-4 ${CATEGORY_COLOR[sign.category]} bg-[var(--th-card)] p-3 flex flex-col gap-1 transition-opacity ${mastered ? "opacity-60" : ""}`}
       >
         <div className="flex items-start justify-between gap-1">
-          <span className="font-semibold text-sm text-[var(--th-fg)] leading-snug">
-            {sign.name}
+          <span className="font-semibold text-sm text-[var(--th-fg)] leading-snug flex items-center gap-1.5 flex-wrap">
+            {sign.officialNumber && (
+              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[var(--th-muted-bg)] text-[var(--th-muted)] tabular-nums">
+                {sign.officialNumber}
+              </span>
+            )}
+            <span>{sign.name}</span>
+            {sign.isLightEmitting && (
+              <span
+                className="text-[9px] font-bold px-1 rounded bg-yellow-200 text-yellow-900 dark:bg-yellow-500/20 dark:text-yellow-300"
+                title="תמרור מאיר"
+              >
+                פ
+              </span>
+            )}
             {sign.imageUnverified && (
               <span
                 className="text-amber-500"
                 title="ייתכן שהתמונה אינה תואמת את התמרור — לא אומת מול מקור רשמי"
                 aria-label="התמונה אינה מאומתת"
               >
-                {" *"}
+                *
               </span>
             )}
           </span>
           {mastered && <span className="text-green-500 text-xs shrink-0">✓</span>}
         </div>
-        <span className="text-xs text-[var(--th-muted)] leading-relaxed">{sign.behavior}</span>
+        <span className="text-xs text-[var(--th-muted)] leading-relaxed">{description}</span>
+        {sign.scope && (
+          <span className="text-[10px] text-[var(--th-muted)] leading-relaxed mt-0.5">
+            <span className="font-semibold text-[var(--th-fg)]">כוחו יפה:</span> {sign.scope}
+          </span>
+        )}
         <button
           onClick={() => onToggleMastered(sign.id)}
           className={`self-start text-[10px] px-2 py-0.5 rounded-full border transition-all mt-1 ${
@@ -142,6 +161,12 @@ function SignCard({
             className="w-16 h-16 object-contain"
             draggable={false}
           />
+          {sign.officialNumber && (
+            <span className="absolute top-1.5 start-1.5 text-[9px] font-mono font-bold px-1 py-0.5 rounded bg-[var(--th-muted-bg)] text-[var(--th-muted)] tabular-nums">
+              {sign.officialNumber}
+              {sign.isLightEmitting && <span className="text-yellow-600 dark:text-yellow-400">פ</span>}
+            </span>
+          )}
           <span className="text-[10px] text-[var(--th-fg)] text-center leading-snug mt-1 line-clamp-2 font-medium">
             {sign.name}
             {sign.imageUnverified && <span className="text-amber-500"> *</span>}
@@ -156,10 +181,22 @@ function SignCard({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-col gap-1 overflow-hidden">
-            <span className="font-semibold text-xs text-[var(--th-fg)] leading-snug">{sign.name}</span>
-            <span className="text-[10px] text-[var(--th-muted)] leading-relaxed line-clamp-4">
-              {sign.behavior}
+            <span className="font-semibold text-xs text-[var(--th-fg)] leading-snug flex items-center gap-1 flex-wrap">
+              {sign.officialNumber && (
+                <span className="text-[9px] font-mono font-bold px-1 rounded bg-[var(--th-muted-bg)] text-[var(--th-muted)] tabular-nums">
+                  {sign.officialNumber}
+                </span>
+              )}
+              <span>{sign.name}</span>
             </span>
+            <span className="text-[10px] text-[var(--th-muted)] leading-relaxed line-clamp-3">
+              {description}
+            </span>
+            {sign.scope && (
+              <span className="text-[9px] text-[var(--th-muted)] leading-relaxed line-clamp-2">
+                <span className="font-semibold text-[var(--th-fg)]">כוחו יפה:</span> {sign.scope}
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <button
