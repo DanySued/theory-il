@@ -80,15 +80,15 @@ export default function QuestionCard({
 
   function getButtonStyle(idx: number): string {
     const base =
-      "w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors";
+      "w-full text-start px-4 py-3.5 rounded-[var(--th-radius)] border text-sm font-medium transition-colors";
     if (!showAnswer) {
       return `${base} bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] cursor-pointer`;
     }
     if (idx === question.correctIndex) {
-      return `${base} bg-[#dcfce7] border-[var(--th-success)] text-[var(--th-success)] cursor-default`;
+      return `${base} bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success)] cursor-default border-e-4`;
     }
     if (idx === selectedAnswer && idx !== question.correctIndex) {
-      return `${base} bg-[#fee2e2] border-[var(--th-error)] text-[var(--th-error)] cursor-default`;
+      return `${base} bg-[var(--th-error-soft)] border-[var(--th-error)] text-[var(--th-error)] cursor-default`;
     }
     return `${base} bg-[var(--th-card)] border-[var(--th-border)] opacity-60 cursor-default`;
   }
@@ -152,7 +152,7 @@ export default function QuestionCard({
           )}
 
           {/* Text */}
-          <p className="text-lg font-semibold leading-relaxed">{displayText}</p>
+          <p className="text-xl font-bold leading-relaxed">{displayText}</p>
 
           {/* Answers */}
           <div className="flex flex-col gap-2" onPointerDown={(e) => e.stopPropagation()}>
@@ -200,7 +200,7 @@ export default function QuestionCard({
             <button
               onPointerDown={(e) => e.stopPropagation()}
               onClick={onReveal}
-              className="mt-1 self-start text-sm text-[var(--th-muted)] underline underline-offset-2 hover:text-[var(--th-fg)] transition-colors"
+              className="mt-1 self-start px-4 py-1.5 rounded-full border border-[var(--th-border)] text-sm font-medium text-[var(--th-muted-strong)] hover:border-[var(--th-accent)] hover:text-[var(--th-accent)] transition-colors"
             >
               הצג תשובה
             </button>

@@ -25,22 +25,20 @@ export default function StudyPage() {
   }));
 
   return (
-    <>
-      <div className="w-full px-4 pt-3 flex justify-end">
+    <main className="flex flex-1 flex-col items-center px-6 py-8 gap-8">
+      <div className="w-full max-w-5xl flex justify-start">
         <BackButton />
       </div>
-    <main className="flex flex-1 flex-col items-center px-6 py-12 gap-10">
-      <div className="w-full max-w-2xl flex flex-col gap-3">
+      <div className="w-full max-w-5xl flex flex-col gap-2">
         <span className="th-eyebrow">{topics.length} נושאים</span>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-none">
           לימוד לפי נושאים
         </h1>
-        <p className="text-[var(--th-muted-strong)] text-base">
+        <p className="text-[var(--th-muted-strong)] text-base mt-1">
           בחר נושא — שאלות מהמאגר הרשמי, עם הסבר אחרי כל תשובה.
         </p>
       </div>
       <TopicGridClient topics={topics} questions={questions} />
     </main>
-    </>
   );
 }

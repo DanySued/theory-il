@@ -111,8 +111,8 @@ export default function ResultsPage() {
           className={`rounded-[var(--th-radius)] border p-6 text-center flex flex-col gap-2 ${
             isFullExam
               ? passed
-                ? "bg-green-50 border-green-300"
-                : "bg-red-50 border-red-300"
+                ? "bg-[var(--th-success-soft)] border-[var(--th-success)]"
+                : "bg-[var(--th-error-soft)] border-[var(--th-error)]"
               : "bg-[var(--th-muted-bg)] border-[var(--th-border)]"
           }`}
         >
@@ -128,13 +128,18 @@ export default function ResultsPage() {
             {displayScore}/{total}
           </span>
           {isFullExam && (
-            <span
-              className={`text-2xl font-bold ${
-                passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
-              }`}
-            >
-              {passed ? "עברת! ✓" : "לא עברת ✗"}
-            </span>
+            <>
+              <span
+                className={`text-2xl font-bold ${
+                  passed ? "text-[var(--th-success)]" : "text-[var(--th-error)]"
+                }`}
+              >
+                {passed ? "עברת! ✓" : "לא עברת ✗"}
+              </span>
+              <span className="text-sm font-medium text-[var(--th-muted-strong)]">
+                {Math.round((correct / total) * 100)}%
+              </span>
+            </>
           )}
           <span className="text-sm text-[var(--th-muted)]">
             {isFullExam ? `זמן: ${duration} · ציון מעבר: ${PASS_SCORE}/30` : `זמן: ${duration}`}
@@ -142,84 +147,63 @@ export default function ResultsPage() {
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 flex-wrap justify-center">
+        <div className="flex flex-col gap-3">
           <Link
             href="/exam"
-            className="px-5 py-2.5 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+            className="w-full text-center px-5 py-3 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
           >
             מבחן נוסף
           </Link>
-          <Link
-            href="/study"
-            className="px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
-          >
-            חזרה ללמוד
-          </Link>
-          {wrongCount > 0 ? (
+          <div className="grid grid-cols-2 gap-2">
             <Link
-              href={`/exam/retake/${id}`}
-              className="px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+              href="/study"
+              className="text-center px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
             >
-              חזור על השגיאות ({wrongCount})
+              חזרה ללמוד
             </Link>
-          ) : (
+            {wrongCount > 0 ? (
+              <Link
+                href={`/exam/retake/${id}`}
+                className="text-center px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+              >
+                שגיאות ({wrongCount})
+              </Link>
+            ) : (
+              <button
+                disabled
+                className="px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
+              >
+                שגיאות
+              </button>
+            )}
             <button
-              disabled
-              className="px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium opacity-50 cursor-not-allowed"
+              onClick={handleShare}
+              disabled={sharing || !isFullExam}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
-              חזור על השגיאות
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+              {sharing ? "מכין..." : "שתף"}
             </button>
-          )}
-          <button
-            onClick={handleShare}
-            disabled={sharing || !isFullExam}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <button
+              onClick={handleExportDocx}
+              disabled={exportingDocx}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
-              <circle cx="18" cy="5" r="3" />
-              <circle cx="6" cy="12" r="3" />
-              <circle cx="18" cy="19" r="3" />
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-            </svg>
-            {sharing ? "מכין..." : "שתף תוצאות"}
-          </button>
-          <button
-            onClick={handleExportDocx}
-            disabled={exportingDocx}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            {exportingDocx ? "מכין..." : "ייצוא DOCX"}
-          </button>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              {exportingDocx ? "מכין..." : "DOCX"}
+            </button>
+          </div>
         </div>
 
         {/* Per-question review */}
         <h2 className="text-xl font-bold">סקירת שאלות</h2>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {attempt.questions.map((q, i) => {
             const userAnswer = attempt.answers[i];
             const isCorrect = userAnswer === q.correctIndex;
@@ -228,12 +212,12 @@ export default function ResultsPage() {
             return (
               <div
                 key={q.id}
-                className={`rounded-[var(--th-radius)] border p-4 flex flex-col gap-3 ${
+                className={`rounded-[var(--th-radius)] border p-3 flex flex-col gap-3 ${
                   unanswered
                     ? "border-[var(--th-border)]"
                     : isCorrect
-                    ? "border-green-300 bg-green-50/40"
-                    : "border-red-300 bg-red-50/40"
+                    ? "border-[var(--th-success)] bg-[var(--th-success-soft)]/60"
+                    : "border-[var(--th-error)] bg-[var(--th-error-soft)]/60"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -273,9 +257,9 @@ export default function ResultsPage() {
                         key={idx}
                         className={`text-xs px-3 py-2 rounded-lg border ${
                           isCorrectAnswer
-                            ? "bg-green-100 border-green-400 text-green-800 font-semibold"
+                            ? "bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success)] font-semibold"
                             : isUserAnswer && !isCorrectAnswer
-                            ? "bg-red-100 border-red-400 text-red-800"
+                            ? "bg-[var(--th-error-soft)] border-[var(--th-error)] text-[var(--th-error)]"
                             : "border-[var(--th-border)] text-[var(--th-muted)]"
                         }`}
                       >

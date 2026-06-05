@@ -13,6 +13,8 @@
   --th-accent-soft: #eaf0ff;
   --th-success: #16a34a;
   --th-error: #dc2626;
+  --th-success-soft: #f0fdf4;
+  --th-error-soft: #fef2f2;
   --th-muted: #6b6f78;
   --th-muted-strong: #4a4e57;
   --th-muted-bg: #ecebe4;
@@ -68,10 +70,23 @@
     --th-accent: #6aa1ff;
     --th-accent-hover: #8ab6ff;
     --th-accent-soft: #1a2540;
+    --th-success: #22c55e;
+    --th-error: #f87171;
+    --th-success-soft: #052e16;
+    --th-error-soft: #450a0a;
     --th-muted: #9ca3af;
     --th-muted-strong: #b8bcc4;
     --th-muted-bg: #1a1d24;
   }
+}
+
+.th-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.th-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.12);
+  border-color: var(--th-accent);
 }
 
 body {

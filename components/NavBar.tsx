@@ -19,7 +19,7 @@ export default function NavBar() {
           href="/"
           className="group inline-flex items-baseline gap-2 text-[var(--th-fg)]"
         >
-          <span className="text-lg font-extrabold tracking-tight">תיאוריה</span>
+          <span className="text-xl font-extrabold tracking-tight">תיאוריה</span>
         </Link>
         <nav className="flex items-center gap-1 text-sm">
           {links.map((l) => {
@@ -30,13 +30,16 @@ export default function NavBar() {
                 key={l.href}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
-                className={`px-3 py-1.5 rounded-md transition-colors ${
+                className={`relative px-3 py-1.5 transition-colors ${
                   active
-                    ? "font-extrabold text-[var(--th-fg)] bg-[var(--th-muted-bg)]"
-                    : "font-medium text-[var(--th-muted-strong)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]"
+                    ? "font-extrabold text-[var(--th-fg)]"
+                    : "font-medium text-[var(--th-muted-strong)] hover:text-[var(--th-fg)]"
                 }`}
               >
                 {l.label}
+                {active && (
+                  <span className="absolute bottom-0 inset-x-3 h-0.5 rounded-full bg-[var(--th-accent)]" />
+                )}
               </Link>
             );
           })}

@@ -95,8 +95,8 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
     let cls =
       "w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center cursor-pointer transition-all border-2 ";
     cls += isCurrent ? "border-[var(--th-accent)] scale-110 " : "border-transparent ";
-    if (isMarked && isAnswered) cls += "bg-orange-300 text-orange-900 ";
-    else if (isMarked) cls += "bg-yellow-200 text-yellow-800 ";
+    if (isMarked && isAnswered) cls += "bg-amber-400 text-amber-950 dark:bg-amber-500 dark:text-amber-950 ";
+    else if (isMarked) cls += "bg-amber-200 text-amber-900 dark:bg-amber-700 dark:text-amber-100 ";
     else if (isAnswered) cls += "bg-[var(--th-accent)] text-white ";
     else cls += "bg-[var(--th-muted-bg)] text-[var(--th-muted)] ";
     return cls;
@@ -149,18 +149,22 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
       </div>
 
       <div className="flex flex-1 flex-col items-center px-4 py-6 gap-6 max-w-2xl mx-auto w-full">
-        {/* Question navigator */}
-        <div className="flex flex-wrap gap-2 justify-center">
-          {questions.map((_, i) => (
-            <button
-              key={i}
-              className={navCircleClass(i)}
-              onClick={() => setCurrentIdx(i)}
-            >
-              {i + 1}
-            </button>
-          ))}
+        {/* Question navigator — horizontal scroll on mobile */}
+        <div className="w-full overflow-x-auto pb-1 snap-x snap-mandatory">
+          <div className="flex gap-2 w-max mx-auto px-1">
+            {questions.map((_, i) => (
+              <button
+                key={i}
+                className={`${navCircleClass(i)} snap-center shrink-0`}
+                onClick={() => setCurrentIdx(i)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
+
+        <div className="th-rule w-full" />
 
         {/* Question area */}
         <div className="w-full flex flex-col gap-4">
@@ -176,7 +180,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
               }
               className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
                 markedForReview[currentIdx]
-                  ? "bg-yellow-200 border-yellow-400 text-yellow-800"
+                  ? "bg-amber-200 border-amber-400 text-amber-900 dark:bg-amber-700 dark:border-amber-500 dark:text-amber-100"
                   : "border-[var(--th-border)] text-[var(--th-muted)] hover:bg-[var(--th-muted-bg)]"
               }`}
             >
@@ -267,7 +271,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             <span className="w-4 h-4 rounded-full bg-[var(--th-accent)] inline-block" /> נענתה
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-4 h-4 rounded-full bg-yellow-200 inline-block" /> מסומנת לחזרה
+            <span className="w-4 h-4 rounded-full bg-amber-200 dark:bg-amber-700 inline-block" /> מסומנת לחזרה
           </span>
         </div>
       </div>

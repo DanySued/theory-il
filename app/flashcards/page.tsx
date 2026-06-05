@@ -26,24 +26,23 @@ export default function FlashcardsPage() {
   const totalDue = topics.reduce((s, t) => s + t.due, 0);
 
   return (
-    <>
-      <div className="w-full px-4 pt-3 flex justify-end">
+    <main className="flex flex-1 flex-col items-center px-6 py-8 gap-8">
+      <div className="w-full max-w-5xl flex justify-start">
         <BackButton />
       </div>
-    <main className="flex flex-1 flex-col items-center px-6 py-12 gap-10">
-      <div className="w-full max-w-2xl flex flex-col gap-3">
+      <div className="w-full max-w-5xl flex flex-col gap-2">
         <span className="th-eyebrow">חזרה מרווחת · SRS</span>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-none">
           כרטיסיות
         </h1>
-        <p className="text-[var(--th-muted-strong)] text-base">
+        <p className="text-[var(--th-muted-strong)] text-base mt-1">
           {totalDue > 0
             ? `${totalDue} כרטיסיות מחכות לחזרה היום.`
             : "אין כרטיסיות לחזרה — חזור מחר."}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-5xl">
         {topics.map(({ topic, total, due }, i) => (
           <Link
             key={topic}
@@ -83,6 +82,5 @@ export default function FlashcardsPage() {
         ))}
       </div>
     </main>
-    </>
   );
 }

@@ -14,38 +14,41 @@ export default function Home() {
         <p className="text-lg text-[var(--th-muted-strong)] leading-relaxed max-w-md">
           הגעת למקום הנכון :)
           <br />
-          לעבור תיאוריה זה לא כזה פשוט. אבל אנחנו פה בשבלך
+          לעבור תיאוריה זה לא כזה פשוט. אבל אנחנו פה בשבילך
         </p>
 
         <StreakBadge />
 
-        <div className="flex flex-col items-center gap-4 w-full pt-2">
+        <div className="th-rule w-full" />
+
+        <div className="flex flex-col items-center gap-4 w-full">
           <Link
             href="/study"
-            className="inline-flex items-center justify-center h-14 px-10 rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
+            className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
           >
             התחל ללמוד
-            <span aria-hidden className="mr-2 transition-transform group-hover:-translate-x-1">←</span>
+            <span aria-hidden className="mr-2">←</span>
           </Link>
 
-          <div className="flex items-center gap-1 text-sm text-[var(--th-muted-strong)]">
+          <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
             <Link
               href="/exam"
-              className="px-3 py-1.5 rounded-md hover:bg-[var(--th-muted-bg)] hover:text-[var(--th-fg)] transition-colors"
+              className="flex flex-col items-center gap-1.5 px-4 py-4 rounded-xl border border-[var(--th-border)] bg-[var(--th-card)] hover:border-[var(--th-accent)] hover:shadow-sm transition-all text-center"
             >
-              מבחן מדומה
+              <span className="text-2xl" aria-hidden>📋</span>
+              <span className="text-sm font-semibold text-[var(--th-fg)]">מבחן מדומה</span>
+              <span className="text-xs text-[var(--th-muted)]">30 שאלות · 40 דק׳</span>
             </Link>
-            <span aria-hidden className="text-[var(--th-border-strong)]">·</span>
             <Link
               href="/flashcards"
-              className="px-3 py-1.5 rounded-md hover:bg-[var(--th-muted-bg)] hover:text-[var(--th-fg)] transition-colors"
+              className="flex flex-col items-center gap-1.5 px-4 py-4 rounded-xl border border-[var(--th-border)] bg-[var(--th-card)] hover:border-[var(--th-accent)] hover:shadow-sm transition-all text-center"
             >
-              כרטיסיות
+              <span className="text-2xl" aria-hidden>🗂️</span>
+              <span className="text-sm font-semibold text-[var(--th-fg)]">כרטיסיות</span>
+              <span className="text-xs text-[var(--th-muted)]">חזרה מרווחת SRS</span>
             </Link>
           </div>
         </div>
-
-
       </div>
     </main>
   );
