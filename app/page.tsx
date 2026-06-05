@@ -8,7 +8,7 @@ export default function Home() {
         <h1 className="th-display text-[var(--th-fg)]">
           מתכוננים
           <br />
-          <span className="text-[var(--th-accent)]">לתיאוריה.</span>
+          <span className="text-[var(--th-accent)]">לתיאוריה</span>
         </h1>
 
         <p className="text-lg text-[var(--th-muted-strong)] leading-relaxed max-w-md">
