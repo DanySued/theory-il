@@ -6,16 +6,8 @@ import Link from "next/link";
 import ExamRunner from "@/components/ExamRunner";
 import BackButton from "@/components/BackButton";
 import { getAttempt } from "@/lib/storage";
+import { shuffle } from "@/lib/exam";
 import type { Question } from "@/components/QuestionCard";
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 type State =
   | { kind: "loading" }

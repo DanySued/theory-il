@@ -260,12 +260,11 @@ export async function exportAttemptToDocx(attempt: Attempt): Promise<void> {
   const passed = total === 30 && correct >= 26;
   const dateStr = new Date(attempt.finishedAt).toLocaleDateString("he-IL");
 
-  const scoreColor =
-    correct / total >= 26 / 30
-      ? "16a34a"
-      : total === 30
-      ? "dc2626"
-      : "333333";
+  const scoreColor = passed
+    ? "16a34a"
+    : total === 30
+    ? "dc2626"
+    : "333333";
 
   const children: InstanceType<typeof Paragraph>[] = [];
 

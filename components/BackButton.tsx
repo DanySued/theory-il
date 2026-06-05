@@ -20,6 +20,7 @@ export default function BackButton({ className }: { className?: string }) {
     <button
       type="button"
       onClick={handleClick}
+      aria-label="חזרה לדף הקודם"
       className={className ? `${base} ${className}` : base}
     >
       <span aria-hidden="true">&#8594;</span>
