@@ -708,8 +708,6 @@ export const SIGNS: TrafficSign[] = [
     category: "מידע",
     name: "מעבר הולכי רגל",
     behavior: "מעבר חצייה חוקי. עצור ותן עדיפות לכל הולך רגל שנמצא על המעבר.",
-    image: W(306),
-    officialNumber: "306",
     shape: "rectangle",
     colorScheme: "blue",
   },
@@ -892,5 +890,284 @@ export const SIGNS: TrafficSign[] = [
     colorScheme: "red",
     meaning: "אזהרה מפני מים עמוקים על הכביש",
     scope: "בקטע שלפניך עד שהסכנה חולפת",
+  },
+
+  // ────────── אזהרה — תוספות מהקטלוג ──────────
+  {
+    id: "w-22", category: "אזהרה", name: "עקומה חדה ימינה",
+    behavior: "האט לפני הכניסה לפנייה חדה ימינה.",
+    image: W(102), officialNumber: "102", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-23", category: "אזהרה", name: "עקומה חדה שמאלה",
+    behavior: "האט לפני הכניסה לפנייה חדה שמאלה.",
+    image: W(103), officialNumber: "103", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-24", category: "אזהרה", name: "עקומות — ימינה ואז שמאלה",
+    behavior: "שתי פניות ברצף — ימינה ואז שמאלה. האט והישאר בנתיבך.",
+    image: W(104), officialNumber: "104", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-25", category: "אזהרה", name: "עקומות — שמאלה ואז ימינה",
+    behavior: "שתי פניות ברצף — שמאלה ואז ימינה. האט והישאר בנתיבך.",
+    image: W(105), officialNumber: "105", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-26", category: "אזהרה", name: "כביש הולך וצר — מצד ימין",
+    behavior: "הכביש מצטמצם מצד ימין. עבור לנתיבך בהדרגה ושמור מרחק.",
+    image: W(110), officialNumber: "110", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-27", category: "אזהרה", name: "כביש הולך וצר — מצד שמאל",
+    behavior: "הכביש מצטמצם מצד שמאל. עבור לנתיבך בהדרגה ושמור מרחק.",
+    image: W(111), officialNumber: "111", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-28", category: "אזהרה", name: "מכשול גובה",
+    behavior: "מכשול שגובהו מוגבל לפניך. ודא שגובה רכבך אינו עולה על הגובה המצוין.",
+    image: W(113), officialNumber: "113", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-29", category: "אזהרה", name: "צומת קמץ — ימינה",
+    behavior: "דרך משנה מצטרפת מימין. היה ערני לרכבים הנכנסים מהצד.",
+    image: W(115), officialNumber: "115", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-30", category: "אזהרה", name: "צומת קמץ — שמאלה",
+    behavior: "דרך משנה מצטרפת משמאל. היה ערני לרכבים הנכנסים מהצד.",
+    image: W(116), officialNumber: "116", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-31", category: "אזהרה", name: "מעגל תנועה בקרבת מקום",
+    behavior: "כיכר תנועה לפניך. האט, ותן עדיפות לרכבים הנוסעים בכיכר.",
+    image: W(121), officialNumber: "121", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-32", category: "אזהרה", name: "רמזור בקרבת מקום",
+    behavior: "רמזור לפניך. היה מוכן לעצור — הרמזור עשוי להיות אדום.",
+    image: W(122), officialNumber: "122", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-33", category: "אזהרה", name: "התמזגות תנועה — מימין",
+    behavior: "נתיב נוסף מצטרף מימין. ותר לרכבים הנכנסים מהנתיב הנוסף.",
+    image: W(123), officialNumber: "123", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-34", category: "אזהרה", name: "התמזגות תנועה — משמאל",
+    behavior: "נתיב נוסף מצטרף משמאל. ותר לרכבים הנכנסים מהנתיב הנוסף.",
+    image: W(124), officialNumber: "124", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-35", category: "אזהרה", name: "כביש ראשי — זכות קדימה מהשמאל",
+    behavior: "הכביש הראשי ממשיך ימינה. לרכבים מהשמאל יש זכות קדימה.",
+    image: W(126), officialNumber: "126", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-36", category: "אזהרה", name: "גודש בתנועה",
+    behavior: "גודש צפוי בהמשך הדרך. האט, שמור מרחק בטוח.",
+    image: W("127a"), officialNumber: "127", shape: "triangle", colorScheme: "yellow",
+  },
+  {
+    id: "w-37", category: "אזהרה", name: "רכבת מקומית חוצה",
+    behavior: "רכבת קלה / חשמלית חוצה את הכביש. האט מאוד, הסתכל לשני הכיוונים.",
+    image: W("128a"), officialNumber: "128", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-38", category: "אזהרה", name: "מפגש מסילת ברזל — יותר ממסילה אחת",
+    behavior: "מסילות ברזל מרובות. עצור, הסתכל לשני הכיוונים וחצה רק כשהדרך פנויה לחלוטין.",
+    image: W("129a"), officialNumber: "129", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-39", category: "אזהרה", name: "מפגש מסילת ברזל — 300 מ׳",
+    behavior: "מפגש מסילת ברזל במרחק 300 מ׳. התחל להאט ולבדוק את הדרך.",
+    image: W(130), officialNumber: "130", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-40", category: "אזהרה", name: "מפגש מסילת ברזל — 200 מ׳",
+    behavior: "מפגש מסילת ברזל במרחק 200 מ׳. המשך להאט.",
+    image: W(131), officialNumber: "131", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-41", category: "אזהרה", name: "מפגש מסילת ברזל — 100 מ׳",
+    behavior: "מפגש מסילת ברזל במרחק 100 מ׳. עצור אם נדרש.",
+    image: W(132), officialNumber: "132", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-42", category: "אזהרה", name: "תנועת אופניים בקרבת מקום",
+    behavior: "האט — עלולים להיות רוכבי אופניים על הכביש או חוצים אותו.",
+    image: W(137), officialNumber: "137", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-43", category: "אזהרה", name: "מנהרה",
+    behavior: "מנהרה לפניך. הפעל אורות, שמור מרחק מוגדל. אסורה עצירה בתוך המנהרה.",
+    image: W(138), officialNumber: "138", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-44", category: "אזהרה", name: "אבנים מידרדרות משמאל",
+    behavior: "האט ועבור עם מרחק מהשוליים — עלולות ליפול אבנים מהמדרון השמאלי.",
+    image: W(143), officialNumber: "143", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-45", category: "אזהרה", name: "תנועה דו-סיטרית",
+    behavior: "הכביש הופך לדו-סיטרי. שמור על נתיבך וצפה לתנועה מהכיוון הנגדי.",
+    image: W(145), officialNumber: "145", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-46", category: "אזהרה", name: "רכב עבודה וטרקטור חוצה",
+    behavior: "האט — עלולים להיות רכבי עבודה או טרקטורים חוצים את הכביש.",
+    image: W(147), officialNumber: "147", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-47", category: "אזהרה", name: "מקום מסוכן",
+    behavior: "קטע מסוכן במיוחד שאין לו תמרור אזהרה ייחודי. האט מאוד והיה ערני.",
+    image: W(150), officialNumber: "150", shape: "triangle", colorScheme: "red",
+  },
+  {
+    id: "w-48", category: "אזהרה", name: "אזור תאונות",
+    behavior: "קטע בעל שכיחות גבוהה של תאונות. האט, הגדל ריחוק והיה ערני במיוחד.",
+    image: W(151), officialNumber: "151", shape: "triangle", colorScheme: "yellow",
+  },
+  {
+    id: "w-49", category: "אזהרה", name: "רוח צד",
+    behavior: "רוח חזקה מהצד עלולה לדחוף את הרכב. האט והחזק היגוי בשתי ידיים.",
+    image: W("152a"), officialNumber: "152", shape: "triangle", colorScheme: "red",
+  },
+
+  // ────────── חובה — תוספות מהקטלוג ──────────
+  {
+    id: "m-21", category: "חובה", name: "עבור מצד ימין אחרי התמרור",
+    behavior: "עבור את המכשול או האי מצד ימין — אחרי מיקום התמרור.",
+    image: W(206), officialNumber: "206", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-22", category: "חובה", name: "עבור מצד שמאל אחרי התמרור",
+    behavior: "עבור את המכשול או האי מצד שמאל — אחרי מיקום התמרור.",
+    image: W(207), officialNumber: "207", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-23", category: "חובה", name: "עבור מצד ימין או שמאל",
+    behavior: "ניתן לעבור את המכשול מצד ימין או מצד שמאל, בהתאם לאות.",
+    image: W(208), officialNumber: "208", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-24", category: "חובה", name: "חובה — פנית פרסה ימינה",
+    behavior: "חובה לבצע פניית U ימינה (180°). נסיעה ישרה ופנייה שמאלה אסורות.",
+    image: W(211), officialNumber: "211", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-25", category: "חובה", name: "חובה — פנית פרסה שמאלה",
+    behavior: "חובה לבצע פניית U שמאלה (180°). נסיעה ישרה ופנייה ימינה אסורות.",
+    image: W(212), officialNumber: "212", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-26", category: "חובה", name: "דרך לרכב מנועי בלבד",
+    behavior: "הדרך מיועדת לרכבים מנועיים בלבד. אופניים, הולכי רגל ובהמות אסורים.",
+    image: W(219), officialNumber: "219", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-27", category: "חובה", name: "רחוב משולב",
+    behavior: "הרחוב משותף לרכבים, אופניים והולכי רגל. הולכי רגל ואופניים קודמים לרכבים. מהירות מרבית 20 קמ\"ש.",
+    image: W(220), officialNumber: "220", shape: "rectangle", colorScheme: "blue",
+  },
+  {
+    id: "m-28", category: "חובה", name: "שביל להולכי רגל בלבד",
+    behavior: "שביל זה מיועד להולכי רגל בלבד. רכבים ואופניים אסורים.",
+    image: W(226), officialNumber: "226", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-29", category: "חובה", name: "שביל משותף — אופניים והולכי רגל",
+    behavior: "שביל משותף לאופניים ולהולכי רגל. שמור על זהירות ומרחק.",
+    image: W(228), officialNumber: "228", shape: "circle", colorScheme: "blue",
+  },
+  {
+    id: "m-30", category: "חובה", name: "עצור — פקד תנועה",
+    behavior: "שוטר או פקח תנועה מורה לעצור. עצור עצירה מוחלטת והמתן להוראה להמשיך.",
+    image: W(304), officialNumber: "304", shape: "octagon", colorScheme: "red",
+  },
+  {
+    id: "m-31", category: "חובה", name: "המשך בזהירות — פקד תנועה",
+    behavior: "שוטר או פקח תנועה מאשר להמשיך בזהירות. עבור לאט ושים לב להוראותיו.",
+    image: W(305), officialNumber: "305", shape: "circle", colorScheme: "green",
+  },
+  {
+    id: "m-32", category: "חובה", name: "תן זכות קדימה להולכי רגל",
+    behavior: "עצור ותן עדיפות מוחלטת לכל הולך רגל החוצה את הכביש במעבר החציה שלפניך.",
+    image: W(306), officialNumber: "306", shape: "rectangle", colorScheme: "blue",
+    scope: "במעבר החציה שלפניך",
+  },
+
+  // ────────── איסור — תוספות מהקטלוג ──────────
+  {
+    id: "p-27", category: "איסור", name: "כביש סגור לכל כלי רכב",
+    behavior: "הכביש חסום לחלוטין — אסורה כניסה לכל כלי רכב. פנה לדרך חלופית.",
+    image: W(401), officialNumber: "401", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-28", category: "איסור", name: "מחסום",
+    behavior: "מחסום פיזי חוסם את הכביש. עצור ואל תמשיך עד שהמחסום יוסר או יורשה.",
+    image: W(403), officialNumber: "403", shape: "rectangle", colorScheme: "red",
+  },
+  {
+    id: "p-29", category: "איסור", name: "אסור למשקל עודף",
+    behavior: "כלי רכב שמשקל ציר שלו עולה על המצוין (טון) אסורים לעבור.",
+    image: W(406), officialNumber: "406", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-30", category: "איסור", name: "אסור לחומר מסוכן",
+    behavior: "כלי רכב המובילים חומרים מסוכנים (לפי הסימון) אסורים לעבור בדרך זו.",
+    image: W(407), officialNumber: "407", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-31", category: "איסור", name: "אסור לרכב מנועי (מלבד דו-גלגלי)",
+    behavior: "רכבים מנועיים בעלי יותר משני גלגלים אסורים. דו-גלגלי מנועי מותר.",
+    image: W(408), officialNumber: "408", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-32", category: "איסור", name: "אסור לבעלי חיים",
+    behavior: "בעלי חיים (בהמות ורוכבים) אסורים לעבור בדרך זו.",
+    image: W(411), officialNumber: "411", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-33", category: "איסור", name: "אסור לאופניים",
+    behavior: "אופניים אסורים בדרך זו. השתמש בשביל אופניים אם קיים.",
+    image: W(412), officialNumber: "412", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-34", category: "איסור", name: "אסור להולכי רגל",
+    behavior: "הולכי רגל אסורים בדרך זו. השתמש במדרכה או שביל מתאים.",
+    image: W(413), officialNumber: "413", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-35", category: "איסור", name: "אזור אסור ללימוד נהיגה",
+    behavior: "אסורה נהיגת תלמידים בפיקוח מורה נהיגה בתחום אזור זה.",
+    image: W(418), officialNumber: "418", shape: "circle", colorScheme: "red",
+  },
+  {
+    id: "p-36", category: "איסור", name: "קצה איסור עקיפה",
+    behavior: "איסור העקיפה שהיה בתוקף מסתיים כאן. ניתן לעקוף שוב בכפוף לחוקים.",
+    image: W(421), officialNumber: "421", shape: "circle", colorScheme: "white",
+  },
+  {
+    id: "p-37", category: "איסור", name: "קצה איסור חניה",
+    behavior: "איסור החניה שהיה בתוקף מסתיים כאן. חניה מותרת מנקודה זו.",
+    image: W(434), officialNumber: "434", shape: "circle", colorScheme: "white",
+  },
+  {
+    id: "p-38", category: "איסור", name: "חניה בלעדית לנכה",
+    behavior: "מקום חניה שמור לבעלי תווית נכה בלבד. חניה ללא תווית אסורה.",
+    image: W(437), officialNumber: "437", shape: "circle", colorScheme: "blue",
+  },
+
+  // ────────── מידע — תוספות מהקטלוג ──────────
+  {
+    id: "i-14", category: "מידע", name: "נתיב לתחבורה ציבורית",
+    behavior: "נתיב זה מיועד לאוטובוסים, מוניות ואופניים בלבד (בשעות המצוינות). רכב פרטי אסור.",
+    image: W(501), officialNumber: "501", shape: "rectangle", colorScheme: "blue",
+  },
+  {
+    id: "i-15", category: "מידע", name: "תחנת אוטובוסים",
+    behavior: "תחנת אוטובוס. אסורות עצירה וחניה של רכב פרטי, פרט להעלאה/הורדת נוסעים.",
+    image: W(505), officialNumber: "505", shape: "rectangle", colorScheme: "blue",
   },
 ];
