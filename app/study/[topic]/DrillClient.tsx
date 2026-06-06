@@ -9,9 +9,18 @@ import ExportMenu from "@/components/ExportMenu";
 import { motion } from "motion/react";
 import StudyGuide from "@/components/StudyGuide";
 import SignsCatalog from "@/components/SignsCatalog";
-import { SIGNS } from "@/lib/data/signs";
+import { SIGNS, type SignCategory } from "@/lib/data/signs";
 import { getQStats, updateStreak } from "@/lib/storage";
 import type { TopicGuide } from "@/lib/data/guides";
+
+// Maps guide section titles (for "תמרורים") to SignCategory keys
+const SECTION_TO_CATEGORY: Record<string, SignCategory> = {
+  "תמרורי אזהרה": "אזהרה",
+  "תמרורי חובה": "חובה",
+  "תמרורי איסור": "איסור",
+  "תמרורי מידע": "מידע",
+  "סימוני כביש": "סימוני כביש",
+};
 
 interface DrillClientProps {
   topic: string;
@@ -147,12 +156,21 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
       {view === "guide" && guide && (
         <>
-          {topic === "תמרורים" && (
+          {topic === "תמרורים" ? (
             <div className="w-full max-w-2xl">
-              <SignsCatalog signs={SIGNS} />
+              <SignsCatalog
+                signs={SIGNS}
+                guideIntro={guide.intro}
+                guideSections={Object.fromEntries(
+                  guide.sections
+                    .filter((s) => SECTION_TO_CATEGORY[s.title])
+                    .map((s) => [SECTION_TO_CATEGORY[s.title], s])
+                ) as Partial<Record<SignCategory, { body: string; points?: string[] }>>}
+              />
             </div>
+          ) : (
+            <StudyGuide guide={guide} questions={questions} />
           )}
-          <StudyGuide guide={guide} questions={questions} />
         </>
       )}
 

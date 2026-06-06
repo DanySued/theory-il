@@ -30,8 +30,15 @@ const CATEGORY_BADGE: Record<SignCategory, string> = {
   "סימוני כביש": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
 };
 
+interface GuideSection {
+  body: string;
+  points?: string[];
+}
+
 interface Props {
   signs: TrafficSign[];
+  guideIntro?: string;
+  guideSections?: Partial<Record<SignCategory, GuideSection>>;
 }
 
 function getMastered(): Set<string> {
@@ -217,10 +224,9 @@ function SignCard({
   );
 }
 
-export default function SignsCatalog({ signs }: Props) {
-  const [openCategories, setOpenCategories] = useState<Set<SignCategory>>(
-    new Set(CATEGORY_ORDER)
-  );
+export default function SignsCatalog({ signs, guideIntro, guideSections }: Props) {
+  // All categories start closed
+  const [openCategories, setOpenCategories] = useState<Set<SignCategory>>(new Set());
   const [mastered, setMastered] = useState<Set<string>>(new Set());
   const [exportLoading, setExportLoading] = useState(false);
 
@@ -260,7 +266,7 @@ export default function SignsCatalog({ signs }: Props) {
   }
 
   return (
-    <div className="w-full flex flex-col gap-6 mt-4">
+    <div className="w-full flex flex-col gap-4 mt-4">
       {/* Header + global progress */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
@@ -289,11 +295,12 @@ export default function SignsCatalog({ signs }: Props) {
           </span>
         </div>
 
-        <p className="text-xs text-[var(--th-muted)]">
-          לחץ על תמרור לראות את ההסבר
-        </p>
+        {guideIntro ? (
+          <p className="text-xs text-[var(--th-muted)] leading-relaxed">{guideIntro}</p>
+        ) : (
+          <p className="text-xs text-[var(--th-muted)]">לחץ על תמרור לראות את ההסבר</p>
+        )}
       </div>
-
 
       {/* Categories */}
       {CATEGORY_ORDER.map((cat) => {
@@ -303,22 +310,34 @@ export default function SignsCatalog({ signs }: Props) {
         const { count, total } = catProgress(cat);
         const allDone = count === total && total > 0;
         const accent = CATEGORY_ACCENT[cat];
+        const guideSection = guideSections?.[cat];
 
         return (
           <section key={cat}>
+            {/* Category header — sticky so it remains reachable while scrolling through signs */}
             <button
               onClick={() => toggle(cat)}
-              className="w-full flex items-center justify-between gap-3 py-2.5 text-start group"
+              className={`sticky top-14 z-20 w-full flex items-center justify-between gap-3 py-3 px-4 text-start
+                border border-[var(--th-border)] transition-all group
+                bg-[var(--th-bg)]
+                ${isOpen
+                  ? "rounded-t-2xl border-b-transparent shadow-sm"
+                  : "rounded-2xl hover:bg-[var(--th-muted-bg)]"
+                }
+              `}
+              style={isOpen ? { borderBottom: `2px solid ${accent}` } : {}}
             >
               <div className="flex items-center gap-2.5">
                 <span
-                  className="w-2 h-2 rounded-full shrink-0"
-                  style={{ background: accent }}
+                  className="w-2.5 h-2.5 rounded-full shrink-0 transition-transform duration-200"
+                  style={{ background: accent, transform: isOpen ? "scale(1.3)" : "scale(1)" }}
                 />
                 <span
                   className={`font-bold transition-colors ${
                     allDone
                       ? "text-green-600 dark:text-green-400"
+                      : isOpen
+                      ? "text-[var(--th-fg)]"
                       : "text-[var(--th-fg)] group-hover:text-[var(--th-accent)]"
                   }`}
                   style={{ fontSize: "clamp(0.9rem, 2.5vw, 1.05rem)" }}
@@ -340,7 +359,13 @@ export default function SignsCatalog({ signs }: Props) {
                     }}
                   />
                 </div>
-                <span className="text-[var(--th-muted)] text-xs">{isOpen ? "▲" : "▼"}</span>
+                <motion.span
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-[var(--th-muted)] text-xs inline-block"
+                >
+                  ▼
+                </motion.span>
               </div>
             </button>
 
@@ -351,24 +376,40 @@ export default function SignsCatalog({ signs }: Props) {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.22, ease: "easeInOut" }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
                   style={{ overflow: "hidden" }}
+                  className="border border-[var(--th-border)] border-t-0 rounded-b-2xl"
                 >
-                  {/* Extra padding so hover shadow isn't clipped */}
-                  <div className="pt-3 pb-4 px-1">
+                  <div className="pt-4 pb-5 px-4 flex flex-col gap-4">
+                    {/* Guide section text */}
+                    {guideSection && (
+                      <div className="flex flex-col gap-2 pb-2 border-b border-[var(--th-border)]">
+                        <p className="text-sm text-[var(--th-muted-strong)] leading-relaxed">
+                          {guideSection.body}
+                        </p>
+                        {guideSection.points && (
+                          <ul className="flex flex-col gap-1.5 mt-1">
+                            {guideSection.points.map((pt, i) => (
+                              <li key={i} className="flex gap-2 text-sm">
+                                <span className="shrink-0 mt-0.5" style={{ color: accent }}>•</span>
+                                <span className="text-[var(--th-muted)]">{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Signs grid — columns fill the full container width */}
                     <div
                       className="grid gap-3"
                       style={{
                         gridTemplateColumns:
-                          "repeat(auto-fill, minmax(clamp(130px, 22vw, 190px), 1fr))",
+                          "repeat(auto-fill, minmax(clamp(120px, 20vw, 180px), 1fr))",
                       }}
                     >
                       {group.map((sign, i) => (
-                        <SignCard
-                          key={sign.id}
-                          sign={sign}
-                          index={i}
-                        />
+                        <SignCard key={sign.id} sign={sign} index={i} />
                       ))}
                     </div>
                   </div>
