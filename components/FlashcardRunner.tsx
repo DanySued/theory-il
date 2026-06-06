@@ -23,6 +23,7 @@ export default function FlashcardRunner({ questions }: Props) {
     const due = getDueCards(questions.map((q) => q.id));
     // Shuffle
     const shuffled = [...due].sort(() => Math.random() - 0.5);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDueIds(shuffled);
     if (shuffled.length === 0) setDone(true);
   }, [questions]);
@@ -30,7 +31,7 @@ export default function FlashcardRunner({ questions }: Props) {
   function handleRate(grade: SuperMemoGrade) {
     const id = dueIds[currentIdx];
     const card = reviewCard(id, grade);
-    if (nextDate === null || card.dueDate > nextDate) {
+    if (nextDate === null || card.dueDate < nextDate) {
       setNextDate(card.dueDate);
     }
     setReviewed((r) => r + 1);

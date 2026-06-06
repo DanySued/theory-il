@@ -29,6 +29,7 @@ export default function ResultsPage() {
 
   useEffect(() => {
     const a = getAttempt(id);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttempt(a);
     if (a && !a.answersRecorded) {
       recordAnswersBatch(a.questions, a.answers);

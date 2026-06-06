@@ -43,16 +43,11 @@ function getMastered(): Set<string> {
   }
 }
 
-function saveMastered(ids: Set<string>): void {
-  localStorage.setItem(MASTERED_KEY, JSON.stringify([...ids]));
-}
-
 function SignCard({
   sign,
   index,
 }: {
   sign: TrafficSign;
-  mastered?: boolean;
   index: number;
 }) {
   const [flipped, setFlipped] = useState(false);
@@ -228,9 +223,9 @@ export default function SignsCatalog({ signs }: Props) {
   );
   const [mastered, setMastered] = useState<Set<string>>(new Set());
   const [exportLoading, setExportLoading] = useState(false);
-  const [justMasteredCat, setJustMasteredCat] = useState<SignCategory | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMastered(getMastered());
   }, []);
 
@@ -239,27 +234,6 @@ export default function SignsCatalog({ signs }: Props) {
       const next = new Set(prev);
       if (next.has(cat)) next.delete(cat);
       else next.add(cat);
-      return next;
-    });
-  };
-
-  const toggleMastered = (id: string) => {
-    setMastered((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-        const sign = signs.find((s) => s.id === id);
-        if (sign) {
-          const catSigns = signs.filter((s) => s.category === sign.category);
-          if (catSigns.every((s) => next.has(s.id))) {
-            setJustMasteredCat(sign.category);
-            setTimeout(() => setJustMasteredCat(null), 3000);
-          }
-        }
-      }
-      saveMastered(next);
       return next;
     });
   };
@@ -320,19 +294,6 @@ export default function SignsCatalog({ signs }: Props) {
         </p>
       </div>
 
-      {/* Category-complete toast */}
-      <AnimatePresence>
-        {justMasteredCat && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-green-500 text-white text-sm font-bold shadow-xl pointer-events-none"
-          >
-            🎉 שלטת בכל תמרורי {justMasteredCat}!
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Categories */}
       {CATEGORY_ORDER.map((cat) => {
@@ -406,7 +367,6 @@ export default function SignsCatalog({ signs }: Props) {
                         <SignCard
                           key={sign.id}
                           sign={sign}
-                          mastered={mastered.has(sign.id)}
                           index={i}
                         />
                       ))}

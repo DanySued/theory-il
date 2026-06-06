@@ -123,7 +123,7 @@ export async function exportSignsToDocx(signs: TrafficSign[]): Promise<void> {
     "סימוני כביש",
   ];
 
-  const children: any[] = [];
+  const children: InstanceType<typeof Paragraph>[] = [];
 
   // Title
   children.push(

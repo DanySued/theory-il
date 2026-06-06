@@ -14,6 +14,7 @@ export default function FlashcardsPage() {
   const [dueCounts, setDueCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDueCounts(getDueCountByTopic(questions));
   }, []);
 

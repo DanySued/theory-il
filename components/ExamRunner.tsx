@@ -17,8 +17,8 @@ function formatTime(s: number): string {
 
 export default function ExamRunner({ questions, noTimer = false }: { questions: Question[]; noTimer?: boolean }) {
   const router = useRouter();
-  const examId = useRef(generateId());
-  const startedAt = useRef(Date.now());
+  const [examId] = useState(() => generateId());
+  const [startedAt] = useState(() => Date.now());
 
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number; btnIdx: number }[]>([]);
   const rippleCounter = useRef(0);
@@ -57,16 +57,16 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
     submittedRef.current = true;
     setSubmitted(true);
     saveAttempt({
-      id: examId.current,
-      startedAt: startedAt.current,
+      id: examId,
+      startedAt: startedAt,
       finishedAt: Date.now(),
       questions,
       answers: answersRef.current,
       markedForReview: markedRef.current,
       timeSpentSeconds: EXAM_DURATION - secondsRef.current,
     });
-    router.push(`/results/${examId.current}`);
-  }, [questions, router]);
+    router.push(`/results/${examId}`);
+  }, [questions, router, examId, startedAt]);
 
   useEffect(() => {
     if (noTimer) return;

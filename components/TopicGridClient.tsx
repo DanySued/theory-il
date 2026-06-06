@@ -33,6 +33,7 @@ export default function TopicGridClient({ topics, questions }: Props) {
         if (s.correct > s.wrong) result[q.topic].correct++;
       }
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProgress(result);
   }, [questions]);
 
