@@ -23,11 +23,17 @@ export default function Home() {
 
         <div className="flex flex-col items-center gap-4 w-full">
           <Link
-            href="/study"
+            href="/study/תמרורים"
             className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
           >
-            התחל ללמוד
+            בוא נתחיל בתמרורים?
             <span aria-hidden className="mr-2">←</span>
+          </Link>
+          <Link
+            href="/study"
+            className="text-sm text-[var(--th-muted)] underline underline-offset-4 hover:text-[var(--th-fg)] transition-colors"
+          >
+            רוצה להתחיל בנושא אחר?
           </Link>
 
           <div className="grid grid-cols-2 gap-3 w-full max-w-xs">

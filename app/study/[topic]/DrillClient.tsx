@@ -145,7 +145,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
           <span className="text-sm font-semibold">{topic}</span>
         )}
 
-        <ExportMenu topic={topic} questions={questions} />
+        <span className="hidden"><ExportMenu topic={topic} questions={questions} /></span>
       </div>
 
       {guide && view === "guide" && (
