@@ -157,7 +157,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
       {view === "guide" && guide && (
         <>
           {topic === "תמרורים" ? (
-            <div className="w-full">
+            <div className="w-full max-w-2xl">
               <SignsCatalog
                 signs={SIGNS}
                 guideIntro={guide.intro}
