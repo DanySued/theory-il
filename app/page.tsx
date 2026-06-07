@@ -35,25 +35,6 @@ export default function Home() {
           >
             רוצה להתחיל בנושא אחר?
           </Link>
-
-          <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
-            <Link
-              href="/exam"
-              className="flex flex-col items-center gap-1.5 px-4 py-4 rounded-xl border border-[var(--th-border)] bg-[var(--th-card)] hover:border-[var(--th-accent)] hover:shadow-sm transition-all text-center"
-            >
-              <span className="text-2xl" aria-hidden>📋</span>
-              <span className="text-sm font-semibold text-[var(--th-fg)]">מבחן מדומה</span>
-              <span className="text-xs text-[var(--th-muted)]">30 שאלות · 40 דק׳</span>
-            </Link>
-            <Link
-              href="/flashcards"
-              className="flex flex-col items-center gap-1.5 px-4 py-4 rounded-xl border border-[var(--th-border)] bg-[var(--th-card)] hover:border-[var(--th-accent)] hover:shadow-sm transition-all text-center"
-            >
-              <span className="text-2xl" aria-hidden>🗂️</span>
-              <span className="text-sm font-semibold text-[var(--th-fg)]">כרטיסיות</span>
-              <span className="text-xs text-[var(--th-muted)]">חזרה מרווחת SRS</span>
-            </Link>
-          </div>
         </div>
       </div>
     </main>
