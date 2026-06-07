@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, AlignLeft } from "lucide-react";
 import type { TrafficSign, SignCategory } from "@/lib/data/signs";
 
 const CATEGORY_ORDER: SignCategory[] = [
@@ -43,22 +43,48 @@ interface Props {
 function SignCard({
   sign,
   index,
+  showDescription,
 }: {
   sign: TrafficSign;
   index: number;
+  showDescription: boolean;
 }) {
-  const [flipped, setFlipped] = useState(false);
   const hasImage = !!sign.image;
   const description = sign.meaning ?? sign.behavior;
   const accent = CATEGORY_ACCENT[sign.category];
 
+  // No-image card
   if (!hasImage) {
+    if (!showDescription) {
+      return (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.02, duration: 0.2 }}
+          className="rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 py-5 px-2 text-center"
+          style={{ borderTop: `3px solid ${accent}` }}
+        >
+          {sign.officialNumber && (
+            <span
+              className="font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded-md px-2 py-0.5"
+              style={{ fontSize: "clamp(0.65rem, 1.6vw, 0.8rem)" }}
+            >
+              {sign.officialNumber}
+            </span>
+          )}
+          <span className="font-semibold text-[var(--th-fg)] leading-snug" style={{ fontSize: "clamp(0.72rem, 1.9vw, 0.88rem)" }}>
+            {sign.name}
+          </span>
+        </motion.div>
+      );
+    }
+
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.02, duration: 0.2 }}
-        className="rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] p-4 flex flex-col gap-2 transition-shadow hover:shadow-md"
+        className="rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] p-4 flex flex-col gap-2"
         style={{ borderTop: `3px solid ${accent}` }}
       >
         {sign.officialNumber && (
@@ -90,133 +116,119 @@ function SignCard({
     );
   }
 
+  // Image card — compact (description off)
+  if (!showDescription) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.02, duration: 0.2 }}
+        className="aspect-square rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-2 px-2 relative"
+        style={{ borderTop: `3px solid ${accent}` }}
+      >
+        {sign.officialNumber && (
+          <span
+            className="font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
+            style={{ fontSize: "clamp(0.62rem, 1.6vw, 0.78rem)" }}
+          >
+            {sign.officialNumber}
+            {sign.isLightEmitting && (
+              <span className="text-yellow-600 dark:text-yellow-400">פ</span>
+            )}
+          </span>
+        )}
+        {sign.imageUnverified && (
+          <span
+            className="absolute top-2 end-2 text-amber-400"
+            style={{ fontSize: "clamp(0.65rem, 1.5vw, 0.75rem)" }}
+            title="ייתכן שהתמונה אינה תואמת את התמרור"
+          >
+            *
+          </span>
+        )}
+        <img
+          src={sign.image}
+          alt={sign.name}
+          draggable={false}
+          className="object-contain w-[55%] max-w-[80px]"
+        />
+      </motion.div>
+    );
+  }
+
+  // Image card — full (description on)
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.02, duration: 0.2 }}
-      style={{ perspective: "800px", aspectRatio: "4/5" }}
-      className="relative"
+      className="rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col gap-2 p-4 relative"
+      style={{ borderTop: `3px solid ${accent}` }}
     >
-      <div
-        onClick={() => setFlipped((f) => !f)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          transformStyle: "preserve-3d",
-          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-          cursor: "pointer",
-          borderRadius: "1rem",
-        }}
-        className="group"
-      >
-        {/* Front */}
-        <div
-          style={{
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-            borderTop: `3px solid ${accent}`,
-          }}
-          className="absolute inset-0 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-2 px-3 py-4 select-none transition-shadow group-hover:shadow-lg"
-        >
-          {sign.officialNumber && (
-            <span
-              className="absolute top-2 start-2 font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
-              style={{ fontSize: "clamp(0.65rem, 1.8vw, 0.82rem)" }}
-            >
-              {sign.officialNumber}
-              {sign.isLightEmitting && (
-                <span className="text-yellow-600 dark:text-yellow-400">פ</span>
-              )}
-            </span>
-          )}
-          {sign.imageUnverified && (
-            <span
-              className="absolute top-2 end-2 text-amber-400"
-              style={{ fontSize: "clamp(0.65rem, 1.5vw, 0.75rem)" }}
-              title="ייתכן שהתמונה אינה תואמת את התמרור"
-            >
-              *
-            </span>
-          )}
-
-          <img
-            src={sign.image}
-            alt={sign.name}
-            draggable={false}
-            className="object-contain w-[45%] max-w-[70px]"
-            style={{ flex: "0 0 auto" }}
-          />
-
+      <div className="flex items-center justify-between gap-1">
+        {sign.officialNumber ? (
           <span
-            className="text-center text-[var(--th-fg)] font-semibold leading-snug mt-1"
-            style={{ fontSize: "clamp(0.68rem, 1.9vw, 0.85rem)" }}
+            className="font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
+            style={{ fontSize: "clamp(0.62rem, 1.6vw, 0.78rem)" }}
           >
-            {sign.name}
+            {sign.officialNumber}
+            {sign.isLightEmitting && (
+              <span className="text-yellow-600 dark:text-yellow-400">פ</span>
+            )}
           </span>
-
+        ) : <span />}
+        {sign.imageUnverified && (
           <span
-            className="text-[var(--th-muted)] opacity-60 mt-auto"
-            style={{ fontSize: "clamp(0.6rem, 1.4vw, 0.7rem)" }}
+            className="text-amber-400"
+            style={{ fontSize: "clamp(0.65rem, 1.5vw, 0.75rem)" }}
+            title="ייתכן שהתמונה אינה תואמת את התמרור"
           >
-            הקש לפרטים
+            *
           </span>
-        </div>
-
-        {/* Back */}
-        <div
-          style={{
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-            borderTop: `3px solid ${accent}`,
-          }}
-          className="absolute inset-0 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-3 px-4 py-4 select-none text-center"
-        >
-          <span
-            className="font-bold text-[var(--th-fg)] leading-snug"
-            style={{ fontSize: "clamp(0.75rem, 2.2vw, 0.95rem)" }}
-          >
-            {sign.name}
-          </span>
-
-          <span
-            className="text-[var(--th-muted-strong)] leading-relaxed overflow-hidden"
-            style={{
-              fontSize: "clamp(0.72rem, 2vw, 0.88rem)",
-              display: "-webkit-box",
-              WebkitLineClamp: 5,
-              WebkitBoxOrient: "vertical",
-            }}
-          >
-            {description}
-          </span>
-
-          {sign.scope && (
-            <span
-              className="text-[var(--th-muted)] leading-relaxed"
-              style={{
-                fontSize: "clamp(0.66rem, 1.7vw, 0.78rem)",
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              }}
-            >
-              <span className="font-semibold text-[var(--th-fg-soft)]">כוחו יפה: </span>
-              {sign.scope}
-            </span>
-          )}
-        </div>
+        )}
       </div>
+
+      <div className="flex items-center justify-center py-2">
+        <img
+          src={sign.image}
+          alt={sign.name}
+          draggable={false}
+          className="object-contain w-[45%] max-w-[70px]"
+        />
+      </div>
+
+      <span
+        className="font-semibold text-[var(--th-fg)] leading-snug text-center"
+        style={{ fontSize: "clamp(0.72rem, 2vw, 0.88rem)" }}
+      >
+        {sign.name}
+      </span>
+
+      <span
+        className="text-[var(--th-muted)] leading-relaxed"
+        style={{ fontSize: "clamp(0.68rem, 1.8vw, 0.82rem)" }}
+      >
+        {description}
+      </span>
+
+      {sign.scope && (
+        <span
+          className="text-[var(--th-muted)] leading-relaxed"
+          style={{ fontSize: "clamp(0.63rem, 1.6vw, 0.74rem)" }}
+        >
+          <span className="font-semibold text-[var(--th-fg-soft)]">כוחו יפה: </span>
+          {sign.scope}
+        </span>
+      )}
     </motion.div>
   );
 }
 
 export default function SignsCatalog({ signs, guideIntro, guideSections }: Props) {
-  // All categories start closed
   const [openCategories, setOpenCategories] = useState<Set<SignCategory>>(new Set());
+  const [descriptionOn, setDescriptionOn] = useState<Record<SignCategory, boolean>>(
+    Object.fromEntries(CATEGORY_ORDER.map((cat) => [cat, true])) as Record<SignCategory, boolean>
+  );
   const [exportLoading, setExportLoading] = useState(false);
 
   const toggle = (cat: SignCategory) => {
@@ -226,6 +238,11 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
       else next.add(cat);
       return next;
     });
+  };
+
+  const toggleDescription = (cat: SignCategory, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setDescriptionOn((prev) => ({ ...prev, [cat]: !prev[cat] }));
   };
 
   const byCategory = (cat: SignCategory) => signs.filter((s) => s.category === cat);
@@ -257,7 +274,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
         {guideIntro ? (
           <p className="text-xs text-[var(--th-muted)] leading-relaxed">{guideIntro}</p>
         ) : (
-          <p className="text-xs text-[var(--th-muted)]">לחץ על תמרור לראות את ההסבר</p>
+          <p className="text-xs text-[var(--th-muted)]">פתח קטגוריה וגלול — ההסבר מופיע ישירות על הכרטיסייה</p>
         )}
       </div>
 
@@ -268,10 +285,11 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
         const isOpen = openCategories.has(cat);
         const accent = CATEGORY_ACCENT[cat];
         const guideSection = guideSections?.[cat];
+        const descOn = descriptionOn[cat];
 
         return (
           <section key={cat}>
-            {/* Category header — sticky so it remains reachable while scrolling through signs */}
+            {/* Category header — sticky */}
             <button
               onClick={() => toggle(cat)}
               className={`sticky top-14 z-20 w-full flex items-center justify-between gap-3 py-3 px-4 text-start
@@ -303,13 +321,34 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                   {group.length}
                 </span>
               </div>
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="text-[var(--th-muted)] shrink-0"
-              >
-                <ChevronDown size={16} strokeWidth={2} />
-              </motion.div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {/* Description toggle — only when category is open */}
+                {isOpen && (
+                  <div
+                    onClick={(e) => toggleDescription(cat, e)}
+                    role="button"
+                    aria-pressed={descOn}
+                    className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-all select-none
+                      ${descOn
+                        ? "border-[var(--th-accent)] text-[var(--th-accent)] bg-[var(--th-accent)]/10"
+                        : "border-[var(--th-border)] text-[var(--th-muted)] bg-transparent hover:border-[var(--th-muted)]"
+                      }
+                    `}
+                  >
+                    <AlignLeft size={11} strokeWidth={2.5} />
+                    הסבר
+                  </div>
+                )}
+
+                <motion.div
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-[var(--th-muted)]"
+                >
+                  <ChevronDown size={16} strokeWidth={2} />
+                </motion.div>
+              </div>
             </button>
 
             <AnimatePresence initial={false}>
@@ -343,16 +382,17 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                       </div>
                     )}
 
-                    {/* Signs grid — columns fill the full container width */}
+                    {/* Signs grid */}
                     <div
                       className="grid gap-3"
                       style={{
-                        gridTemplateColumns:
-                          "repeat(auto-fill, minmax(clamp(120px, 20vw, 180px), 1fr))",
+                        gridTemplateColumns: descOn
+                          ? "repeat(auto-fill, minmax(clamp(150px, 22vw, 210px), 1fr))"
+                          : "repeat(auto-fill, minmax(clamp(90px, 15vw, 130px), 1fr))",
                       }}
                     >
                       {group.map((sign, i) => (
-                        <SignCard key={sign.id} sign={sign} index={i} />
+                        <SignCard key={sign.id} sign={sign} index={i} showDescription={descOn} />
                       ))}
                     </div>
                   </div>
