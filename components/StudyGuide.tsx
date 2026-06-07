@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import type { TopicGuide } from "@/lib/data/guides";
 import type { Question } from "@/components/QuestionCard";
 
@@ -87,8 +88,10 @@ function Section({
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between px-5 py-4 hover:bg-[var(--th-muted-bg)] transition-colors"
       >
-        <span className="font-bold text-base">{section.title}</span>
-        <span className="text-[var(--th-muted)] text-sm">{open ? "▲" : "▼"}</span>
+        <span className="font-bold text-lg">{section.title}</span>
+        <span className={`text-[var(--th-muted)] transition-transform duration-200 ${open ? "rotate-180" : ""}`}>
+          <ChevronDown size={16} strokeWidth={2} />
+        </span>
       </button>
 
       {open && (
@@ -113,9 +116,12 @@ function Section({
             <div className="flex flex-col gap-2 pt-1">
               <button
                 onClick={() => setShowQ((s) => !s)}
-                className="self-start flex items-center gap-1.5 text-xs font-semibold text-[var(--th-accent)] hover:underline transition-colors"
+                className="self-start flex items-center gap-1 text-xs font-semibold text-[var(--th-accent)] hover:underline transition-colors"
               >
-                {showQ ? "▲" : "▼"} שאלות קשורות ({related.length})
+                <span className={`transition-transform duration-200 ${showQ ? "rotate-180" : ""}`}>
+                <ChevronDown size={13} strokeWidth={2} />
+              </span>
+              שאלות קשורות ({related.length})
               </button>
               {showQ && (
                 <div className="flex flex-col gap-2">

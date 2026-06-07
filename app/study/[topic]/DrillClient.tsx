@@ -150,7 +150,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
       {guide && view === "guide" && (
         <div className="w-full max-w-2xl">
-          <h1 className="text-2xl font-bold">{topic}</h1>
+          <p className="th-eyebrow">{topic}</p>
         </div>
       )}
 

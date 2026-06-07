@@ -244,17 +244,15 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
     <div className="w-full flex flex-col gap-4 mt-4">
       {/* Header */}
       <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="text-xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
-          <button
-            onClick={handleExportSigns}
-            disabled={exportLoading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--th-border)] text-xs font-medium hover:bg-[var(--th-muted-bg)] transition-colors disabled:opacity-50 shrink-0"
-            title="ייצוא מילון התמרורים לקובץ Word"
-          >
-            {exportLoading ? "..." : "📄 ייצוא"}
-          </button>
-        </div>
+        <h2 className="text-2xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
+        <button
+          onClick={handleExportSigns}
+          disabled={exportLoading}
+          className="hidden"
+          title="ייצוא מילון התמרורים לקובץ Word"
+        >
+          {exportLoading ? "..." : "📄 ייצוא"}
+        </button>
 
         {guideIntro ? (
           <p className="text-xs text-[var(--th-muted)] leading-relaxed">{guideIntro}</p>
@@ -297,7 +295,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                       ? "text-[var(--th-fg)]"
                       : "text-[var(--th-fg)] group-hover:text-[var(--th-accent)]"
                   }`}
-                  style={{ fontSize: "clamp(0.9rem, 2.5vw, 1.05rem)" }}
+                  style={{ fontSize: "clamp(1rem, 2.8vw, 1.15rem)" }}
                 >
                   {cat}
                 </span>
