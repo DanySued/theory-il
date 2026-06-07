@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ChevronDown } from "lucide-react";
 import type { TrafficSign, SignCategory } from "@/lib/data/signs";
-
-const MASTERED_KEY = "theory-il:signs-mastered";
 
 const CATEGORY_ORDER: SignCategory[] = [
   "אזהרה",
@@ -39,15 +38,6 @@ interface Props {
   signs: TrafficSign[];
   guideIntro?: string;
   guideSections?: Partial<Record<SignCategory, GuideSection>>;
-}
-
-function getMastered(): Set<string> {
-  if (typeof window === "undefined") return new Set();
-  try {
-    return new Set(JSON.parse(localStorage.getItem(MASTERED_KEY) ?? "[]") as string[]);
-  } catch {
-    return new Set();
-  }
 }
 
 function SignCard({
@@ -227,13 +217,7 @@ function SignCard({
 export default function SignsCatalog({ signs, guideIntro, guideSections }: Props) {
   // All categories start closed
   const [openCategories, setOpenCategories] = useState<Set<SignCategory>>(new Set());
-  const [mastered, setMastered] = useState<Set<string>>(new Set());
   const [exportLoading, setExportLoading] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMastered(getMastered());
-  }, []);
 
   const toggle = (cat: SignCategory) => {
     setOpenCategories((prev) => {
@@ -245,15 +229,6 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
   };
 
   const byCategory = (cat: SignCategory) => signs.filter((s) => s.category === cat);
-
-  const catProgress = (cat: SignCategory) => {
-    const group = byCategory(cat);
-    return { count: group.filter((s) => mastered.has(s.id)).length, total: group.length };
-  };
-
-  const totalMastered = signs.filter((s) => mastered.has(s.id)).length;
-  const totalCount = signs.length;
-  const pct = totalCount > 0 ? (totalMastered / totalCount) * 100 : 0;
 
   async function handleExportSigns() {
     setExportLoading(true);
@@ -267,7 +242,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
 
   return (
     <div className="w-full flex flex-col gap-4 mt-4">
-      {/* Header + global progress */}
+      {/* Header */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
@@ -279,20 +254,6 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
           >
             {exportLoading ? "..." : "📄 ייצוא"}
           </button>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-1.5 rounded-full bg-[var(--th-border)] overflow-hidden">
-            <motion.div
-              className="h-full bg-green-500 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${pct}%` }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            />
-          </div>
-          <span className="text-xs text-[var(--th-muted)] whitespace-nowrap shrink-0 tabular-nums">
-            {totalMastered} / {totalCount}
-          </span>
         </div>
 
         {guideIntro ? (
@@ -307,8 +268,6 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
         const group = byCategory(cat);
         if (group.length === 0) return null;
         const isOpen = openCategories.has(cat);
-        const { count, total } = catProgress(cat);
-        const allDone = count === total && total > 0;
         const accent = CATEGORY_ACCENT[cat];
         const guideSection = guideSections?.[cat];
 
@@ -334,39 +293,25 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                 />
                 <span
                   className={`font-bold transition-colors ${
-                    allDone
-                      ? "text-green-600 dark:text-green-400"
-                      : isOpen
+                    isOpen
                       ? "text-[var(--th-fg)]"
                       : "text-[var(--th-fg)] group-hover:text-[var(--th-accent)]"
                   }`}
                   style={{ fontSize: "clamp(0.9rem, 2.5vw, 1.05rem)" }}
                 >
-                  {allDone && "✓ "}
                   {cat}
                 </span>
                 <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CATEGORY_BADGE[cat]}`}>
                   {group.length}
                 </span>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="w-16 h-1 rounded-full bg-[var(--th-border)] overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${total > 0 ? (count / total) * 100 : 0}%`,
-                      background: accent,
-                    }}
-                  />
-                </div>
-                <motion.span
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-[var(--th-muted)] text-xs inline-block"
-                >
-                  ▼
-                </motion.span>
-              </div>
+              <motion.div
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-[var(--th-muted)] shrink-0"
+              >
+                <ChevronDown size={16} strokeWidth={2} />
+              </motion.div>
             </button>
 
             <AnimatePresence initial={false}>
