@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, AlignLeft } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type { TrafficSign, SignCategory } from "@/lib/data/signs";
 
 const CATEGORY_ORDER: SignCategory[] = [
@@ -274,7 +274,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
         {guideIntro ? (
           <p className="text-xs text-[var(--th-muted)] leading-relaxed">{guideIntro}</p>
         ) : (
-          <p className="text-xs text-[var(--th-muted)]">פתח קטגוריה וגלול — ההסבר מופיע ישירות על הכרטיסייה</p>
+          <p className="text-xs text-[var(--th-muted)]">פתח קטגוריה — השתמש בטוגל "הסבר" להציג או להסתיר פרטים</p>
         )}
       </div>
 
@@ -325,20 +325,30 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
               <div className="flex items-center gap-2 shrink-0">
                 {/* Description toggle — only when category is open */}
                 {isOpen && (
-                  <div
+                  <button
                     onClick={(e) => toggleDescription(cat, e)}
-                    role="button"
-                    aria-pressed={descOn}
-                    className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-all select-none
-                      ${descOn
-                        ? "border-[var(--th-accent)] text-[var(--th-accent)] bg-[var(--th-accent)]/10"
-                        : "border-[var(--th-border)] text-[var(--th-muted)] bg-transparent hover:border-[var(--th-muted)]"
-                      }
-                    `}
+                    role="switch"
+                    aria-checked={descOn}
+                    className="flex items-center gap-1.5 select-none group"
                   >
-                    <AlignLeft size={11} strokeWidth={2.5} />
-                    הסבר
-                  </div>
+                    <span
+                      className="text-xs font-medium text-[var(--th-muted)] group-hover:text-[var(--th-fg)] transition-colors"
+                    >
+                      הסבר
+                    </span>
+                    {/* Track */}
+                    <div
+                      className="relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0"
+                      style={{ background: descOn ? "var(--th-accent)" : "var(--th-border-strong)" }}
+                    >
+                      {/* Thumb */}
+                      <motion.div
+                        className="absolute top-0.5 bottom-0.5 w-4 rounded-full bg-white shadow-sm"
+                        animate={{ left: descOn ? "calc(100% - 18px)" : "2px" }}
+                        transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                      />
+                    </div>
+                  </button>
                 )}
 
                 <motion.div
@@ -382,13 +392,13 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                       </div>
                     )}
 
-                    {/* Signs grid */}
+                    {/* Signs grid — auto-fill adapts to any container width */}
                     <div
                       className="grid gap-3"
                       style={{
                         gridTemplateColumns: descOn
-                          ? "repeat(auto-fill, minmax(clamp(150px, 22vw, 210px), 1fr))"
-                          : "repeat(auto-fill, minmax(clamp(90px, 15vw, 130px), 1fr))",
+                          ? "repeat(auto-fill, minmax(min(100%, 180px), 1fr))"
+                          : "repeat(auto-fill, minmax(min(100%, 100px), 1fr))",
                       }}
                     >
                       {group.map((sign, i) => (
