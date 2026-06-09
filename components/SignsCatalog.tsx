@@ -95,7 +95,7 @@ function SignCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.02, duration: 0.2 }}
-      style={{ perspective: "800px", aspectRatio: "4/5" }}
+      style={{ perspective: "800px", aspectRatio: "1/1" }}
       className="relative"
     >
       <div
@@ -243,7 +243,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
   return (
     <div className="w-full flex flex-col gap-4 mt-4">
       {/* Header */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 items-center text-center">
         <h2 className="text-2xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
         <button
           onClick={handleExportSigns}
