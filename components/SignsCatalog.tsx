@@ -21,14 +21,6 @@ const CATEGORY_ACCENT: Record<SignCategory, string> = {
   "סימוני כביש": "#94a3b8",
 };
 
-const CATEGORY_BADGE: Record<SignCategory, string> = {
-  "אזהרה": "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-  "חובה": "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-  "איסור": "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-  "מידע": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-  "סימוני כביש": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
-};
-
 interface GuideSection {
   body: string;
   points?: string[];
@@ -48,9 +40,17 @@ function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.02, duration: 0.2 }}
-      className="relative rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center gap-1.5 px-3 pt-8 pb-3 transition-shadow hover:shadow-md"
+      className="relative rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md"
       style={{ borderTop: `3px solid ${accent}`, minHeight: "190px" }}
     >
+      {sign.officialNumber && (
+        <span
+          className="absolute top-2 start-2 font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
+          style={{ fontSize: "0.65rem" }}
+        >
+          {sign.officialNumber}
+        </span>
+      )}
 
       {sign.imageUnverified && (
         <span
@@ -119,9 +119,8 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
   return (
     <div className="w-full flex flex-col gap-4 mt-4">
       {/* Header */}
-      <div className="flex flex-col gap-3 items-center text-center">
+      <div className="flex flex-col gap-2 items-center text-center">
         <h2 className="text-2xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
-
       </div>
 
       {/* Categories */}
@@ -138,13 +137,16 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
               onClick={() => toggle(cat)}
               className={`sticky top-14 z-20 w-full flex items-center justify-between gap-3 py-3 px-4 text-start
                 border border-[var(--th-border)] transition-all group
-                bg-[var(--th-bg)]
                 ${isOpen
                   ? "rounded-t-2xl border-b-transparent shadow-sm"
-                  : "rounded-2xl hover:bg-[var(--th-muted-bg)]"
+                  : "rounded-2xl"
                 }
               `}
-              style={isOpen ? { borderBottom: `2px solid ${accent}` } : {}}
+              style={{
+                "--cat-accent": accent,
+                backgroundColor: isOpen ? `${accent}12` : undefined,
+                ...(isOpen ? { borderBottom: `2px solid ${accent}` } : {}),
+              } as React.CSSProperties}
             >
               <div className="flex items-center gap-2.5">
                 <span
@@ -152,23 +154,16 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
                   style={{ background: accent, transform: isOpen ? "scale(1.3)" : "scale(1)" }}
                 />
                 <span
-                  className={`font-bold transition-colors ${
-                    isOpen
-                      ? "text-[var(--th-fg)]"
-                      : "text-[var(--th-fg)] group-hover:text-[var(--th-accent)]"
-                  }`}
-                  style={{ fontSize: "clamp(1rem, 2.8vw, 1.15rem)" }}
+                  className="font-bold transition-colors text-[var(--th-fg)] group-hover:text-[var(--cat-accent)]"
+                  style={{ fontSize: isOpen ? "calc(clamp(1rem, 2.8vw, 1.15rem) + 5px)" : "clamp(1rem, 2.8vw, 1.15rem)" }}
                 >
                   {cat}
-                </span>
-                <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CATEGORY_BADGE[cat]}`}>
-                  {group.length}
                 </span>
               </div>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
-                className="text-[var(--th-muted)] shrink-0"
+                className="text-[var(--th-muted)] group-hover:text-[var(--cat-accent)] transition-colors shrink-0"
               >
                 <ChevronDown size={16} strokeWidth={2} />
               </motion.div>

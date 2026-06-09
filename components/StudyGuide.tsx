@@ -95,9 +95,9 @@ function Section({
       </button>
 
       {open && (
-        <div className="px-5 pb-5 flex flex-col gap-4 border-t border-[var(--th-border)]">
+        <div className="px-5 pt-5 pb-6 flex flex-col gap-4 border-t border-[var(--th-border)]">
           {/* Body */}
-          <p className="text-sm leading-relaxed pt-4">{section.body}</p>
+          <p className="text-sm leading-relaxed">{section.body}</p>
 
           {/* Bullet points */}
           {section.points && (

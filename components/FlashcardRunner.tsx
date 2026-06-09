@@ -77,12 +77,12 @@ export default function FlashcardRunner({ questions }: Props) {
       <div className="w-full max-w-lg flex items-center justify-between">
         <Link
           href="/flashcards"
-          className="flex items-center gap-2 text-sm font-medium text-[var(--th-fg)] hover:text-[var(--th-accent)] transition-colors"
+          className="flex items-center gap-2 text-sm font-semibold text-[var(--th-accent)] hover:opacity-80 transition-opacity"
         >
-          <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
+          <span className="text-base font-bold leading-none">&#8594;</span>
           חזרה לכרטיסיות
         </Link>
-        <span className="text-sm text-[var(--th-muted)] tabular-nums">
+        <span className="text-xs text-[var(--th-muted)] tabular-nums font-mono tracking-wide">
           {currentIdx + 1} / {dueIds.length}
         </span>
       </div>

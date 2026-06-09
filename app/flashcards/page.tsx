@@ -50,10 +50,7 @@ export default function FlashcardsPage() {
             href={`/flashcards/${encodeURIComponent(topic)}`}
             className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
           >
-            <div className="flex items-baseline justify-between">
-              <span className="text-[0.7rem] font-bold tracking-[0.18em] text-[var(--th-muted)] tabular-nums">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+            <div className="flex items-baseline justify-end">
               <span
                 aria-hidden
                 className="text-[var(--th-muted)] group-hover:text-[var(--th-accent)] group-hover:-translate-x-1 transition-all"

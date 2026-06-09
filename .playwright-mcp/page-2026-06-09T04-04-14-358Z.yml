@@ -1,0 +1,60 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - navigation [ref=e6]:
+        - link "לימוד" [ref=e7] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e8] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e9] [cursor=pointer]:
+          - /url: /flashcards
+          - text: כרטיסיות
+  - main [ref=e11]:
+    - button "חזרה לדף הקודם" [ref=e13]:
+      - generic [ref=e14]: →
+      - text: חזרה
+    - generic [ref=e15]:
+      - generic [ref=e16]: חזרה מרווחת · SRS
+      - heading "כרטיסיות" [level=1] [ref=e17]
+      - paragraph [ref=e18]: 1273 כרטיסיות מחכות לחזרה היום.
+    - generic [ref=e19]:
+      - link "01 חוקי התנועה 501 כרטיסיות 501 לחזרה היום" [ref=e20] [cursor=pointer]:
+        - /url: /flashcards/%D7%97%D7%95%D7%A7%D7%99%20%D7%94%D7%AA%D7%A0%D7%95%D7%A2%D7%94
+        - generic [ref=e21]:
+          - generic [ref=e22]: "01"
+          - generic [ref=e23]: ←
+        - generic [ref=e24]:
+          - generic [ref=e25]: חוקי התנועה
+          - generic [ref=e26]: 501 כרטיסיות
+        - generic [ref=e27]: 501 לחזרה היום
+      - link "02 תמרורים 361 כרטיסיות 361 לחזרה היום" [ref=e29] [cursor=pointer]:
+        - /url: /flashcards/%D7%AA%D7%9E%D7%A8%D7%95%D7%A8%D7%99%D7%9D
+        - generic [ref=e30]:
+          - generic [ref=e31]: "02"
+          - generic [ref=e32]: ←
+        - generic [ref=e33]:
+          - generic [ref=e34]: תמרורים
+          - generic [ref=e35]: 361 כרטיסיות
+        - generic [ref=e36]: 361 לחזרה היום
+      - link "03 בטיחות 305 כרטיסיות 305 לחזרה היום" [ref=e38] [cursor=pointer]:
+        - /url: /flashcards/%D7%91%D7%98%D7%99%D7%97%D7%95%D7%AA
+        - generic [ref=e39]:
+          - generic [ref=e40]: "03"
+          - generic [ref=e41]: ←
+        - generic [ref=e42]:
+          - generic [ref=e43]: בטיחות
+          - generic [ref=e44]: 305 כרטיסיות
+        - generic [ref=e45]: 305 לחזרה היום
+      - link "04 הכרת הרכב 106 כרטיסיות 106 לחזרה היום" [ref=e47] [cursor=pointer]:
+        - /url: /flashcards/%D7%94%D7%9B%D7%A8%D7%AA%20%D7%94%D7%A8%D7%9B%D7%91
+        - generic [ref=e48]:
+          - generic [ref=e49]: "04"
+          - generic [ref=e50]: ←
+        - generic [ref=e51]:
+          - generic [ref=e52]: הכרת הרכב
+          - generic [ref=e53]: 106 כרטיסיות
+        - generic [ref=e54]: 106 לחזרה היום
+  - alert [ref=e56]
