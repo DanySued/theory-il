@@ -1,0 +1,35 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - navigation [ref=e6]:
+        - link "לימוד" [ref=e7] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e8] [cursor=pointer]:
+          - /url: /exam
+          - text: מבחן
+        - link "כרטיסיות" [ref=e10] [cursor=pointer]:
+          - /url: /flashcards
+  - button "חזרה לדף הקודם" [ref=e12]:
+    - generic [ref=e13]: →
+    - text: חזרה
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]: סימולציה · 30 שאלות
+        - heading "מבחן מדומה" [level=1] [ref=e18]
+        - paragraph [ref=e19]: לעבור צריך 26 תשובות נכונות מתוך 30.
+      - generic [ref=e21]:
+        - generic [ref=e22]: נושא
+        - generic [ref=e23]:
+          - button "כל הנושאים" [ref=e24]
+          - button "חוקי התנועה" [ref=e25]
+          - button "תמרורים" [ref=e26]
+          - button "בטיחות" [ref=e27]
+          - button "הכרת הרכב" [ref=e28]
+      - button "התחל מבחן" [ref=e29]:
+        - text: התחל מבחן
+        - generic [ref=e30]: ←
+  - alert [ref=e31]
