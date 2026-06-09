@@ -327,7 +327,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                     {/* Guide section text */}
                     {guideSection && (
                       <div className="flex flex-col gap-2 pb-2 border-b border-[var(--th-border)]">
-                        <p className="text-sm text-[var(--th-muted-strong)] leading-relaxed">
+                        <p className="text-sm text-[var(--th-muted-strong)] leading-relaxed max-w-prose">
                           {guideSection.body}
                         </p>
                         {guideSection.points && (
@@ -348,7 +348,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                       className="grid gap-3"
                       style={{
                         gridTemplateColumns:
-                          "repeat(auto-fill, minmax(clamp(120px, 20vw, 180px), 1fr))",
+                          "repeat(auto-fill, minmax(clamp(140px, 15vw, 200px), 1fr))",
                       }}
                     >
                       {group.map((sign, i) => (
