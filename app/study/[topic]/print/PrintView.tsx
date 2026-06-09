@@ -20,7 +20,7 @@ export default function PrintView({ topic, questions, showAnswers }: PrintViewPr
 
   return (
     <>
-      <div className="print:hidden w-full px-4 pt-3 flex justify-end">
+      <div className="print:hidden w-full px-4 pt-3 flex justify-start">
         <BackButton />
       </div>
       <style>{`

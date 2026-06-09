@@ -107,7 +107,7 @@ export default function ResultsPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-8">
-      <div className="w-full px-0 pb-2 flex justify-end">
+      <div className="w-full px-0 pb-2 flex justify-start">
         <BackButton />
       </div>
       <div className="w-full max-w-2xl flex flex-col gap-6">
