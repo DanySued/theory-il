@@ -41,7 +41,7 @@ interface Props {
 }
 
 function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
-  const description = sign.meaning ?? sign.behavior;
+  const description = sign.meaning || sign.behavior;
   const accent = CATEGORY_ACCENT[sign.category];
 
   return (
@@ -73,14 +73,16 @@ function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
         </span>
       )}
 
-      {sign.image && (
+      {sign.image ? (
         <img
           src={sign.image}
           alt={sign.name}
           draggable={false}
-          className="object-contain shrink-0"
-          style={{ width: "52px", height: "52px" }}
+          loading="lazy"
+          className="object-contain shrink-0 w-[52px] h-[52px]"
         />
+      ) : (
+        <div className="h-[52px] shrink-0" />
       )}
 
       <span
@@ -101,7 +103,7 @@ function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
 
       {sign.scope && (
         <span
-          className="text-center text-[var(--th-muted)] line-clamp-1 w-full mt-auto"
+          className="text-center text-[var(--th-muted)] line-clamp-2 w-full mt-auto"
           style={{ fontSize: "0.64rem" }}
         >
           <span className="font-semibold text-[var(--th-fg-soft)]">כוחו יפה: </span>
@@ -114,7 +116,6 @@ function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
 
 export default function SignsCatalog({ signs, guideIntro, guideSections }: Props) {
   const [openCategories, setOpenCategories] = useState<Set<SignCategory>>(new Set());
-  const [exportLoading, setExportLoading] = useState(false);
 
   const toggle = (cat: SignCategory) => {
     setOpenCategories((prev) => {
@@ -127,29 +128,11 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
 
   const byCategory = (cat: SignCategory) => signs.filter((s) => s.category === cat);
 
-  async function handleExportSigns() {
-    setExportLoading(true);
-    try {
-      const { exportSignsToDocx } = await import("@/lib/export");
-      await exportSignsToDocx(signs);
-    } finally {
-      setExportLoading(false);
-    }
-  }
-
   return (
     <div className="w-full flex flex-col gap-4 mt-4">
       {/* Header */}
       <div className="flex flex-col gap-3 items-center text-center">
         <h2 className="text-2xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
-        <button
-          onClick={handleExportSigns}
-          disabled={exportLoading}
-          className="hidden"
-          title="ייצוא מילון התמרורים לקובץ Word"
-        >
-          {exportLoading ? "..." : "📄 ייצוא"}
-        </button>
 
         {guideIntro ? (
           <p className="text-xs text-[var(--th-muted)] leading-relaxed">{guideIntro}</p>
@@ -241,7 +224,7 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
                     <div
                       className="grid gap-3"
                       style={{
-                        gridTemplateColumns: "repeat(auto-fit, 156px)",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(140px, 156px))",
                         justifyContent: "center",
                       }}
                     >
