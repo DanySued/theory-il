@@ -26,9 +26,6 @@ export default function ExamStartScreen({
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-none">
             מבחן מדומה
           </h1>
-          <p className="text-[var(--th-muted-strong)]">
-            לעבור צריך 26 תשובות נכונות מתוך 30.
-          </p>
         </div>
 
         <div className="th-rule" />
@@ -72,6 +69,10 @@ export default function ExamStartScreen({
           התחל מבחן
           <span aria-hidden className="mr-2">←</span>
         </motion.button>
+
+        <p className="text-xs text-[var(--th-muted)] text-center">
+          לעבור צריך 26 תשובות נכונות מתוך 30.
+        </p>
       </div>
     </main>
   );

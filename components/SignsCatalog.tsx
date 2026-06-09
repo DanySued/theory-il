@@ -36,7 +36,6 @@ interface GuideSection {
 
 interface Props {
   signs: TrafficSign[];
-  guideIntro?: string;
   guideSections?: Partial<Record<SignCategory, GuideSection>>;
 }
 
@@ -52,17 +51,6 @@ function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
       className="relative rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center gap-1.5 px-3 pt-8 pb-3 transition-shadow hover:shadow-md"
       style={{ borderTop: `3px solid ${accent}`, minHeight: "190px" }}
     >
-      {sign.officialNumber && (
-        <span
-          className="absolute top-2 start-2 font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
-          style={{ fontSize: "0.68rem" }}
-        >
-          {sign.officialNumber}
-          {sign.isLightEmitting && (
-            <span className="text-yellow-600 dark:text-yellow-400"> פ</span>
-          )}
-        </span>
-      )}
 
       {sign.imageUnverified && (
         <span
@@ -114,7 +102,7 @@ function SignCard({ sign, index }: { sign: TrafficSign; index: number }) {
   );
 }
 
-export default function SignsCatalog({ signs, guideIntro, guideSections }: Props) {
+export default function SignsCatalog({ signs, guideSections }: Props) {
   const [openCategories, setOpenCategories] = useState<Set<SignCategory>>(new Set());
 
   const toggle = (cat: SignCategory) => {
@@ -134,11 +122,6 @@ export default function SignsCatalog({ signs, guideIntro, guideSections }: Props
       <div className="flex flex-col gap-3 items-center text-center">
         <h2 className="text-2xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
 
-        {guideIntro ? (
-          <p className="text-xs text-[var(--th-muted)] leading-relaxed">{guideIntro}</p>
-        ) : (
-          <p className="text-xs text-[var(--th-muted)]">לחץ על תמרור לראות את ההסבר</p>
-        )}
       </div>
 
       {/* Categories */}

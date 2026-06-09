@@ -148,11 +148,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
         <span className="hidden"><ExportMenu topic={topic} questions={questions} /></span>
       </div>
 
-      {guide && view === "guide" && (
-        <div className="w-full max-w-2xl">
-          <p className="th-eyebrow">{topic}</p>
-        </div>
-      )}
 
       {view === "guide" && guide && (
         <>
@@ -160,7 +155,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
             <div className="w-full max-w-6xl">
               <SignsCatalog
                 signs={SIGNS}
-                guideIntro={guide.intro}
                 guideSections={Object.fromEntries(
                   guide.sections
                     .filter((s) => SECTION_TO_CATEGORY[s.title])

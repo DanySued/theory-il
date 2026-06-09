@@ -17,7 +17,7 @@ export default function ExamPage() {
   if (!questions) {
     return (
       <>
-        <div className="w-full px-4 pt-3 flex justify-end">
+        <div className="w-full px-4 pt-3 flex justify-start">
           <BackButton />
         </div>
         <ExamStartScreen onStart={handleStart} />
