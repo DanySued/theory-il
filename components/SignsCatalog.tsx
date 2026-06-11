@@ -28,12 +28,10 @@ interface Props {
 
 function SignCard({
   sign,
-  index,
   known,
   onToggle,
 }: {
   sign: TrafficSign;
-  index: number;
   known: boolean;
   onToggle: (id: string) => void;
 }) {
@@ -41,14 +39,11 @@ function SignCard({
   const accent = CATEGORY_ACCENT[sign.category];
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={() => onToggle(sign.id)}
       aria-pressed={known}
       title={known ? "לחץ כדי לחשוף את התמרור" : "לחץ אם אתה זוכר את התמרור"}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.02, duration: 0.2 }}
       className="relative text-start rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md cursor-pointer"
       style={{
         borderTop: `3px solid ${accent}`,
@@ -121,7 +116,7 @@ function SignCard({
           {sign.scope}
         </span>
       )}
-    </motion.button>
+    </button>
   );
 }
 
@@ -287,11 +282,10 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
                         justifyContent: "center",
                       }}
                     >
-                      {group.map((sign, i) => (
+                      {group.map((sign) => (
                         <SignCard
                           key={sign.id}
                           sign={sign}
-                          index={i}
                           known={knownSigns.has(sign.id)}
                           onToggle={handleToggleKnown}
                         />
