@@ -1,6 +1,7 @@
 import type { Question } from "@/components/QuestionCard";
 import type { TrafficSign } from "@/lib/data/signs";
 import type { Attempt } from "@/lib/storage";
+import type { Paragraph as TParagraph, TextRun as TTextRun, AlignmentType as TAlignmentType } from "docx";
 import { LABELS, CATEGORY_ORDER } from "@/lib/constants";
 
 type RunOpts = {
@@ -11,14 +12,12 @@ type RunOpts = {
   italics?: boolean;
 };
 
-export async function generateDocx(
-  topic: string,
-  questions: Question[],
-  showAnswers: boolean
-): Promise<void> {
-  const { Document, Packer, Paragraph, TextRun, AlignmentType } = await import("docx");
-
-  const p = (
+function makePHelper(
+  Paragraph: typeof TParagraph,
+  TextRun: typeof TTextRun,
+  AlignmentType: typeof TAlignmentType
+) {
+  return (
     runs: RunOpts[],
     spacing?: { before?: number; after?: number },
     extra?: { keepNext?: boolean }
@@ -30,6 +29,15 @@ export async function generateDocx(
       ...(spacing && { spacing }),
       ...extra,
     });
+}
+
+export async function generateDocx(
+  topic: string,
+  questions: Question[],
+  showAnswers: boolean
+): Promise<void> {
+  const { Document, Packer, Paragraph, TextRun, AlignmentType } = await import("docx");
+  const p = makePHelper(Paragraph, TextRun, AlignmentType);
 
   const children = [
     p([{ text: topic, bold: true, size: 36 }], { after: 200 }),
@@ -68,19 +76,7 @@ export async function generateDocx(
 
 export async function exportSignsToDocx(signs: TrafficSign[]): Promise<void> {
   const { Document, Packer, Paragraph, TextRun, AlignmentType } = await import("docx");
-
-  const p = (
-    runs: RunOpts[],
-    spacing?: { before?: number; after?: number },
-    extra?: { keepNext?: boolean }
-  ) =>
-    new Paragraph({
-      children: runs.map((r) => new TextRun({ font: "Arial", ...r })),
-      alignment: AlignmentType.RIGHT,
-      bidirectional: true,
-      ...(spacing && { spacing }),
-      ...extra,
-    });
+  const p = makePHelper(Paragraph, TextRun, AlignmentType);
 
   const children = [
     p([{ text: "מילון התמרורים", bold: true, size: 36 }], { after: 200 }),
@@ -109,19 +105,7 @@ export async function exportSignsToDocx(signs: TrafficSign[]): Promise<void> {
 
 export async function exportAttemptToDocx(attempt: Attempt): Promise<void> {
   const { Document, Packer, Paragraph, TextRun, AlignmentType } = await import("docx");
-
-  const p = (
-    runs: RunOpts[],
-    spacing?: { before?: number; after?: number },
-    extra?: { keepNext?: boolean }
-  ) =>
-    new Paragraph({
-      children: runs.map((r) => new TextRun({ font: "Arial", ...r })),
-      alignment: AlignmentType.RIGHT,
-      bidirectional: true,
-      ...(spacing && { spacing }),
-      ...extra,
-    });
+  const p = makePHelper(Paragraph, TextRun, AlignmentType);
 
   const total = attempt.questions.length;
   const correct = attempt.questions.filter((q, i) => attempt.answers[i] === q.correctIndex).length;
