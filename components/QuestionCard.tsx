@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useCallback, useState, useRef } from "react";
+import { useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { recordAnswer } from "@/lib/storage";
+import { LABELS } from "@/lib/constants";
+import { useRipple } from "@/hooks/useRipple";
 
 export interface Question {
   id: string;
@@ -31,8 +33,6 @@ interface QuestionCardProps {
   trackStats?: boolean;
 }
 
-const LABELS = ["א", "ב", "ג", "ד"] as const;
-
 export default function QuestionCard({
   question,
   showAnswer,
@@ -46,15 +46,7 @@ export default function QuestionCard({
   direction = 1,
   trackStats = false,
 }: QuestionCardProps) {
-  const [ripples, setRipples] = useState<{ id: number; x: number; y: number; btnIdx: number }[]>([]);
-  const rippleCounter = useRef(0);
-
-  function addRipple(e: React.MouseEvent<HTMLButtonElement>, btnIdx: number) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const id = rippleCounter.current++;
-    setRipples((prev) => [...prev, { id, x: e.clientX - rect.left, y: e.clientY - rect.top, btnIdx }]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
-  }
+  const { ripples, addRipple } = useRipple();
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -101,10 +93,6 @@ export default function QuestionCard({
     return {};
   }
 
-  const displayText = question.text;
-  const displayAnswers = question.answers;
-  const displayExplanation = question.explanation;
-
   return (
     <div className="w-full max-w-2xl flex flex-col gap-5">
       {/* Counter */}
@@ -144,7 +132,7 @@ export default function QuestionCard({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={question.image}
-                alt={displayText}
+                alt={question.text}
                 className="max-h-48 object-contain rounded-lg"
                 draggable={false}
               />
@@ -152,11 +140,11 @@ export default function QuestionCard({
           )}
 
           {/* Text */}
-          <p className="text-xl font-bold leading-relaxed">{displayText}</p>
+          <p className="text-xl font-bold leading-relaxed">{question.text}</p>
 
           {/* Answers */}
           <div className="flex flex-col gap-2" onPointerDown={(e) => e.stopPropagation()}>
-            {displayAnswers.map((answer, idx) => (
+            {question.answers.map((answer, idx) => (
               <motion.button
                 key={idx}
                 className={`${getButtonStyle(idx)} relative overflow-hidden`}
@@ -207,9 +195,9 @@ export default function QuestionCard({
           )}
 
           {/* Explanation */}
-          {showAnswer && displayExplanation && (
+          {showAnswer && question.explanation && (
             <p className="mt-1 text-sm text-[var(--th-muted)] border-t border-[var(--th-border)] pt-3 leading-relaxed">
-              {displayExplanation}
+              {question.explanation}
             </p>
           )}
         </motion.div>

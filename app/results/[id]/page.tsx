@@ -7,9 +7,9 @@ import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt
 import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
 import BackButton from "@/components/BackButton";
+import { LABELS } from "@/lib/constants";
 
 const PASS_SCORE = 26;
-const LABELS = ["א", "ב", "ג", "ד"] as const;
 
 function formatDuration(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -29,7 +29,6 @@ export default function ResultsPage() {
 
   useEffect(() => {
     const a = getAttempt(id);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttempt(a);
     if (a && !a.answersRecorded) {
       recordAnswersBatch(a.questions, a.answers);

@@ -6,14 +6,7 @@ import { ChevronDown, Check, RotateCcw } from "lucide-react";
 import type { TrafficSign, SignCategory } from "@/lib/data/signs";
 import { getKnownSigns, toggleKnownSign, clearKnownSigns } from "@/lib/storage";
 import ProgressBar from "@/components/ProgressBar";
-
-const CATEGORY_ORDER: SignCategory[] = [
-  "אזהרה",
-  "חובה",
-  "איסור",
-  "מידע",
-  "סימוני כביש",
-];
+import { CATEGORY_ORDER } from "@/lib/constants";
 
 const CATEGORY_ACCENT: Record<SignCategory, string> = {
   "אזהרה": "#f59e0b",
@@ -137,7 +130,6 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
   const [knownSigns, setKnownSigns] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setKnownSigns(getKnownSigns());
   }, []);
 

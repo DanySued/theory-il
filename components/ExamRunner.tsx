@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import type { Question } from "@/components/QuestionCard";
 import { saveAttempt, generateId } from "@/lib/storage";
+import { LABELS } from "@/lib/constants";
+import { useRipple } from "@/hooks/useRipple";
 
 const EXAM_DURATION = 40 * 60;
-const LABELS = ["א", "ב", "ג", "ד"] as const;
 
 function formatTime(s: number): string {
   const m = Math.floor(s / 60);
@@ -20,15 +21,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
   const [examId] = useState(() => generateId());
   const [startedAt] = useState(() => Date.now());
 
-  const [ripples, setRipples] = useState<{ id: number; x: number; y: number; btnIdx: number }[]>([]);
-  const rippleCounter = useRef(0);
-
-  function addRipple(e: React.MouseEvent<HTMLButtonElement>, btnIdx: number) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const id = rippleCounter.current++;
-    setRipples((prev) => [...prev, { id, x: e.clientX - rect.left, y: e.clientY - rect.top, btnIdx }]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
-  }
+  const { ripples, addRipple } = useRipple();
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(() =>

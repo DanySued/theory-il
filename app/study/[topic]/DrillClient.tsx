@@ -5,7 +5,6 @@ import Link from "next/link";
 import BackButton from "@/components/BackButton";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
-import ExportMenu from "@/components/ExportMenu";
 import { motion } from "motion/react";
 import StudyGuide from "@/components/StudyGuide";
 import SignsCatalog from "@/components/SignsCatalog";
@@ -53,7 +52,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
         })
         .map((q) => q.id)
     );
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setWeakIds(weak);
   }, [questions]);
 
@@ -145,7 +143,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
           <span className="text-sm font-semibold">{topic}</span>
         )}
 
-        <span className="hidden"><ExportMenu topic={topic} questions={questions} /></span>
       </div>
 
 
