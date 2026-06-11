@@ -7,6 +7,7 @@ import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt
 import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
 import BackButton from "@/components/BackButton";
+import Skeleton from "@/components/Skeleton";
 import { LABELS } from "@/lib/constants";
 
 const PASS_SCORE = 26;
@@ -65,7 +66,37 @@ export default function ResultsPage() {
     animateScore(correct);
   }, [attempt, animateScore, correct]);
 
-  if (attempt === "loading") return null;
+  if (attempt === "loading") {
+    return (
+      <main
+        className="flex flex-1 flex-col items-center px-4 py-8 gap-8"
+        aria-busy="true"
+        aria-live="polite"
+      >
+        <div className="w-full px-0 pb-2 flex justify-start">
+          <Skeleton className="h-8 w-20" />
+        </div>
+        <div className="w-full max-w-2xl flex flex-col gap-6">
+          <Skeleton className="h-44 rounded-[var(--th-radius)]" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-12 rounded-[var(--th-radius)]" />
+            <div className="grid grid-cols-2 gap-2">
+              <Skeleton className="h-10 rounded-[var(--th-radius)]" />
+              <Skeleton className="h-10 rounded-[var(--th-radius)]" />
+              <Skeleton className="h-10 rounded-[var(--th-radius)]" />
+              <Skeleton className="h-10 rounded-[var(--th-radius)]" />
+            </div>
+          </div>
+          <Skeleton className="h-7 w-32" />
+          <div className="flex flex-col gap-3">
+            {[0, 1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-24 rounded-[var(--th-radius)]" />
+            ))}
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   if (!attempt) {
     return (
