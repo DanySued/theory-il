@@ -63,7 +63,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
       questions,
       answers: answersRef.current,
       markedForReview: markedRef.current,
-      timeSpentSeconds: EXAM_DURATION - secondsRef.current,
+      timeSpentSeconds: Math.round((Date.now() - startedAt) / 1000),
     });
     router.push(`/results/${examId}`);
   }, [questions, router, examId, startedAt]);

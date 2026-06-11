@@ -60,7 +60,7 @@ function SignCard({
       style={{
         borderTop: `3px solid ${accent}`,
         minHeight: "190px",
-        ...(known ? { borderColor: "#22c55e", background: "var(--th-success-soft)" } : {}),
+        ...(known ? { borderColor: "#22c55e", background: "var(--th-accent-soft)" } : {}),
       }}
     >
       {sign.officialNumber && (
@@ -137,7 +137,6 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
   const [knownSigns, setKnownSigns] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setKnownSigns(getKnownSigns());
   }, []);
 

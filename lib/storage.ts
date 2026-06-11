@@ -15,6 +15,40 @@ export type Attempt = {
 const KEY_PREFIX = "theory-il:attempt:";
 const QSTATS_KEY = "theory-il:qstats";
 const STREAK_KEY = "theory-il:streak";
+const KNOWN_SIGNS_KEY = "theory-il:signsKnown";
+
+// --- Known signs (catalog self-study) ---
+
+/** Returns the set of sign ids the user has marked as "known" (hidden). */
+export function getKnownSigns(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem(KNOWN_SIGNS_KEY);
+    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveKnownSigns(ids: Set<string>): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(KNOWN_SIGNS_KEY, JSON.stringify([...ids]));
+}
+
+/** Toggles a sign's known state and returns the updated set. */
+export function toggleKnownSign(id: string): Set<string> {
+  const ids = getKnownSigns();
+  if (ids.has(id)) ids.delete(id);
+  else ids.add(id);
+  saveKnownSigns(ids);
+  return ids;
+}
+
+/** Clears all known-sign progress. */
+export function clearKnownSigns(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(KNOWN_SIGNS_KEY);
+}
 
 // --- Attempts ---
 
