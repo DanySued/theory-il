@@ -213,9 +213,10 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
               `}
               style={{
                 "--cat-accent": accent,
-                background: isOpen
-                  ? `linear-gradient(${accent}12, ${accent}12), var(--th-bg)`
-                  : "var(--th-bg)",
+                backgroundColor: "var(--th-bg)",
+                backgroundImage: isOpen
+                  ? `linear-gradient(${accent}40, ${accent}40)`
+                  : undefined,
                 ...(isOpen ? { borderBottom: `2px solid ${accent}` } : {}),
               } as React.CSSProperties}
             >
