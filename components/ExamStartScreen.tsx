@@ -23,7 +23,7 @@ export default function ExamStartScreen({
       <div className="w-full max-w-lg flex flex-col gap-8">
         <div className="flex flex-col gap-3 text-center">
           <span className="th-eyebrow">סימולציה · 30 שאלות</span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-none">
+          <h1 className="text-3xl font-extrabold tracking-tight leading-none">
             מבחן מדומה
           </h1>
         </div>

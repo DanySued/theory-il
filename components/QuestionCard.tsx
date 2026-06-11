@@ -210,7 +210,7 @@ export default function QuestionCard({
           disabled={currentIndex === 0}
           className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
-          <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
+          <span className="text-base leading-none">&#8594;</span>
           הקודמת
         </button>
         <button
@@ -219,7 +219,7 @@ export default function QuestionCard({
           className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
           הבאה
-          <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8592;</span>
+          <span className="text-base leading-none">&#8592;</span>
         </button>
       </div>
 

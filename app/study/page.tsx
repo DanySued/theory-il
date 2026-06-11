@@ -31,7 +31,7 @@ export default function StudyPage() {
       </div>
       <div className="w-full max-w-5xl flex flex-col gap-2">
         <span className="th-eyebrow">{topics.length} נושאים</span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-none">
+        <h1 className="text-2xl font-bold tracking-tight leading-none">
           לימוד לפי נושאים
         </h1>
         <p className="text-[var(--th-muted-strong)] text-base mt-1">

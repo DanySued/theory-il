@@ -32,7 +32,7 @@ export default function TopicGrid({ topics }: TopicGridProps) {
             {TOPIC_ICON[t.label] ?? "📄"}
           </span>
           <div className="flex flex-col gap-1 flex-1">
-            <span className="text-xl font-bold leading-snug">{t.label}</span>
+            <span className="text-2xl font-extrabold leading-snug">{t.label}</span>
             <span className="text-sm text-[var(--th-muted)]">{t.count} שאלות</span>
           </div>
           <div className="h-1 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden">

@@ -185,7 +185,7 @@ export default function ResultsPage() {
         <div className="flex flex-col gap-3">
           <Link
             href="/exam"
-            className="w-full text-center px-5 py-3 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+            className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
           >
             מבחן נוסף
           </Link>
@@ -258,7 +258,7 @@ export default function ResultsPage() {
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs text-[var(--th-muted)]">שאלה {i + 1}</span>
                   <span
-                    className={`text-sm font-bold ${
+                    className={`text-xs font-bold ${
                       unanswered
                         ? "text-[var(--th-muted)]"
                         : isCorrect
@@ -281,7 +281,7 @@ export default function ResultsPage() {
                   </div>
                 )}
 
-                <p className="text-sm font-semibold leading-relaxed">{q.text}</p>
+                <p className="text-base font-semibold leading-relaxed">{q.text}</p>
 
                 <div className="flex flex-col gap-1.5">
                   {q.answers.map((ans, idx) => {

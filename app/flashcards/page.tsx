@@ -33,7 +33,7 @@ export default function FlashcardsPage() {
       </div>
       <div className="w-full max-w-5xl flex flex-col gap-2">
         <span className="th-eyebrow">חזרה מרווחת · SRS</span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-none">
+        <h1 className="text-2xl font-bold tracking-tight leading-none">
           כרטיסיות
         </h1>
         <p className="text-[var(--th-muted-strong)] text-base mt-1">

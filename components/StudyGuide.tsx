@@ -59,7 +59,7 @@ function RelatedQuestion({ question }: { question: Question }) {
       {!revealed && (
         <button
           onClick={() => setRevealed(true)}
-          className="self-start text-[10px] text-[var(--th-muted)] underline underline-offset-2 hover:text-[var(--th-fg)] transition-colors"
+          className="self-start text-xs font-medium py-1.5 px-2 text-[var(--th-muted)] underline underline-offset-2 hover:text-[var(--th-fg)] transition-colors"
         >
           הצג תשובה
         </button>

@@ -45,7 +45,7 @@ export default function FlashcardRunner({ questions }: Props) {
   if (done) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-6 text-center">
-        <div className="text-5xl">🎉</div>
+        <div className="text-4xl">🎉</div>
         <h1 className="text-3xl font-bold">סיימת!</h1>
         <p className="text-[var(--th-muted)]">
           {`עברת על ${reviewed} כרטיסיות היום.`}
