@@ -126,9 +126,9 @@ export default function FlashcardRunner({ questions }: Props) {
                 <img src={q.image} alt="" className="max-h-32 object-contain rounded-lg" />
               </div>
             )}
-            <p className="text-lg font-semibold leading-relaxed">{displayText}</p>
+            <p className="text-xl font-bold leading-relaxed">{displayText}</p>
             <p className="text-xs text-[var(--th-muted)] mt-auto">
-              {flipped ? "" : "לחץ להצגת התשובה"}
+              לחץ להצגת התשובה
             </p>
           </div>
 
@@ -177,11 +177,6 @@ export default function FlashcardRunner({ questions }: Props) {
         )}
       </AnimatePresence>
 
-      {!flipped && (
-        <p className="text-xs text-[var(--th-muted)] text-center">
-          לחץ להצגת התשובה
-        </p>
-      )}
     </main>
   );
 }

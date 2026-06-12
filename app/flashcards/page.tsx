@@ -32,11 +32,8 @@ export default function FlashcardsPage() {
         <BackButton />
       </div>
       <div className="w-full max-w-5xl flex flex-col gap-2">
-        <span className="th-eyebrow">חזרה מרווחת · SRS</span>
-        <h1 className="text-2xl font-bold tracking-tight leading-none">
-          כרטיסיות
-        </h1>
-        <p className="text-[var(--th-muted-strong)] text-base mt-1">
+        <h1 className="th-eyebrow">כרטיסיות · חזרה מרווחת</h1>
+        <p className="text-[var(--th-muted-strong)] text-base">
           {totalDue > 0
             ? `${totalDue} כרטיסיות מחכות לחזרה היום.`
             : "אין כרטיסיות לחזרה — חזור מחר."}

@@ -50,9 +50,10 @@ export function getDueCountByTopic(
   const today = localDateStr(new Date());
   const result: Record<string, number> = {};
   for (const q of questions) {
+    result[q.topic] ??= 0;
     const c = cards[q.id];
     if (!c || c.dueDate <= today) {
-      result[q.topic] = (result[q.topic] ?? 0) + 1;
+      result[q.topic]++;
     }
   }
   return result;

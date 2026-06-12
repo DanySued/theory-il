@@ -110,7 +110,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
           </button>
           {!noTimer && (
             <span
-              className={`font-mono text-xl font-bold tabular-nums ${
+              className={`font-mono text-lg font-bold tabular-nums ${
                 isLowTime ? "text-[var(--th-error)]" : "text-[var(--th-fg)]"
               }`}
             >
@@ -193,7 +193,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
                 />
               </div>
             )}
-            <p className="text-lg font-semibold leading-relaxed">{q.text}</p>
+            <p className="text-xl font-bold leading-relaxed">{q.text}</p>
             <div className="flex flex-col gap-2">
               {q.answers.map((answer, idx) => {
                 const isSelected = answers[currentIdx] === idx;
