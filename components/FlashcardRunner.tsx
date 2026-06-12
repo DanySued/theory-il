@@ -44,7 +44,7 @@ export default function FlashcardRunner({ questions }: Props) {
 
   if (done) {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-6 text-center">
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 gap-6 text-center">
         <div className="text-4xl">🎉</div>
         <h1 className="text-3xl font-bold">סיימת!</h1>
         <p className="text-[var(--th-muted)]">
@@ -65,7 +65,17 @@ export default function FlashcardRunner({ questions }: Props) {
     );
   }
 
-  if (dueIds.length === 0) return null;
+  if (dueIds.length === 0)
+    return (
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 gap-6 text-center">
+        <div className="text-5xl">✓</div>
+        <h1 className="text-2xl font-bold">אין כרטיסיות לחזרה כרגע</h1>
+        <p className="text-[var(--th-muted)] text-sm">כל הכרטיסיות בנושא זה עודכנו. חזור מאוחר יותר.</p>
+        <Link href="/flashcards" className="mt-2 px-6 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors">
+          חזרה לכרטיסיות
+        </Link>
+      </main>
+    );
 
   const q = questions.find((q) => q.id === dueIds[currentIdx])!;
   const displayText = q.text;
@@ -169,7 +179,7 @@ export default function FlashcardRunner({ questions }: Props) {
 
       {!flipped && (
         <p className="text-xs text-[var(--th-muted)] text-center">
-          לחץ על הכרטיסייה לגילוי התשובה
+          לחץ להצגת התשובה
         </p>
       )}
     </main>

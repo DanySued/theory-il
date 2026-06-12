@@ -104,7 +104,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   if (total === 0) {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-4">
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 gap-4">
         <p className="text-[var(--th-muted)]">לא נמצאו שאלות לנושא זה.</p>
         <Link href="/study" className="text-[var(--th-accent)] underline">
           חזרה לנושאים
@@ -219,7 +219,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
                   max={activeTotal}
                   value={jumpInput}
                   onChange={(e) => setJumpInput(e.target.value)}
-                  className="w-16 text-center rounded-lg border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)]"
+                  className="w-16 text-center rounded-lg border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   placeholder="מס׳"
                 />
                 <button

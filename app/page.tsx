@@ -27,7 +27,7 @@ export default function Home() {
             className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
           >
             בוא נתחיל בתמרורים?
-            <span aria-hidden className="mr-2">←</span>
+            <span aria-hidden className="ms-2">←</span>
           </Link>
           <Link
             href="/study"

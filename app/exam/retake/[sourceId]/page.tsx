@@ -40,7 +40,7 @@ export default function RetakePage() {
     return (
       <main className="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-16">
         <p className="text-[var(--th-muted)]">לא נמצא</p>
-        <Link href="/exam" className="text-[var(--th-accent)] underline">מבחן חדש</Link>
+        <Link href="/exam" className="text-[var(--th-accent)] underline">מבחן נוסף</Link>
       </main>
     );
   }
@@ -48,7 +48,7 @@ export default function RetakePage() {
     return (
       <main className="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-16">
         <p className="text-[var(--th-muted)]">אין שאלות לחזור עליהן — כל התשובות היו נכונות!</p>
-        <Link href="/exam" className="text-[var(--th-accent)] underline">מבחן חדש</Link>
+        <Link href="/exam" className="text-[var(--th-accent)] underline">מבחן נוסף</Link>
       </main>
     );
   }

@@ -111,7 +111,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
           {!noTimer && (
             <span
               className={`font-mono text-xl font-bold tabular-nums ${
-                isLowTime ? "text-[var(--th-error)]" : ""
+                isLowTime ? "text-[var(--th-error)]" : "text-[var(--th-fg)]"
               }`}
             >
               {formatTime(secondsLeft)}
@@ -147,6 +147,8 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             {questions.map((_, i) => (
               <button
                 key={i}
+                aria-label={`עבור לשאלה ${i + 1}`}
+                aria-current={i === currentIdx ? "true" : undefined}
                 className={`${navCircleClass(i)} snap-center shrink-0`}
                 onClick={() => setCurrentIdx(i)}
               >
@@ -270,9 +272,9 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
 
       {/* Exit confirmation dialog */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
           <div className="bg-[var(--th-card)] rounded-[var(--th-radius)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
-            <h2 className="text-xl font-bold">לצאת מהמבחן?</h2>
+            <h2 id="exit-dialog-title" className="text-xl font-bold">לצאת מהמבחן?</h2>
             <p className="text-[var(--th-muted)] text-sm">
               ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
             </p>
@@ -299,9 +301,9 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
 
       {/* Confirmation dialog */}
       {showConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
           <div className="bg-[var(--th-card)] rounded-[var(--th-radius)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
-            <h2 className="text-xl font-bold">לסיים את המבחן?</h2>
+            <h2 id="confirm-dialog-title" className="text-xl font-bold">לסיים את המבחן?</h2>
             <p className="text-[var(--th-muted)] text-sm">
               ענית על {answeredCount} מתוך {questions.length} שאלות.{" "}
               {questions.length - answeredCount} שאלות עדיין לא נענו.

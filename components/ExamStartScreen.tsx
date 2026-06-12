@@ -19,7 +19,7 @@ export default function ExamStartScreen({
   const [topic, setTopic] = useState<string>("all");
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6 py-16">
+    <main className="flex flex-1 flex-col items-center justify-center px-4 py-8">
       <div className="w-full max-w-lg flex flex-col gap-8">
         <div className="flex flex-col gap-3 text-center">
           <span className="th-eyebrow">סימולציה · 30 שאלות</span>
@@ -67,7 +67,7 @@ export default function ExamStartScreen({
           className="mt-2 inline-flex items-center justify-center h-14 px-8 rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md"
         >
           התחל מבחן
-          <span aria-hidden className="mr-2">←</span>
+          <span aria-hidden className="ms-2">←</span>
         </motion.button>
 
         <p className="text-xs text-[var(--th-muted)] text-center">

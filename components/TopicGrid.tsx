@@ -35,9 +35,6 @@ export default function TopicGrid({ topics }: TopicGridProps) {
             <span className="text-2xl font-extrabold leading-snug">{t.label}</span>
             <span className="text-sm text-[var(--th-muted)]">{t.count} שאלות</span>
           </div>
-          <div className="h-1 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden">
-            <div className="h-full bg-[var(--th-accent)] rounded-full" style={{ width: "0%" }} />
-          </div>
         </Link>
       ))}
     </div>

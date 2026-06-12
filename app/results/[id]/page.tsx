@@ -103,7 +103,7 @@ export default function ResultsPage() {
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-4">
         <p className="text-[var(--th-muted)]">תוצאות המבחן לא נמצאו.</p>
         <Link href="/exam" className="text-[var(--th-accent)] underline">
-          התחל מבחן חדש
+          מבחן נוסף
         </Link>
       </main>
     );

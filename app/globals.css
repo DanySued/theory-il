@@ -94,6 +94,12 @@ body {
   color: var(--th-fg);
 }
 
+:focus-visible {
+  outline: 2px solid var(--th-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .backface-hidden {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
