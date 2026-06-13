@@ -61,7 +61,7 @@ export default function NavBar() {
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--th-bg)]/85 backdrop-blur-md border-b border-[var(--th-border)]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 h-[61px] flex items-center justify-between gap-3">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 h-[61px] grid grid-cols-[1fr_auto_1fr] items-center gap-3">
         <Link
           href="/"
           className="group inline-flex items-baseline gap-2 text-[var(--th-fg)] shrink-0"
@@ -70,7 +70,7 @@ export default function NavBar() {
         </Link>
 
         {/* Search */}
-        <div ref={containerRef} className="relative flex-1 max-w-xs">
+        <div ref={containerRef} className="relative w-64">
           <div className="flex items-center gap-1.5 h-8 px-2.5 rounded-lg bg-[var(--th-muted-bg)] border border-[var(--th-border)] focus-within:border-[var(--th-accent)] transition-colors">
             <Search size={13} className="text-[var(--th-muted)] shrink-0" />
             <input
@@ -122,7 +122,7 @@ export default function NavBar() {
           )}
         </div>
 
-        <nav className="flex items-center gap-1 text-sm shrink-0">
+        <nav className="flex items-center gap-1 text-sm justify-start">
           {links.map((l) => {
             const active =
               pathname === l.href || pathname.startsWith(l.href + "/");

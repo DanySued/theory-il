@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <main className="flex flex-1 flex-col items-center px-6">
       {/* Hero */}
-      <section className="w-full max-w-2xl flex flex-col items-center text-center gap-8 py-20">
+      <section className="w-full max-w-2xl flex flex-col items-center text-center gap-8 min-h-[calc(100dvh-61px)] justify-center py-16">
         <h1 className="th-display text-[var(--th-fg)]">
           מתכוננים
           <br />
