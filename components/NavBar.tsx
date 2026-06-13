@@ -122,7 +122,7 @@ export default function NavBar() {
           )}
         </div>
 
-        <nav className="flex items-center gap-1 text-sm justify-start">
+        <nav className="flex items-center gap-1 text-sm justify-end">
           {links.map((l) => {
             const active =
               pathname === l.href || pathname.startsWith(l.href + "/");
