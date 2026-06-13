@@ -3,7 +3,6 @@
 import { useState } from "react";
 import ExamRunner from "@/components/ExamRunner";
 import ExamStartScreen from "@/components/ExamStartScreen";
-import BackButton from "@/components/BackButton";
 import { generateExam, generateExamByTopic } from "@/lib/exam";
 import type { Question } from "@/components/QuestionCard";
 
@@ -15,14 +14,7 @@ export default function ExamPage() {
   }
 
   if (!questions) {
-    return (
-      <>
-        <div className="w-full px-4 pt-3 flex justify-start">
-          <BackButton />
-        </div>
-        <ExamStartScreen onStart={handleStart} />
-      </>
-    );
+    return <ExamStartScreen onStart={handleStart} />;
   }
   return <ExamRunner questions={questions} />;
 }
