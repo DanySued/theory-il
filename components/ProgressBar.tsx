@@ -25,16 +25,13 @@ export default function ProgressBar({ current, total, className = "" }: Progress
         animate={{ width: `${pct}%` }}
         transition={{ type: "spring", stiffness: 120, damping: 18, mass: 0.8 }}
       >
-        <motion.div
-          key={pct}
+        {/* shine bar — static, no animation */}
+        <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)",
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)",
           }}
-          initial={{ x: "-100%" }}
-          animate={{ x: "200%" }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
         />
       </motion.div>
     </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Search, X } from "lucide-react";
 
 const links = [
   { href: "/study", label: "לימוד" },
@@ -9,19 +11,118 @@ const links = [
   { href: "/flashcards", label: "כרטיסיות" },
 ];
 
+// Real content from the app — topics, pages, sign categories
+const SEARCH_SUGGESTIONS: { label: string; href: string; kind: string }[] = [
+  { label: "חוקי התנועה", href: "/study/חוקי התנועה", kind: "נושא לימוד" },
+  { label: "תמרורים", href: "/study/תמרורים", kind: "נושא לימוד" },
+  { label: "בטיחות", href: "/study/בטיחות", kind: "נושא לימוד" },
+  { label: "הכרת הרכב", href: "/study/הכרת הרכב", kind: "נושא לימוד" },
+  { label: "מבחן תרגול", href: "/exam", kind: "עמוד" },
+  { label: "כרטיסיות שינון", href: "/flashcards", kind: "עמוד" },
+  { label: "כל הנושאים", href: "/study", kind: "עמוד" },
+  { label: "תמרורי אזהרה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
+  { label: "תמרורי חובה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
+  { label: "תמרורי איסור", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
+  { label: "תמרורי מידע", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
+  { label: "סימוני כביש", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
+];
+
 export default function NavBar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const filtered = query.trim().length > 0
+    ? SEARCH_SUGGESTIONS.filter((s) =>
+        s.label.includes(query) || s.kind.includes(query)
+      )
+    : [];
+
+  const handleSelect = useCallback((href: string) => {
+    router.push(href);
+    setQuery("");
+    setOpen(false);
+    inputRef.current?.blur();
+  }, [router]);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--th-bg)]/85 backdrop-blur-md border-b border-[var(--th-border)]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 h-14 flex items-center justify-between">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 h-[61px] flex items-center justify-between gap-3">
         <Link
           href="/"
-          className="group inline-flex items-baseline gap-2 text-[var(--th-fg)]"
+          className="group inline-flex items-baseline gap-2 text-[var(--th-fg)] shrink-0"
         >
           <span className="text-xl font-extrabold tracking-tight">תיאוריה</span>
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
+
+        {/* Search */}
+        <div ref={containerRef} className="relative flex-1 max-w-xs">
+          <div className="flex items-center gap-1.5 h-8 px-2.5 rounded-lg bg-[var(--th-muted-bg)] border border-[var(--th-border)] focus-within:border-[var(--th-accent)] transition-colors">
+            <Search size={13} className="text-[var(--th-muted)] shrink-0" />
+            <input
+              ref={inputRef}
+              type="search"
+              placeholder="חיפוש…"
+              dir="rtl"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setOpen(true);
+              }}
+              onFocus={() => setOpen(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") { setOpen(false); setQuery(""); }
+                if (e.key === "Enter" && filtered.length > 0) handleSelect(filtered[0].href);
+              }}
+              className="flex-1 bg-transparent text-sm text-[var(--th-fg)] placeholder:text-[var(--th-muted)] outline-none min-w-0"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => { setQuery(""); setOpen(false); inputRef.current?.focus(); }}
+                className="shrink-0 text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors"
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
+
+          {open && filtered.length > 0 && (
+            <ul
+              role="listbox"
+              className="absolute top-full mt-1 w-full bg-[var(--th-card)] border border-[var(--th-border)] rounded-xl shadow-lg overflow-hidden z-50"
+            >
+              {filtered.map((s, i) => (
+                <li key={i} role="option" aria-selected={false}>
+                  <button
+                    type="button"
+                    onMouseDown={(e) => { e.preventDefault(); handleSelect(s.href); }}
+                    className="w-full text-start px-3 py-2 flex items-center justify-between gap-2 hover:bg-[var(--th-muted-bg)] transition-colors"
+                  >
+                    <span className="text-sm font-medium text-[var(--th-fg)]">{s.label}</span>
+                    <span className="text-xs text-[var(--th-muted)] shrink-0">{s.kind}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <nav className="flex items-center gap-1 text-sm shrink-0">
           {links.map((l) => {
             const active =
               pathname === l.href || pathname.startsWith(l.href + "/");

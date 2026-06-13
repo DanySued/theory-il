@@ -38,7 +38,7 @@ export default function StreakBadge() {
       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--th-muted-bg)] border border-[var(--th-border)] text-sm"
       initial={{ y: 12, opacity: 0, scale: 0.85 }}
       animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+      transition={{ type: "spring", stiffness: 200, damping: 28 }}
     >
       <span>🔥</span>
       <span className="font-bold tabular-nums">{displayCount}</span>
