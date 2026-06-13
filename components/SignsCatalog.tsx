@@ -76,7 +76,7 @@ function SignCard({
       )}
 
       {known ? (
-        <div className="h-[52px] w-[52px] shrink-0 flex items-center justify-center rounded-full border-2 border-green-500/60 text-green-500">
+        <div className="h-[72px] w-[72px] shrink-0 flex items-center justify-center rounded-full border-2 border-green-500/60 text-green-500">
           <Check size={26} strokeWidth={3} />
         </div>
       ) : sign.image ? (
@@ -85,10 +85,10 @@ function SignCard({
           alt={sign.name}
           draggable={false}
           loading="lazy"
-          className="object-contain shrink-0 w-[52px] h-[52px]"
+          className="shrink-0 w-[72px] h-[72px] object-contain"
         />
       ) : (
-        <div className="h-[52px] shrink-0" />
+        <div className="h-[72px] shrink-0" />
       )}
 
       <span
