@@ -28,10 +28,10 @@ export default function FlashcardsPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-8 gap-8">
-      <div className="w-full max-w-5xl flex justify-start">
+      <div className="w-full max-w-6xl flex justify-start">
         <BackButton />
       </div>
-      <div className="w-full max-w-5xl flex flex-col gap-2">
+      <div className="w-full max-w-6xl flex flex-col gap-2">
         <h1 className="th-eyebrow">כרטיסיות · חזרה מרווחת</h1>
         <p className="text-[var(--th-muted-strong)] text-base">
           {totalDue > 0
@@ -40,7 +40,7 @@ export default function FlashcardsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-5xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-6xl">
         {topics.map(({ topic, total, due }, i) => (
           <Link
             key={topic}

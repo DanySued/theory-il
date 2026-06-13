@@ -21,7 +21,7 @@ const TOPIC_ICON: Record<string, string> = {
 
 export default function TopicGrid({ topics }: TopicGridProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-5xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
       {topics.map((t) => (
         <Link
           key={t.key}

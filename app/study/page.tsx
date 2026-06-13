@@ -26,10 +26,10 @@ export default function StudyPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-8 gap-8">
-      <div className="w-full max-w-5xl flex justify-start">
+      <div className="w-full max-w-6xl flex justify-start">
         <BackButton />
       </div>
-      <div className="w-full max-w-5xl flex flex-col gap-2">
+      <div className="w-full max-w-6xl flex flex-col gap-2">
         <h1 className="th-eyebrow">לימוד לפי נושאים</h1>
         <p className="text-[var(--th-muted-strong)] text-base">
           בחר נושא — שאלות מהמאגר הרשמי, עם הסבר אחרי כל תשובה.
