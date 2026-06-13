@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import BackButton from "@/components/BackButton";
 
 const TOPICS = [
   { value: "all", label: "כל הנושאים" },
@@ -22,16 +21,14 @@ export default function ExamStartScreen({
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-4 py-8">
       <div className="w-full max-w-lg flex flex-col gap-8">
-        <div className="flex justify-start">
-          <BackButton />
-        </div>
-
         <div className="flex flex-col gap-3 text-center">
           <span className="th-eyebrow">סימולציה · 30 שאלות · 40 דקות</span>
-          <h1 className="text-5xl font-extrabold tracking-tight leading-none">
+          <h1 className="text-3xl font-extrabold tracking-tight leading-none">
             מבחן מדומה
           </h1>
         </div>
+
+        <div className="th-rule" />
 
         <div className="flex flex-col gap-3">
           <label className="th-eyebrow text-[var(--th-muted-strong)]">
@@ -73,6 +70,9 @@ export default function ExamStartScreen({
           <span aria-hidden className="ms-2">←</span>
         </motion.button>
 
+        <p className="text-xs text-[var(--th-muted)] text-center">
+          לעבור צריך 26 תשובות נכונות מתוך 30.
+        </p>
       </div>
     </main>
   );
