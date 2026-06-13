@@ -154,10 +154,10 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
     group.reduce((n, s) => (knownSigns.has(s.id) ? n + 1 : n), 0);
 
   return (
-    <div className="w-full flex flex-col gap-4 mt-4">
+    <div className="w-full flex flex-col gap-8 mt-4">
       {/* Header */}
       <div className="flex flex-col gap-3 items-center text-center">
-        <h2 className="text-2xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
+        <h2 className="text-4xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
 
         {/* Overall progress */}
         <div className="w-full max-w-md flex flex-col gap-2">
