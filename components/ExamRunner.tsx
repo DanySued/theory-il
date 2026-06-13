@@ -158,8 +158,6 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
           </div>
         </div>
 
-        <div className="th-rule w-full" />
-
         {/* Question area */}
         <div className="w-full flex flex-col gap-4">
           <div className="flex items-center justify-between text-sm">

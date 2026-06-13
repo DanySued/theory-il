@@ -77,8 +77,6 @@ export default function Home() {
 
         <StreakBadge />
 
-        <div className="th-rule w-full" />
-
         <div className="flex flex-col items-center gap-4 w-full">
           <Link
             href="/study/תמרורים"

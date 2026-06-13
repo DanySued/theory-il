@@ -28,7 +28,6 @@ export default function ExamStartScreen({
           </h1>
         </div>
 
-        <div className="th-rule" />
 
         <div className="flex flex-col gap-3">
           <label className="th-eyebrow text-[var(--th-muted-strong)]">
