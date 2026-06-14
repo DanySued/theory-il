@@ -24,6 +24,7 @@ const SEARCH_SUGGESTIONS: { label: string; href: string; kind: string }[] = [
   { label: "כל הנושאים", href: "/study", kind: "עמוד" },
   { label: "התקדמות שלי", href: "/progress", kind: "עמוד" },
   { label: "שאלות שמורות", href: "/saved", kind: "עמוד" },
+  { label: "חזרה חכמה", href: "/review", kind: "עמוד" },
   { label: "תמרורי אזהרה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי חובה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי איסור", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },

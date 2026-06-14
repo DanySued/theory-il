@@ -20,6 +20,7 @@ const SIGN_CATEGORIES = [
 ];
 
 const STUDY_MODES = [
+  { label: "חזרה חכמה", href: "/review", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
   { label: "לימוד לפי נושא", href: "/study", desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם הסבר מיידי" },
   { label: "מבחן תרגול", href: "/exam", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
   { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מהירה בשיטת SRS — מתאים לשנות מועד" },
@@ -76,7 +77,7 @@ export default function Home() {
             </p>
           </div>
         </FadeSection>
-        <div className="grid sm:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 gap-4">
           {STUDY_MODES.map((m, i) => (
             <FadeSection key={m.href} delay={i * 60}>
               <Link
