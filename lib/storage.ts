@@ -17,6 +17,36 @@ const QSTATS_KEY = "theory-il:qstats";
 const STREAK_KEY = "theory-il:streak";
 const KNOWN_SIGNS_KEY = "theory-il:signsKnown";
 const DRILL_POS_KEY = "theory-il:drillPos";
+const BOOKMARKS_KEY = "theory-il:bookmarks";
+
+// --- Bookmarked questions ---
+
+export function getBookmarks(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem(BOOKMARKS_KEY);
+    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveBookmarks(ids: Set<string>): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(BOOKMARKS_KEY, JSON.stringify([...ids]));
+}
+
+export function toggleBookmark(id: string): Set<string> {
+  const ids = getBookmarks();
+  if (ids.has(id)) ids.delete(id);
+  else ids.add(id);
+  saveBookmarks(ids);
+  return ids;
+}
+
+export function isBookmarked(id: string): boolean {
+  return getBookmarks().has(id);
+}
 
 // --- Drill position (last-viewed question index per topic) ---
 

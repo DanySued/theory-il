@@ -9,6 +9,7 @@ const links = [
   { href: "/study", label: "לימוד" },
   { href: "/exam", label: "מבחן" },
   { href: "/flashcards", label: "כרטיסיות" },
+  { href: "/saved", label: "שמורות" },
   { href: "/progress", label: "התקדמות" },
 ];
 
@@ -22,6 +23,7 @@ const SEARCH_SUGGESTIONS: { label: string; href: string; kind: string }[] = [
   { label: "כרטיסיות שינון", href: "/flashcards", kind: "עמוד" },
   { label: "כל הנושאים", href: "/study", kind: "עמוד" },
   { label: "התקדמות שלי", href: "/progress", kind: "עמוד" },
+  { label: "שאלות שמורות", href: "/saved", kind: "עמוד" },
   { label: "תמרורי אזהרה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי חובה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי איסור", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },

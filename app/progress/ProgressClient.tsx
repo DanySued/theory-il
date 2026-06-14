@@ -10,6 +10,7 @@ import {
   getQStats,
   getStreak,
   listAttempts,
+  getBookmarks,
   type Attempt,
   type QuestionStats,
 } from "@/lib/storage";
@@ -28,6 +29,7 @@ interface DataState {
   dueCount: number;
   streakCurrent: number;
   streakLongest: number;
+  bookmarkCount: number;
 }
 
 export default function ProgressClient() {
@@ -49,6 +51,7 @@ export default function ProgressClient() {
     const attempts = listAttempts().slice(0, 5);
     const dueCount = getDueCards(questions.map((q) => q.id)).length;
     const streak = getStreak();
+    const bookmarkCount = getBookmarks().size;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setData({
       stats,
@@ -58,6 +61,7 @@ export default function ProgressClient() {
       dueCount,
       streakCurrent: streak.current,
       streakLongest: streak.longest,
+      bookmarkCount,
     });
   }, []);
 
@@ -80,7 +84,7 @@ export default function ProgressClient() {
           {/* Quick stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full">
             <StatCard label="רצף ימים" value={data.streakCurrent} sub={data.streakLongest > data.streakCurrent ? `שיא: ${data.streakLongest}` : undefined} />
-            <StatCard label="מבחנים" value={data.attempts.length === 5 ? "5+" : data.attempts.length} sub="לאחרונה" />
+            <StatCard label="שמורות" value={data.bookmarkCount} sub="לחזרה" href="/saved" />
             <StatCard label="לחזרה" value={data.dueCount} sub="כרטיסיות" href="/flashcards" />
             <StatCard
               label="נצפו"

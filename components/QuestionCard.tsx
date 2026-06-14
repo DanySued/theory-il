@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { recordAnswer } from "@/lib/storage";
+import { recordAnswer, getBookmarks, toggleBookmark } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
 
@@ -47,6 +47,17 @@ export default function QuestionCard({
   trackStats = false,
 }: QuestionCardProps) {
   const { ripples, addRipple } = useRipple();
+  const [bookmarked, setBookmarked] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setBookmarked(getBookmarks().has(question.id));
+  }, [question.id]);
+
+  const handleToggleBookmark = useCallback(() => {
+    const next = toggleBookmark(question.id);
+    setBookmarked(next.has(question.id));
+  }, [question.id]);
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -108,9 +119,27 @@ export default function QuestionCard({
       {/* Counter */}
       <div className="flex items-center justify-between text-sm text-[var(--th-muted)]">
         <span>{`שאלה ${currentIndex + 1} מתוך ${total}`}</span>
-        <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--th-muted-bg)]">
-          {question.topic}
-        </span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleToggleBookmark}
+            aria-label={bookmarked ? "הסר מהשמורות" : "שמור שאלה"}
+            aria-pressed={bookmarked}
+            className={`inline-flex items-center justify-center w-7 h-7 rounded-full transition-colors ${
+              bookmarked
+                ? "text-[var(--th-accent)] hover:bg-[var(--th-accent-soft)]"
+                : "text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]"
+            }`}
+            title={bookmarked ? "הסר מהשמורות" : "שמור שאלה"}
+          >
+            <span aria-hidden className="text-base leading-none">
+              {bookmarked ? "★" : "☆"}
+            </span>
+          </button>
+          <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--th-muted-bg)]">
+            {question.topic}
+          </span>
+        </div>
       </div>
 
       {/* Animated card with swipe */}
