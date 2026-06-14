@@ -125,6 +125,7 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
   const [knownSigns, setKnownSigns] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setKnownSigns(getKnownSigns());
   }, []);
 

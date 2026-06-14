@@ -51,6 +51,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
         })
         .map((q) => q.id)
     );
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setWeakIds(weak);
   }, [questions]);
 

@@ -6,6 +6,7 @@ interface Props {
   title: string;
   meta?: ReactNode;
   index?: number;
+  tag?: string;
   accentDot?: string;
   badge?: ReactNode;
   progress?: ReactNode;
@@ -16,6 +17,7 @@ export default function TopicCard({
   title,
   meta,
   index,
+  tag,
   accentDot,
   badge,
   progress,
@@ -26,7 +28,12 @@ export default function TopicCard({
       className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
     >
       <div className="flex items-baseline justify-between">
-        {typeof index === "number" ? (
+        {tag ? (
+          <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2 py-0.5 rounded-full">
+            <span aria-hidden className="w-1 h-1 rounded-full bg-[var(--th-accent)]" />
+            {tag}
+          </span>
+        ) : typeof index === "number" ? (
           <span className="text-[0.7rem] font-bold tracking-[0.18em] text-[var(--th-muted)] tabular-nums">
             {String(index + 1).padStart(2, "0")}
           </span>

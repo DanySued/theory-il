@@ -40,12 +40,12 @@ export default function FlashcardsPage() {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-        {topics.map(({ topic, total, due }, i) => (
+        {topics.map(({ topic, total, due }) => (
           <TopicCard
             key={topic}
             href={`/flashcards/${encodeURIComponent(topic)}`}
             title={topic}
-            index={i}
+            tag="SRS"
             meta={`${total} כרטיסיות`}
             badge={
               due > 0 ? (

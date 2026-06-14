@@ -30,6 +30,7 @@ export default function ResultsPage() {
 
   useEffect(() => {
     const a = getAttempt(id);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttempt(a);
     if (a && !a.answersRecorded) {
       recordAnswersBatch(a.questions, a.answers);
@@ -185,21 +186,21 @@ export default function ResultsPage() {
           <div className="grid grid-cols-2 gap-2">
             <Link
               href="/study"
-              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
             >
               חזרה ללמוד
             </Link>
             {wrongCount > 0 ? (
               <Link
                 href={`/exam/retake/${id}`}
-                className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+                className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
               >
                 שגיאות ({wrongCount})
               </Link>
             ) : (
               <button
                 disabled
-                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
+                className="h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
               >
                 שגיאות
               </button>
@@ -207,7 +208,7 @@ export default function ResultsPage() {
             <button
               onClick={handleShare}
               disabled={sharing || !isFullExam}
-              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
@@ -218,7 +219,7 @@ export default function ResultsPage() {
             <button
               onClick={handleExportDocx}
               disabled={exportingDocx}
-              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />

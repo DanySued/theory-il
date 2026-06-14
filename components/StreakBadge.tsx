@@ -11,6 +11,7 @@ export default function StreakBadge() {
 
   useEffect(() => {
     const data = getStreak();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStreak(data);
     if (data && data.current > 0) {
       const start = Math.max(1, data.current - 3);

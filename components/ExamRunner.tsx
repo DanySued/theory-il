@@ -80,6 +80,36 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
   const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
   const isLowTime = secondsLeft < 5 * 60;
 
+  // Keyboard shortcuts: arrows (prev/next), 1-4 (answer), M (mark for review)
+  useEffect(() => {
+    function handler(e: KeyboardEvent) {
+      if (submitted || showConfirm || showExitConfirm) return;
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      // In RTL, ArrowRight is "previous" visually (right = back), ArrowLeft is "next"
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setCurrentIdx((i) => Math.max(0, i - 1));
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentIdx((i) => Math.min(questions.length - 1, i + 1));
+      } else if (e.key === "m" || e.key === "M") {
+        e.preventDefault();
+        setMarkedForReview((prev) => prev.map((m, i) => (i === currentIdx ? !m : m)));
+      } else if (["1", "2", "3", "4"].includes(e.key)) {
+        const idx = parseInt(e.key, 10) - 1;
+        if (idx < questions[currentIdx].answers.length) {
+          e.preventDefault();
+          setAnswers((prev) => prev.map((a, i) => (i === currentIdx ? idx : a)));
+        }
+      }
+    }
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [currentIdx, questions, submitted, showConfirm, showExitConfirm]);
+
   function navCircleClass(i: number): string {
     const isAnswered = answers[i] !== null;
     const isMarked = markedForReview[i];
@@ -98,7 +128,10 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
     <main className="flex flex-1 flex-col">
       {/* Sticky top bar */}
       <div className="sticky top-0 z-10 bg-[var(--th-card)] border-b border-[var(--th-border)]">
-        <div className="px-4 py-3 flex items-center justify-between gap-4">
+        <div
+          className="flex items-center justify-between gap-4 py-3"
+          style={{ paddingInline: "var(--th-page-px)" }}
+        >
           <button
             type="button"
             onClick={() => setShowExitConfirm(true)}
@@ -125,7 +158,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             onClick={() =>
               answeredCount < questions.length ? setShowConfirm(true) : doSubmit()
             }
-            className="h-10 px-4 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
+            className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
           >
             סיים מבחן
           </button>
@@ -140,7 +173,10 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col items-center px-4 py-6 gap-6 max-w-2xl mx-auto w-full">
+      <div
+        className="flex flex-1 flex-col items-center py-8 gap-8 max-w-2xl mx-auto w-full"
+        style={{ paddingInline: "var(--th-page-px)" }}
+      >
         {/* Question navigator — horizontal scroll on mobile */}
         <div className="w-full overflow-x-auto pb-1 snap-x snap-mandatory">
           <div className="flex gap-2 w-max mx-auto px-1">
@@ -266,6 +302,11 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             <span className="w-4 h-4 rounded-full bg-[var(--th-marked-bg)] inline-block" /> מסומנת לחזרה
           </span>
         </div>
+
+        {/* Keyboard hint */}
+        <p className="text-[0.7rem] text-[var(--th-muted)] text-center hidden sm:block" aria-hidden>
+          קיצורי מקלדת: ← → לניווט · 1-4 לבחירת תשובה · M לסמן לחזרה
+        </p>
       </div>
 
       {/* Exit confirmation dialog */}
@@ -288,7 +329,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
                   setShowExitConfirm(false);
                   router.push("/");
                 }}
-                className="h-10 px-4 rounded-[var(--th-radius)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 צא מהמבחן
               </button>
@@ -318,7 +359,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
                   setShowConfirm(false);
                   doSubmit();
                 }}
-                className="h-10 px-4 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
               >
                 סיים בכל זאת
               </button>
