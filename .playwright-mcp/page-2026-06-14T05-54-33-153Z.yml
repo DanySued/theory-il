@@ -1,0 +1,76 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+          - text: לימוד
+        - link "מבחן" [ref=e15] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e16] [cursor=pointer]:
+          - /url: /flashcards
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - button "חזרה לדף הקודם" [ref=e19]:
+        - generic [ref=e20]: →
+        - text: חזרה
+      - generic [ref=e21]:
+        - button "לימוד" [ref=e22]: לימוד
+        - button "תרגול" [ref=e24]
+    - generic [ref=e25]:
+      - generic [ref=e26]: נושא
+      - heading "תמרורים" [level=1] [ref=e27]
+      - paragraph [ref=e28]: 361 שאלות במאגר
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: 0/130
+          - progressbar "0 מתוך 130" [ref=e34]
+          - button "איפוס" [disabled] [ref=e35]:
+            - img [ref=e36]
+            - text: איפוס
+        - generic [ref=e39]: לחץ על תמרור שאתה זוכר כדי להסתירו ולעקוב אחר ההתקדמות
+      - button "אזהרה 0/47 0" [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e45]: אזהרה
+            - generic [ref=e46]: 0/47
+          - progressbar "0 מתוך 47" [ref=e47]
+        - img [ref=e49]
+      - button "חובה 0/28 0" [ref=e52]:
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - generic [ref=e56]: חובה
+            - generic [ref=e57]: 0/28
+          - progressbar "0 מתוך 28" [ref=e58]
+        - img [ref=e60]
+      - button "איסור 0/38 0" [ref=e63]:
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - generic [ref=e67]: איסור
+            - generic [ref=e68]: 0/38
+          - progressbar "0 מתוך 38" [ref=e69]
+        - img [ref=e71]
+      - button "מידע 0/9 0" [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e78]: מידע
+            - generic [ref=e79]: 0/9
+          - progressbar "0 מתוך 9" [ref=e80]
+        - img [ref=e82]
+      - button "סימוני כביש 0/8 0" [ref=e85]:
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - generic [ref=e89]: סימוני כביש
+            - generic [ref=e90]: 0/8
+          - progressbar "0 מתוך 8" [ref=e91]
+        - img [ref=e93]
+  - button "Open Next.js Dev Tools" [ref=e100] [cursor=pointer]:
+    - img [ref=e101]
+  - alert [ref=e104]

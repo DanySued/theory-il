@@ -1,0 +1,126 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e14] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e15] [cursor=pointer]:
+          - /url: /flashcards
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - heading "מתכוננים לתיאוריה" [level=1] [ref=e18]:
+        - text: מתכוננים
+        - text: לתיאוריה
+      - paragraph [ref=e19]:
+        - text: הגעת למקום הנכון :)
+        - text: לעבור תיאוריה זה לא כזה פשוט. אבל אנחנו פה בשבילך
+      - generic [ref=e20]:
+        - generic [ref=e21]: 🔥
+        - generic [ref=e22]: "1"
+        - generic [ref=e23]: יום רצופים
+      - generic [ref=e24]:
+        - link "בוא נתחיל בתמרורים?" [ref=e25] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - text: בוא נתחיל בתמרורים?
+          - generic [ref=e26]: ←
+        - link "רוצה להתחיל בנושא אחר?" [ref=e27] [cursor=pointer]:
+          - /url: /study
+    - generic [ref=e28]:
+      - generic [ref=e30]:
+        - generic [ref=e31]: דרכי לימוד
+        - heading "שלוש דרכים להתכונן" [level=2] [ref=e32]
+        - paragraph [ref=e33]: כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
+      - generic [ref=e34]:
+        - link "לימוד לפי נושא קרא, ענה ולמד — שאלות מהמאגר הרשמי עם הסבר מיידי" [ref=e36] [cursor=pointer]:
+          - /url: /study
+          - generic [ref=e37]: לימוד לפי נושא
+          - generic [ref=e38]: קרא, ענה ולמד — שאלות מהמאגר הרשמי עם הסבר מיידי
+        - link "מבחן תרגול 30 שאלות אקראיות, ממשק דומה למבחן האמיתי" [ref=e40] [cursor=pointer]:
+          - /url: /exam
+          - generic [ref=e41]: מבחן תרגול
+          - generic [ref=e42]: 30 שאלות אקראיות, ממשק דומה למבחן האמיתי
+        - link "כרטיסיות שינון חזרה מהירה בשיטת SRS — מתאים לשנות מועד" [ref=e44] [cursor=pointer]:
+          - /url: /flashcards
+          - generic [ref=e45]: כרטיסיות שינון
+          - generic [ref=e46]: חזרה מהירה בשיטת SRS — מתאים לשנות מועד
+    - generic [ref=e47]:
+      - generic [ref=e49]:
+        - generic [ref=e50]: נושאי הלימוד
+        - heading "1,273 שאלות מהמאגר הרשמי" [level=2] [ref=e51]
+        - paragraph [ref=e52]: כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
+      - generic [ref=e53]:
+        - link "חוקי התנועה זכות קדימה, מהירות, חנייה, אותות ועוד 501" [ref=e55] [cursor=pointer]:
+          - /url: /study/חוקי התנועה
+          - generic [ref=e56]:
+            - generic [ref=e57]: חוקי התנועה
+            - generic [ref=e58]: זכות קדימה, מהירות, חנייה, אותות ועוד
+          - generic [ref=e59]: "501"
+        - link "תמרורים אזהרה, חובה, איסור, מידע וסימוני כביש 361" [ref=e61] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - generic [ref=e62]:
+            - generic [ref=e63]: תמרורים
+            - generic [ref=e64]: אזהרה, חובה, איסור, מידע וסימוני כביש
+          - generic [ref=e65]: "361"
+        - link "בטיחות בטיחות בנהיגה, בטיחות ילדים ומצבי חירום 305" [ref=e67] [cursor=pointer]:
+          - /url: /study/בטיחות
+          - generic [ref=e68]:
+            - generic [ref=e69]: בטיחות
+            - generic [ref=e70]: בטיחות בנהיגה, בטיחות ילדים ומצבי חירום
+          - generic [ref=e71]: "305"
+        - link "הכרת הרכב מכניקה בסיסית, מד דלק, אורות ועוד 106" [ref=e73] [cursor=pointer]:
+          - /url: /study/הכרת הרכב
+          - generic [ref=e74]:
+            - generic [ref=e75]: הכרת הרכב
+            - generic [ref=e76]: מכניקה בסיסית, מד דלק, אורות ועוד
+          - generic [ref=e77]: "106"
+    - generic [ref=e78]:
+      - generic [ref=e80]:
+        - generic [ref=e81]: מילון התמרורים
+        - heading "חמש קטגוריות של תמרורים" [level=2] [ref=e82]
+        - paragraph [ref=e83]: ניתן לסמן כל תמרור שאתה מכיר ולעקוב אחר ההתקדמות
+      - generic [ref=e84]:
+        - link "אזהרה משולשים אדומים — מזהירים מפני סכנה קרובה ←" [ref=e86] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - generic [ref=e88]:
+            - generic [ref=e89]: אזהרה
+            - generic [ref=e90]: משולשים אדומים — מזהירים מפני סכנה קרובה
+          - generic [ref=e91]: ←
+        - link "חובה עיגולים כחולים — מחייבים פעולה מסוימת ←" [ref=e93] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - generic [ref=e95]:
+            - generic [ref=e96]: חובה
+            - generic [ref=e97]: עיגולים כחולים — מחייבים פעולה מסוימת
+          - generic [ref=e98]: ←
+        - link "איסור עיגולים אדומים — אוסרים פעולה מסוימת ←" [ref=e100] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - generic [ref=e102]:
+            - generic [ref=e103]: איסור
+            - generic [ref=e104]: עיגולים אדומים — אוסרים פעולה מסוימת
+          - generic [ref=e105]: ←
+        - link "מידע מלבנים ירוקים — מספקים מידע לנהג ←" [ref=e107] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - generic [ref=e109]:
+            - generic [ref=e110]: מידע
+            - generic [ref=e111]: מלבנים ירוקים — מספקים מידע לנהג
+          - generic [ref=e112]: ←
+        - link "סימוני כביש סימונים על הכביש — קווים, חצים ורצועות ←" [ref=e114] [cursor=pointer]:
+          - /url: /study/תמרורים
+          - generic [ref=e116]:
+            - generic [ref=e117]: סימוני כביש
+            - generic [ref=e118]: סימונים על הכביש — קווים, חצים ורצועות
+          - generic [ref=e119]: ←
+      - link "לכל מילון התמרורים" [ref=e122] [cursor=pointer]:
+        - /url: /study/תמרורים
+        - text: לכל מילון התמרורים
+        - generic [ref=e123]: ←
+  - button "Open Next.js Dev Tools" [ref=e129] [cursor=pointer]:
+    - img [ref=e130]
+  - alert [ref=e133]

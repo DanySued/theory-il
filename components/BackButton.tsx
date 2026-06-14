@@ -14,7 +14,7 @@ export default function BackButton({ className }: { className?: string }) {
   }
 
   const base =
-    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors border border-[var(--th-border)]";
+    "inline-flex items-center gap-1.5 h-8 px-3 rounded-[var(--th-radius-sm)] text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors border border-[var(--th-border)]";
 
   return (
     <button

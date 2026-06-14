@@ -1,0 +1,40 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e14] [cursor=pointer]:
+          - /url: /exam
+          - text: מבחן
+        - link "כרטיסיות" [ref=e16] [cursor=pointer]:
+          - /url: /flashcards
+  - button "חזרה לדף הקודם" [ref=e18]:
+    - generic [ref=e19]: →
+    - text: חזרה
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: סימולציה · 30 שאלות · 40 דקות
+        - heading "מבחן מדומה" [level=1] [ref=e24]
+      - generic [ref=e25]:
+        - generic [ref=e26]: נושא
+        - generic [ref=e27]:
+          - button "כל הנושאים" [ref=e28]
+          - button "חוקי התנועה" [ref=e29]
+          - button "תמרורים" [ref=e30]
+          - button "בטיחות" [ref=e31]
+          - button "הכרת הרכב" [ref=e32]
+      - button "התחל מבחן" [ref=e33]:
+        - text: התחל מבחן
+        - generic [ref=e34]: ←
+      - paragraph [ref=e35]: לעבור צריך 26 תשובות נכונות מתוך 30.
+  - button "Open Next.js Dev Tools" [ref=e41] [cursor=pointer]:
+    - img [ref=e42]
+  - alert [ref=e45]

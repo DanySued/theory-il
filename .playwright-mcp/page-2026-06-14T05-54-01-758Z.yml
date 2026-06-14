@@ -1,0 +1,94 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e14] [cursor=pointer]:
+          - /url: /exam
+          - text: מבחן
+        - link "כרטיסיות" [ref=e16] [cursor=pointer]:
+          - /url: /flashcards
+  - button "Open Next.js Dev Tools" [ref=e42] [cursor=pointer]:
+    - img [ref=e43]
+  - alert [ref=e46]
+  - main [ref=e47]:
+    - generic [ref=e49]:
+      - button "יציאה מהמבחן" [ref=e50]:
+        - generic [ref=e51]: →
+        - text: יציאה
+      - generic [ref=e52]: 40:00
+      - generic [ref=e53]: 0/30 נענו
+      - button "סיים מבחן" [ref=e54]
+    - generic [ref=e56]:
+      - generic [ref=e58]:
+        - button "עבור לשאלה 1" [ref=e59] [cursor=pointer]: "1"
+        - button "עבור לשאלה 2" [ref=e60] [cursor=pointer]: "2"
+        - button "עבור לשאלה 3" [ref=e61] [cursor=pointer]: "3"
+        - button "עבור לשאלה 4" [ref=e62] [cursor=pointer]: "4"
+        - button "עבור לשאלה 5" [ref=e63] [cursor=pointer]: "5"
+        - button "עבור לשאלה 6" [ref=e64] [cursor=pointer]: "6"
+        - button "עבור לשאלה 7" [ref=e65] [cursor=pointer]: "7"
+        - button "עבור לשאלה 8" [ref=e66] [cursor=pointer]: "8"
+        - button "עבור לשאלה 9" [ref=e67] [cursor=pointer]: "9"
+        - button "עבור לשאלה 10" [ref=e68] [cursor=pointer]: "10"
+        - button "עבור לשאלה 11" [ref=e69] [cursor=pointer]: "11"
+        - button "עבור לשאלה 12" [ref=e70] [cursor=pointer]: "12"
+        - button "עבור לשאלה 13" [ref=e71] [cursor=pointer]: "13"
+        - button "עבור לשאלה 14" [ref=e72] [cursor=pointer]: "14"
+        - button "עבור לשאלה 15" [ref=e73] [cursor=pointer]: "15"
+        - button "עבור לשאלה 16" [ref=e74] [cursor=pointer]: "16"
+        - button "עבור לשאלה 17" [ref=e75] [cursor=pointer]: "17"
+        - button "עבור לשאלה 18" [ref=e76] [cursor=pointer]: "18"
+        - button "עבור לשאלה 19" [ref=e77] [cursor=pointer]: "19"
+        - button "עבור לשאלה 20" [ref=e78] [cursor=pointer]: "20"
+        - button "עבור לשאלה 21" [ref=e79] [cursor=pointer]: "21"
+        - button "עבור לשאלה 22" [ref=e80] [cursor=pointer]: "22"
+        - button "עבור לשאלה 23" [ref=e81] [cursor=pointer]: "23"
+        - button "עבור לשאלה 24" [ref=e82] [cursor=pointer]: "24"
+        - button "עבור לשאלה 25" [ref=e83] [cursor=pointer]: "25"
+        - button "עבור לשאלה 26" [ref=e84] [cursor=pointer]: "26"
+        - button "עבור לשאלה 27" [ref=e85] [cursor=pointer]: "27"
+        - button "עבור לשאלה 28" [ref=e86] [cursor=pointer]: "28"
+        - button "עבור לשאלה 29" [ref=e87] [cursor=pointer]: "29"
+        - button "עבור לשאלה 30" [ref=e88] [cursor=pointer]: "30"
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]: שאלה 1 מתוך 30
+          - button "⚑ סמן לחזרה" [ref=e92]
+        - generic [ref=e93]:
+          - paragraph [ref=e94]: כיצד נמנע החלקה של הרכב בדרך?
+          - generic [ref=e95]:
+            - button "א.על ידי החזקת ההגה בחזקה בשתי הידיים ועל ידי נסיעה במהירות דומה למהירותם של יתר כלי הרכב בדרך." [ref=e96]:
+              - generic [ref=e97]:
+                - generic [ref=e98]: א.
+                - text: על ידי החזקת ההגה בחזקה בשתי הידיים ועל ידי נסיעה במהירות דומה למהירותם של יתר כלי הרכב בדרך.
+            - button "ב.בעזרת לחיצה חזקה וממושכת על דוושת הבלם." [ref=e99]:
+              - generic [ref=e100]:
+                - generic [ref=e101]: ב.
+                - text: בעזרת לחיצה חזקה וממושכת על דוושת הבלם.
+            - button "ג.על ידי סיבוב ההגה ימינה לייצוב הרכב." [ref=e102]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: ג.
+                - text: על ידי סיבוב ההגה ימינה לייצוב הרכב.
+            - button "ד.בנסיעה במהירות סבירה ובשימוש נכון ומבוקר בבלמים." [ref=e105]:
+              - generic [ref=e106]:
+                - generic [ref=e107]: ד.
+                - text: בנסיעה במהירות סבירה ובשימוש נכון ומבוקר בבלמים.
+        - generic [ref=e108]:
+          - button "→ הקודמת" [disabled] [ref=e109]:
+            - generic [ref=e110]: →
+            - text: הקודמת
+          - button "הבאה ←" [ref=e111]:
+            - text: הבאה
+            - generic [ref=e112]: ←
+      - generic [ref=e113]:
+        - generic [ref=e114]: לא נענתה
+        - generic [ref=e116]: נענתה
+        - generic [ref=e118]: מסומנת לחזרה

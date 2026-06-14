@@ -1,0 +1,25 @@
+
+> theory-il@0.1.0 dev
+> next dev
+
+ΓÜá Port 3000 is in use by an unknown process, using available port 3001 instead.
+Γû▓ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://10.100.102.13:3001
+Γ£ô Ready in 432ms
+ΓÜá Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\danys\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\danys\MyGithubRepos\theory-il\package-lock.json
+
+Γ¿» Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          9256
+- Dir:          C:\Users\danys\MyGithubRepos\theory-il
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 9256 /F to stop it.
+[?25h

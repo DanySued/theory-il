@@ -38,7 +38,7 @@ export default function TopicGridClient({ topics, questions }: Props) {
   }, [questions]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
       {topics.map((t, i) => {
         const p = progress[t.key] ?? { seen: 0, correct: 0 };
         const seenPct = t.count > 0 ? (p.seen / t.count) * 100 : 0;
@@ -49,7 +49,7 @@ export default function TopicGridClient({ topics, questions }: Props) {
           <Link
             key={t.key}
             href={`/study/${encodeURIComponent(t.key)}`}
-            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
+            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
           >
             <div className="flex items-baseline justify-between">
               <span className="text-[0.7rem] font-bold tracking-[0.18em] text-[var(--th-muted)] tabular-nums">

@@ -33,7 +33,7 @@ function RelatedQuestion({ question }: { question: Question }) {
   }
 
   function buttonClass(idx: number) {
-    const base = "w-full text-start px-3 py-2 rounded-lg border text-xs font-medium transition-colors ";
+    const base = "w-full text-start px-3 py-2 rounded-[var(--th-radius-sm)] border text-xs font-medium transition-colors ";
     if (!revealed) return base + "bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] cursor-pointer";
     if (idx === question.correctIndex) return base + "bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success)] cursor-default";
     if (idx === selected) return base + "bg-[var(--th-error-soft)] border-[var(--th-error)] text-[var(--th-error)] cursor-default";
@@ -41,7 +41,7 @@ function RelatedQuestion({ question }: { question: Question }) {
   }
 
   return (
-    <div className="rounded-xl border border-[var(--th-border)] bg-[var(--th-muted-bg)] p-3 flex flex-col gap-2">
+    <div className="rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-muted-bg)] p-3 flex flex-col gap-2">
       <p className="text-xs font-semibold leading-snug">{question.text}</p>
       {question.image && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -82,13 +82,13 @@ function Section({
   const related = findRelated(section.keywords, questions);
 
   return (
-    <div className="rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-card)] overflow-hidden">
+    <div className="rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] overflow-hidden">
       {/* Section header */}
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between px-5 py-4 hover:bg-[var(--th-muted-bg)] transition-colors"
       >
-        <span className="font-bold text-lg">{section.title}</span>
+        <span className="th-card-title">{section.title}</span>
         <span className={`text-[var(--th-muted)] transition-transform duration-200 ${open ? "rotate-180" : ""}`}>
           <ChevronDown size={16} strokeWidth={2} />
         </span>

@@ -226,12 +226,12 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
                   max={activeTotal}
                   value={jumpInput}
                   onChange={(e) => setJumpInput(e.target.value)}
-                  className="w-16 text-center rounded-lg border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  className="w-16 text-center rounded-[var(--th-radius-sm)] border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   placeholder="מס׳"
                 />
                 <button
                   type="submit"
-                  className="px-3 py-1 rounded-lg border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
+                  className="px-3 py-1 rounded-[var(--th-radius-sm)] border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
                 >
                   עבור
                 </button>

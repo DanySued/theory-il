@@ -71,7 +71,7 @@ export default function NavBar() {
 
         {/* Search */}
         <div ref={containerRef} className="relative w-64">
-          <div className="flex items-center gap-1.5 h-8 px-2.5 rounded-lg bg-[var(--th-muted-bg)] border border-[var(--th-border)] focus-within:border-[var(--th-accent)] transition-colors">
+          <div className="flex items-center gap-1.5 h-8 px-2.5 rounded-[var(--th-radius-sm)] bg-[var(--th-muted-bg)] border border-[var(--th-border)] focus-within:border-[var(--th-accent)] transition-colors">
             <Search size={13} className="text-[var(--th-muted)] shrink-0" />
             <input
               ref={inputRef}
@@ -104,7 +104,7 @@ export default function NavBar() {
           {open && filtered.length > 0 && (
             <ul
               role="listbox"
-              className="absolute top-full mt-1 w-full bg-[var(--th-card)] border border-[var(--th-border)] rounded-xl shadow-lg overflow-hidden z-50"
+              className="absolute top-full mt-1 w-full bg-[var(--th-card)] border border-[var(--th-border)] rounded-[var(--th-radius)] shadow-lg overflow-hidden z-50"
             >
               {filtered.map((s, i) => (
                 <li key={i} role="option" aria-selected={false}>

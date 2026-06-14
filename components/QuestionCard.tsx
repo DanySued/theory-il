@@ -72,7 +72,7 @@ export default function QuestionCard({
 
   function getButtonStyle(idx: number): string {
     const base =
-      "w-full text-start px-4 py-3.5 rounded-[var(--th-radius)] border text-sm font-medium transition-colors";
+      "w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors";
     if (!showAnswer) {
       return `${base} bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] cursor-pointer`;
     }
@@ -124,7 +124,7 @@ export default function QuestionCard({
             if (info.offset.x < -60) onNext();
             else if (info.offset.x > 60) onPrev();
           }}
-          className="rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-card)] p-5 flex flex-col gap-4 cursor-grab active:cursor-grabbing select-none"
+          className="rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] p-5 flex flex-col gap-4 cursor-grab active:cursor-grabbing select-none"
         >
           {/* Image */}
           {question.image && (
@@ -208,7 +208,7 @@ export default function QuestionCard({
         <button
           onClick={onPrev}
           disabled={currentIndex === 0}
-          className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
           <span className="text-base leading-none">&#8594;</span>
           הקודמת
@@ -216,7 +216,7 @@ export default function QuestionCard({
         <button
           onClick={onNext}
           disabled={currentIndex === total - 1}
-          className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
           הבאה
           <span className="text-base leading-none">&#8592;</span>

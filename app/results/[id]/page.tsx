@@ -288,7 +288,7 @@ export default function ResultsPage() {
                     return (
                       <div
                         key={idx}
-                        className={`text-xs px-3 py-2 rounded-lg border ${
+                        className={`text-xs px-3 py-2 rounded-[var(--th-radius-sm)] border ${
                           isCorrectAnswer
                             ? "bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success)] font-semibold"
                             : isUserAnswer && !isCorrectAnswer

@@ -1,0 +1,28 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e14] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e15] [cursor=pointer]:
+          - /url: /flashcards
+          - text: כרטיסיות
+  - button "חזרה לדף הקודם" [ref=e18]:
+    - generic [ref=e19]: →
+    - text: חזרה
+  - main [ref=e20]:
+    - generic [ref=e21]: ✓
+    - heading "אין כרטיסיות לחזרה כרגע" [level=1] [ref=e22]
+    - paragraph [ref=e23]: כל הכרטיסיות בנושא זה עודכנו. חזור מאוחר יותר.
+    - link "חזרה לכרטיסיות" [ref=e24] [cursor=pointer]:
+      - /url: /flashcards
+  - button "Open Next.js Dev Tools" [ref=e30] [cursor=pointer]:
+    - img [ref=e31]

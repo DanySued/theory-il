@@ -20,11 +20,69 @@
   --th-muted-bg: #ecebe4;
   --th-radius: 0.75rem;
 
+  /* Radius scale */
+  --th-radius-sm: 0.5rem;
+  --th-radius-lg: 1rem;
+  --th-radius-xl: 1.25rem;
+
+  /* Marked-for-review state (amber) */
+  --th-marked-bg: #fde68a;
+  --th-marked-fg: #78350f;
+  --th-marked-border: #f59e0b;
+  --th-marked-bg-strong: #fbbf24;
+  --th-marked-fg-strong: #451a03;
+
+  /* Sign category accents */
+  --th-cat-warning: #f59e0b;
+  --th-cat-mandatory: #3b82f6;
+  --th-cat-prohibition: #ef4444;
+  --th-cat-info: #22c55e;
+  --th-cat-road: #94a3b8;
+
+  /* Shadow scale */
+  --th-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --th-shadow-md: 0 4px 12px -2px rgba(0,0,0,0.08);
+  --th-shadow-lg: 0 10px 28px -8px rgba(0,0,0,0.16);
+
   /* Type scale — editorial, hierarchical */
   --th-display: clamp(2.5rem, 5.5vw, 4rem);
   --th-h1: clamp(1.875rem, 3.2vw, 2.5rem);
   --th-h2: 1.5rem;
   --th-eyebrow-tracking: 0.14em;
+}
+
+.th-page-title {
+  font-size: clamp(1.875rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: var(--th-fg);
+}
+
+.th-section-h {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--th-fg);
+}
+
+.th-card-title {
+  font-size: 1.125rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--th-fg);
+}
+
+.th-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--th-fg-soft);
+}
+
+.th-caption {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--th-muted);
 }
 
 .th-eyebrow {
@@ -77,6 +135,22 @@
     --th-muted: #9ca3af;
     --th-muted-strong: #b8bcc4;
     --th-muted-bg: #1a1d24;
+
+    --th-marked-bg: #78350f;
+    --th-marked-fg: #fef3c7;
+    --th-marked-border: #d97706;
+    --th-marked-bg-strong: #f59e0b;
+    --th-marked-fg-strong: #1c1917;
+
+    --th-cat-warning: #fbbf24;
+    --th-cat-mandatory: #60a5fa;
+    --th-cat-prohibition: #f87171;
+    --th-cat-info: #4ade80;
+    --th-cat-road: #cbd5e1;
+
+    --th-shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+    --th-shadow-md: 0 4px 12px -2px rgba(0,0,0,0.5);
+    --th-shadow-lg: 0 10px 28px -8px rgba(0,0,0,0.7);
   }
 }
 

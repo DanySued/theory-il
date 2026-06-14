@@ -1,0 +1,61 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+          - text: לימוד
+        - link "מבחן" [ref=e15] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e16] [cursor=pointer]:
+          - /url: /flashcards
+  - main [ref=e17]:
+    - button "חזרה לדף הקודם" [ref=e19]:
+      - generic [ref=e20]: →
+      - text: חזרה
+    - generic [ref=e21]:
+      - generic [ref=e22]: לימוד לפי נושאים
+      - heading "בחר נושא להתחיל ללמוד" [level=1] [ref=e23]
+      - paragraph [ref=e24]: כל השאלות מהמאגר הרשמי של משרד התחבורה, עם הסבר אחרי כל תשובה.
+    - generic [ref=e25]:
+      - link "01 חוקי התנועה 501 שאלות" [ref=e26] [cursor=pointer]:
+        - /url: /study/%D7%97%D7%95%D7%A7%D7%99%20%D7%94%D7%AA%D7%A0%D7%95%D7%A2%D7%94
+        - generic [ref=e27]:
+          - generic [ref=e28]: "01"
+          - generic [ref=e29]: ←
+        - generic [ref=e30]:
+          - generic [ref=e31]: חוקי התנועה
+          - generic [ref=e32]: 501 שאלות
+      - link "02 תמרורים 361 שאלות" [ref=e33] [cursor=pointer]:
+        - /url: /study/%D7%AA%D7%9E%D7%A8%D7%95%D7%A8%D7%99%D7%9D
+        - generic [ref=e34]:
+          - generic [ref=e35]: "02"
+          - generic [ref=e36]: ←
+        - generic [ref=e37]:
+          - generic [ref=e38]: תמרורים
+          - generic [ref=e39]: 361 שאלות
+      - link "03 בטיחות 305 שאלות" [ref=e40] [cursor=pointer]:
+        - /url: /study/%D7%91%D7%98%D7%99%D7%97%D7%95%D7%AA
+        - generic [ref=e41]:
+          - generic [ref=e42]: "03"
+          - generic [ref=e43]: ←
+        - generic [ref=e44]:
+          - generic [ref=e45]: בטיחות
+          - generic [ref=e46]: 305 שאלות
+      - link "04 הכרת הרכב 106 שאלות" [ref=e47] [cursor=pointer]:
+        - /url: /study/%D7%94%D7%9B%D7%A8%D7%AA%20%D7%94%D7%A8%D7%9B%D7%91
+        - generic [ref=e48]:
+          - generic [ref=e49]: "04"
+          - generic [ref=e50]: ←
+        - generic [ref=e51]:
+          - generic [ref=e52]: הכרת הרכב
+          - generic [ref=e53]: 106 שאלות
+  - button "Open Next.js Dev Tools" [ref=e59] [cursor=pointer]:
+    - img [ref=e60]
+  - alert [ref=e63]

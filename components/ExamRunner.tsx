@@ -87,8 +87,8 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
     let cls =
       "w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center cursor-pointer transition-all border-2 ";
     cls += isCurrent ? "border-[var(--th-accent)] scale-110 " : "border-transparent ";
-    if (isMarked && isAnswered) cls += "bg-amber-400 text-amber-950 dark:bg-amber-500 dark:text-amber-950 ";
-    else if (isMarked) cls += "bg-amber-200 text-amber-900 dark:bg-amber-700 dark:text-amber-100 ";
+    if (isMarked && isAnswered) cls += "bg-[var(--th-marked-bg-strong)] text-[var(--th-marked-fg-strong)] ";
+    else if (isMarked) cls += "bg-[var(--th-marked-bg)] text-[var(--th-marked-fg)] ";
     else if (isAnswered) cls += "bg-[var(--th-accent)] text-white ";
     else cls += "bg-[var(--th-muted-bg)] text-[var(--th-muted)] ";
     return cls;
@@ -103,7 +103,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             type="button"
             onClick={() => setShowExitConfirm(true)}
             aria-label="יציאה מהמבחן"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors border border-[var(--th-border)]"
+            className="inline-flex items-center gap-1.5 h-8 px-3 rounded-[var(--th-radius-sm)] text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors border border-[var(--th-border)]"
           >
             <span aria-hidden="true">&#8594;</span>
             יציאה
@@ -125,7 +125,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             onClick={() =>
               answeredCount < questions.length ? setShowConfirm(true) : doSubmit()
             }
-            className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
+            className="h-10 px-4 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
           >
             סיים מבחן
           </button>
@@ -172,7 +172,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
               }
               className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
                 markedForReview[currentIdx]
-                  ? "bg-amber-200 border-amber-400 text-amber-900 dark:bg-amber-700 dark:border-amber-500 dark:text-amber-100"
+                  ? "bg-[var(--th-marked-bg)] border-[var(--th-marked-border)] text-[var(--th-marked-fg)]"
                   : "border-[var(--th-border)] text-[var(--th-muted)] hover:bg-[var(--th-muted-bg)]"
               }`}
             >
@@ -180,7 +180,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             </button>
           </div>
 
-          <div className="rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-card)] p-5 flex flex-col gap-4">
+          <div className="rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] p-5 flex flex-col gap-4">
             {q.image && (
               <div className="flex justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -263,7 +263,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             <span className="w-4 h-4 rounded-full bg-[var(--th-accent)] inline-block" /> נענתה
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-4 h-4 rounded-full bg-amber-200 dark:bg-amber-700 inline-block" /> מסומנת לחזרה
+            <span className="w-4 h-4 rounded-full bg-[var(--th-marked-bg)] inline-block" /> מסומנת לחזרה
           </span>
         </div>
       </div>
@@ -271,7 +271,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
       {/* Exit confirmation dialog */}
       {showExitConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
-          <div className="bg-[var(--th-card)] rounded-[var(--th-radius)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
+          <div className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
             <h2 id="exit-dialog-title" className="text-xl font-bold">לצאת מהמבחן?</h2>
             <p className="text-[var(--th-muted)] text-sm">
               ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
@@ -279,7 +279,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowExitConfirm(false)}
-                className="px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
               >
                 המשך מבחן
               </button>
@@ -288,7 +288,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
                   setShowExitConfirm(false);
                   router.push("/");
                 }}
-                className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="h-10 px-4 rounded-[var(--th-radius)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 צא מהמבחן
               </button>
@@ -300,7 +300,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
       {/* Confirmation dialog */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
-          <div className="bg-[var(--th-card)] rounded-[var(--th-radius)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
+          <div className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
             <h2 id="confirm-dialog-title" className="text-xl font-bold">לסיים את המבחן?</h2>
             <p className="text-[var(--th-muted)] text-sm">
               ענית על {answeredCount} מתוך {questions.length} שאלות.{" "}
@@ -309,7 +309,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
               >
                 המשך מבחן
               </button>
@@ -318,7 +318,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
                   setShowConfirm(false);
                   doSubmit();
                 }}
-                className="px-4 py-2 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+                className="h-10 px-4 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
               >
                 סיים בכל זאת
               </button>

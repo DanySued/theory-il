@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - link "לימוד" [ref=e13] [cursor=pointer]:
+          - /url: /study
+        - link "מבחן" [ref=e14] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e15] [cursor=pointer]:
+          - /url: /flashcards
+          - text: כרטיסיות
+  - main [ref=e17]:
+    - button "חזרה לדף הקודם" [ref=e19]:
+      - generic [ref=e20]: →
+      - text: חזרה
+    - generic [ref=e21]:
+      - generic [ref=e22]: חזרה מרווחת · SRS
+      - heading "כרטיסיות שינון" [level=1] [ref=e23]
+      - paragraph [ref=e24]: 1273 כרטיסיות מחכות לחזרה היום — בחר נושא כדי להתחיל.
+    - generic [ref=e25]:
+      - link "חוקי התנועה 501 כרטיסיות 501 לחזרה היום" [ref=e26] [cursor=pointer]:
+        - /url: /flashcards/%D7%97%D7%95%D7%A7%D7%99%20%D7%94%D7%AA%D7%A0%D7%95%D7%A2%D7%94
+        - generic [ref=e28]: ←
+        - generic [ref=e29]:
+          - generic [ref=e30]: חוקי התנועה
+          - generic [ref=e31]: 501 כרטיסיות
+        - generic [ref=e32]: 501 לחזרה היום
+      - link "תמרורים 361 כרטיסיות 361 לחזרה היום" [ref=e34] [cursor=pointer]:
+        - /url: /flashcards/%D7%AA%D7%9E%D7%A8%D7%95%D7%A8%D7%99%D7%9D
+        - generic [ref=e36]: ←
+        - generic [ref=e37]:
+          - generic [ref=e38]: תמרורים
+          - generic [ref=e39]: 361 כרטיסיות
+        - generic [ref=e40]: 361 לחזרה היום
+      - link "בטיחות 305 כרטיסיות 305 לחזרה היום" [ref=e42] [cursor=pointer]:
+        - /url: /flashcards/%D7%91%D7%98%D7%99%D7%97%D7%95%D7%AA
+        - generic [ref=e44]: ←
+        - generic [ref=e45]:
+          - generic [ref=e46]: בטיחות
+          - generic [ref=e47]: 305 כרטיסיות
+        - generic [ref=e48]: 305 לחזרה היום
+      - link "הכרת הרכב 106 כרטיסיות 106 לחזרה היום" [ref=e50] [cursor=pointer]:
+        - /url: /flashcards/%D7%94%D7%9B%D7%A8%D7%AA%20%D7%94%D7%A8%D7%9B%D7%91
+        - generic [ref=e52]: ←
+        - generic [ref=e53]:
+          - generic [ref=e54]: הכרת הרכב
+          - generic [ref=e55]: 106 כרטיסיות
+        - generic [ref=e56]: 106 לחזרה היום
+  - button "Open Next.js Dev Tools" [ref=e63] [cursor=pointer]:
+    - img [ref=e64]
+  - alert [ref=e67]

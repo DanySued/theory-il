@@ -28,24 +28,25 @@ export default function FlashcardsPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-6 py-8 gap-8">
-      <div className="w-full max-w-6xl flex justify-start">
+      <div className="w-full max-w-3xl flex justify-start">
         <BackButton />
       </div>
-      <div className="w-full max-w-6xl flex flex-col gap-2">
-        <h1 className="th-eyebrow">כרטיסיות · חזרה מרווחת</h1>
+      <div className="w-full max-w-3xl flex flex-col gap-3">
+        <span className="th-eyebrow">חזרה מרווחת · SRS</span>
+        <h1 className="th-page-title">כרטיסיות שינון</h1>
         <p className="text-[var(--th-muted-strong)] text-base">
           {totalDue > 0
-            ? `${totalDue} כרטיסיות מחכות לחזרה היום.`
+            ? `${totalDue} כרטיסיות מחכות לחזרה היום — בחר נושא כדי להתחיל.`
             : "אין כרטיסיות לחזרה — חזור מחר."}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-6xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
         {topics.map(({ topic, total, due }, i) => (
           <Link
             key={topic}
             href={`/flashcards/${encodeURIComponent(topic)}`}
-            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
+            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
           >
             <div className="flex items-baseline justify-end">
               <span

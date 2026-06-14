@@ -46,7 +46,7 @@ export default function FlashcardRunner({ questions }: Props) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 gap-6 text-center">
         <div className="text-4xl">🎉</div>
-        <h1 className="text-3xl font-bold">סיימת!</h1>
+        <h1 className="th-page-title">סיימת!</h1>
         <p className="text-[var(--th-muted)]">
           {`עברת על ${reviewed} כרטיסיות היום.`}
         </p>
@@ -57,7 +57,7 @@ export default function FlashcardRunner({ questions }: Props) {
         )}
         <Link
           href="/flashcards"
-          className="mt-4 px-6 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+          className="mt-4 inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
         >
           חזרה לכרטיסיות
         </Link>
@@ -69,9 +69,9 @@ export default function FlashcardRunner({ questions }: Props) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 gap-6 text-center">
         <div className="text-5xl">✓</div>
-        <h1 className="text-2xl font-bold">אין כרטיסיות לחזרה כרגע</h1>
+        <h1 className="th-page-title">אין כרטיסיות לחזרה כרגע</h1>
         <p className="text-[var(--th-muted)] text-sm">כל הכרטיסיות בנושא זה עודכנו. חזור מאוחר יותר.</p>
-        <Link href="/flashcards" className="mt-2 px-6 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors">
+        <Link href="/flashcards" className="mt-2 inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors">
           חזרה לכרטיסיות
         </Link>
       </main>
@@ -118,7 +118,7 @@ export default function FlashcardRunner({ questions }: Props) {
         >
           {/* Front */}
           <div
-            className="absolute inset-0 backface-hidden rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-3"
+            className="absolute inset-0 backface-hidden rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-3"
           >
             {q.image && (
               <div className="flex justify-center mb-2">
@@ -134,7 +134,7 @@ export default function FlashcardRunner({ questions }: Props) {
 
           {/* Back */}
           <div
-            className="absolute inset-0 backface-hidden rounded-[var(--th-radius)] border-2 border-[var(--th-success)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-4"
+            className="absolute inset-0 backface-hidden rounded-[var(--th-radius-lg)] border border-[var(--th-success)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-4"
             style={{ transform: "rotateY(180deg)" }}
           >
             <p className="text-xl font-bold text-[var(--th-success)]">{displayAnswer}</p>
