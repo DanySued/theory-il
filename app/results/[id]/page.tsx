@@ -26,6 +26,7 @@ export default function ResultsPage() {
   const [displayScore, setDisplayScore] = useState(0);
   const [sharing, setSharing] = useState(false);
   const [exportingDocx, setExportingDocx] = useState(false);
+  const [filter, setFilter] = useState<"all" | "wrong">("wrong");
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -230,10 +231,46 @@ export default function ResultsPage() {
         </div>
 
         {/* Per-question review */}
-        <h2 className="th-section-h">סקירת שאלות</h2>
+        <div className="flex items-baseline justify-between gap-3">
+          <h2 className="th-section-h">סקירת שאלות</h2>
+          {wrongCount > 0 && (
+            <div className="flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-full p-1">
+              <button
+                type="button"
+                onClick={() => setFilter("wrong")}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                  filter === "wrong"
+                    ? "bg-[var(--th-card)] text-[var(--th-fg)] shadow-sm"
+                    : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
+                }`}
+              >
+                שגויות בלבד ({wrongCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilter("all")}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                  filter === "all"
+                    ? "bg-[var(--th-card)] text-[var(--th-fg)] shadow-sm"
+                    : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
+                }`}
+              >
+                הכל ({total})
+              </button>
+            </div>
+          )}
+        </div>
 
         <div className="flex flex-col gap-3">
-          {attempt.questions.map((q, i) => {
+          {attempt.questions
+            .map((q, i) => ({ q, i }))
+            .filter(({ q, i }) => {
+              const effective = wrongCount === 0 ? "all" : filter;
+              if (effective === "all") return true;
+              const userAnswer = attempt.answers[i];
+              return userAnswer !== q.correctIndex; // wrong OR unanswered
+            })
+            .map(({ q, i }) => {
             const userAnswer = attempt.answers[i];
             const isCorrect = userAnswer === q.correctIndex;
             const unanswered = userAnswer === null;
@@ -300,6 +337,13 @@ export default function ResultsPage() {
                     );
                   })}
                 </div>
+
+                {q.explanation && (
+                  <div className="text-xs text-[var(--th-muted-strong)] leading-relaxed border-t border-[var(--th-border)] pt-3 mt-1">
+                    <span className="font-bold text-[var(--th-fg)]">הסבר: </span>
+                    {q.explanation}
+                  </div>
+                )}
               </div>
             );
           })}
