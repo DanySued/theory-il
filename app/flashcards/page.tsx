@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import questionsData from "@/lib/data/questions.json";
+import TopicCard from "@/components/TopicCard";
 import type { Question } from "@/components/QuestionCard";
 import { getDueCountByTopic } from "@/lib/srs";
 import PageShell from "@/components/PageShell";
@@ -41,38 +41,25 @@ export default function FlashcardsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
         {topics.map(({ topic, total, due }, i) => (
-          <Link
+          <TopicCard
             key={topic}
             href={`/flashcards/${encodeURIComponent(topic)}`}
-            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
-          >
-            <div className="flex items-baseline justify-end">
-              <span
-                aria-hidden
-                className="text-[var(--th-muted)] group-hover:text-[var(--th-accent)] group-hover:-translate-x-1 transition-all"
-              >
-                ←
-              </span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-2xl font-extrabold tracking-tight leading-tight">
-                {topic}
-              </span>
-              <span className="text-sm text-[var(--th-muted)]">
-                {total} כרטיסיות
-              </span>
-            </div>
-            {due > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--th-accent)]">
-                <span className="w-2 h-2 rounded-full bg-[var(--th-accent)] inline-block animate-pulse" />
-                {due} לחזרה היום
-              </span>
-            ) : (
-              <span className="text-sm font-medium text-[var(--th-success)]">
-                ✓ הכל בסדר
-              </span>
-            )}
-          </Link>
+            title={topic}
+            index={i}
+            meta={`${total} כרטיסיות`}
+            badge={
+              due > 0 ? (
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--th-accent)]">
+                  <span className="w-2 h-2 rounded-full bg-[var(--th-accent)] inline-block animate-pulse" />
+                  {due} לחזרה היום
+                </span>
+              ) : (
+                <span className="text-sm font-medium text-[var(--th-success)]">
+                  ✓ הכל בסדר
+                </span>
+              )
+            }
+          />
         ))}
       </div>
     </PageShell>

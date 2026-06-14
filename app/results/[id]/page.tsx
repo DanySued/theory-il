@@ -133,6 +133,7 @@ export default function ResultsPage() {
   return (
     <PageShell>
       <div className="w-full flex flex-col gap-6">
+        <span className="th-eyebrow">תוצאות · מבחן תרגול</span>
         {/* Score banner */}
         <div
           className={`rounded-[var(--th-radius-lg)] border p-6 text-center flex flex-col gap-2 ${

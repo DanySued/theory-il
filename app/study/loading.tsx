@@ -1,24 +1,23 @@
 import Skeleton from "@/components/Skeleton";
+import PageShell from "@/components/PageShell";
 
 export default function Loading() {
   return (
-    <main
-      className="flex flex-1 flex-col items-center px-6 py-8 gap-8"
-      aria-busy="true"
-      aria-live="polite"
-    >
-      <div className="w-full max-w-3xl flex justify-start">
-        <Skeleton className="h-8 w-20" />
-      </div>
-      <div className="w-full max-w-3xl flex flex-col gap-3">
+    <PageShell>
+      <div
+        className="w-full flex flex-col gap-3"
+        aria-busy="true"
+        aria-live="polite"
+      >
         <Skeleton className="h-3 w-28" />
-        <Skeleton className="h-6 w-48 max-w-full" />
+        <Skeleton className="h-10 w-72 max-w-full" />
+        <Skeleton className="h-5 w-full max-w-md" />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
         {[0, 1, 2, 3].map((i) => (
           <Skeleton key={i} className="h-36 rounded-[var(--th-radius-lg)]" />
         ))}
       </div>
-    </main>
+    </PageShell>
   );
 }

@@ -1,18 +1,18 @@
 import Skeleton from "@/components/Skeleton";
+import PageShell from "@/components/PageShell";
 
 export default function Loading() {
   return (
-    <main
-      className="flex flex-1 flex-col items-center justify-center px-4 py-8"
-      aria-busy="true"
-      aria-live="polite"
-    >
-      <div className="w-full max-w-lg flex flex-col gap-8">
-        <div className="flex flex-col gap-3 items-center">
+    <PageShell>
+      <div
+        className="w-full flex flex-col gap-8"
+        aria-busy="true"
+        aria-live="polite"
+      >
+        <div className="flex flex-col gap-3">
           <Skeleton className="h-3 w-48" />
-          <Skeleton className="h-9 w-36" />
+          <Skeleton className="h-10 w-48" />
         </div>
-        <Skeleton className="h-px w-full" />
         <div className="flex flex-col gap-3">
           <Skeleton className="h-3 w-12" />
           <div className="flex flex-wrap gap-2">
@@ -21,8 +21,8 @@ export default function Loading() {
             ))}
           </div>
         </div>
-        <Skeleton className="h-14 w-full rounded-xl" />
+        <Skeleton className="h-14 w-full rounded-[var(--th-radius-lg)]" />
       </div>
-    </main>
+    </PageShell>
   );
 }

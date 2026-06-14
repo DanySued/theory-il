@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { getQStats } from "@/lib/storage";
 import type { Question } from "@/components/QuestionCard";
+import TopicCard from "@/components/TopicCard";
 
 interface TopicItem {
   key: string;
@@ -38,7 +38,7 @@ export default function TopicGridClient({ topics, questions }: Props) {
   }, [questions]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
       {topics.map((t, i) => {
         const p = progress[t.key] ?? { seen: 0, correct: 0 };
         const seenPct = t.count > 0 ? (p.seen / t.count) * 100 : 0;
@@ -46,27 +46,13 @@ export default function TopicGridClient({ topics, questions }: Props) {
         const hasProgress = seenPct > 0;
 
         return (
-          <Link
+          <TopicCard
             key={t.key}
             href={`/study/${encodeURIComponent(t.key)}`}
-            className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
-          >
-            <div className="flex items-baseline justify-between">
-              <span className="text-[0.7rem] font-bold tracking-[0.18em] text-[var(--th-muted)] tabular-nums">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span
-                aria-hidden
-                className="text-[var(--th-muted)] group-hover:text-[var(--th-accent)] group-hover:-translate-x-1 transition-all"
-              >
-                ←
-              </span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-2xl font-extrabold tracking-tight leading-tight">
-                {t.label}
-              </span>
-              <span className="text-sm text-[var(--th-muted)]">
+            title={t.label}
+            index={i}
+            meta={
+              <>
                 {t.count} שאלות
                 {hasProgress && (
                   <>
@@ -76,21 +62,23 @@ export default function TopicGridClient({ topics, questions }: Props) {
                     </span>
                   </>
                 )}
-              </span>
-            </div>
-            {hasProgress && (
-              <div className="mt-1 h-1 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden relative">
-                <div
-                  className="absolute inset-y-0 start-0 bg-[var(--th-muted)]/40 rounded-full transition-all duration-700"
-                  style={{ width: `${seenPct}%` }}
-                />
-                <div
-                  className="absolute inset-y-0 start-0 bg-[var(--th-success)] rounded-full transition-all duration-700"
-                  style={{ width: `${correctPct}%` }}
-                />
-              </div>
-            )}
-          </Link>
+              </>
+            }
+            progress={
+              hasProgress && (
+                <div className="mt-1 h-1 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden relative">
+                  <div
+                    className="absolute inset-y-0 start-0 bg-[var(--th-muted)]/40 rounded-full transition-all duration-700"
+                    style={{ width: `${seenPct}%` }}
+                  />
+                  <div
+                    className="absolute inset-y-0 start-0 bg-[var(--th-success)] rounded-full transition-all duration-700"
+                    style={{ width: `${correctPct}%` }}
+                  />
+                </div>
+              )
+            }
+          />
         );
       })}
     </div>
