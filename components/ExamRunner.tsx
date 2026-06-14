@@ -8,7 +8,8 @@ import { saveAttempt, generateId } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
 
-const EXAM_DURATION = 40 * 60;
+const DEFAULT_EXAM_DURATION = 40 * 60;
+const SECONDS_PER_QUESTION = 80; // matches the official 30-question / 40-minute ratio
 
 function formatTime(s: number): string {
   const m = Math.floor(s / 60);
@@ -16,10 +17,23 @@ function formatTime(s: number): string {
   return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
-export default function ExamRunner({ questions, noTimer = false }: { questions: Question[]; noTimer?: boolean }) {
+export default function ExamRunner({
+  questions,
+  noTimer = false,
+  durationSeconds,
+}: {
+  questions: Question[];
+  noTimer?: boolean;
+  durationSeconds?: number;
+}) {
   const router = useRouter();
   const [examId] = useState(() => generateId());
   const [startedAt] = useState(() => Date.now());
+
+  // Auto-scale timer when caller doesn't specify: keep official 30q/40min ratio.
+  const examDuration =
+    durationSeconds ??
+    (questions.length === 30 ? DEFAULT_EXAM_DURATION : questions.length * SECONDS_PER_QUESTION);
 
   const { ripples, addRipple } = useRipple();
 
@@ -30,7 +44,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
   const [markedForReview, setMarkedForReview] = useState<boolean[]>(() =>
     new Array(questions.length).fill(false)
   );
-  const [secondsLeft, setSecondsLeft] = useState(EXAM_DURATION);
+  const [secondsLeft, setSecondsLeft] = useState(examDuration);
   const [submitted, setSubmitted] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
@@ -38,7 +52,7 @@ export default function ExamRunner({ questions, noTimer = false }: { questions: 
   // Refs so the timer callback always reads the latest state
   const answersRef = useRef(answers);
   const markedRef = useRef(markedForReview);
-  const secondsRef = useRef(EXAM_DURATION);
+  const secondsRef = useRef(examDuration);
   const submittedRef = useRef(false);
 
   useEffect(() => { answersRef.current = answers; }, [answers]);

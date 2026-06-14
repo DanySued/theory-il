@@ -11,17 +11,27 @@ const TOPICS = [
   { value: "הכרת הרכב", label: "הכרת הרכב" },
 ];
 
+const LENGTHS = [10, 20, 30, 40];
+
+export interface ExamConfig {
+  topic: string | null;
+  length: number;
+  weakFocus: boolean;
+}
+
 export default function ExamStartScreen({
   onStart,
 }: {
-  onStart: (topic: string | null) => void;
+  onStart: (config: ExamConfig) => void;
 }) {
   const [topic, setTopic] = useState<string>("all");
+  const [length, setLength] = useState<number>(30);
+  const [weakFocus, setWeakFocus] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-3">
-        <span className="th-eyebrow">סימולציה · 30 שאלות · 40 דקות</span>
+        <span className="th-eyebrow">סימולציה · {length} שאלות · {Math.round((length * 80) / 60)} דקות</span>
         <h1 className="th-page-title">מבחן מדומה</h1>
       </div>
 
@@ -48,10 +58,55 @@ export default function ExamStartScreen({
         </div>
       </div>
 
+      <div className="flex flex-col gap-3">
+        <span className="th-eyebrow">מספר שאלות</span>
+        <div className="flex flex-wrap gap-2">
+          {LENGTHS.map((n) => {
+            const active = length === n;
+            return (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setLength(n)}
+                aria-pressed={active}
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all tabular-nums ${
+                  active
+                    ? "bg-[var(--th-fg)] text-[var(--th-bg)] border-[var(--th-fg)]"
+                    : "bg-[var(--th-card)] text-[var(--th-muted-strong)] border-[var(--th-border)] hover:border-[var(--th-border-strong)] hover:text-[var(--th-fg)]"
+                }`}
+              >
+                {n}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <label className="flex items-start gap-3 p-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] cursor-pointer hover:bg-[var(--th-muted-bg)]/40 transition-colors">
+        <input
+          type="checkbox"
+          checked={weakFocus}
+          onChange={(e) => setWeakFocus(e.target.checked)}
+          className="mt-1 accent-[var(--th-accent)] w-4 h-4"
+        />
+        <span className="flex flex-col gap-1">
+          <span className="text-sm font-semibold text-[var(--th-fg)]">התמקד בחולשות שלי</span>
+          <span className="text-xs text-[var(--th-muted)] leading-relaxed">
+            נדגום שאלות לפי הנתונים שלך — מה שטעית בו, מה ששמרת, ומה שעוד לא ראית.
+          </span>
+        </span>
+      </label>
+
       <motion.button
-        key={topic}
+        key={`${topic}-${length}-${weakFocus}`}
         type="button"
-        onClick={() => onStart(topic === "all" ? null : topic)}
+        onClick={() =>
+          onStart({
+            topic: topic === "all" ? null : topic,
+            length,
+            weakFocus,
+          })
+        }
         initial={{ opacity: 0.7 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
