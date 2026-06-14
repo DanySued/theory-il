@@ -3,7 +3,7 @@ import PageShell from "@/components/PageShell";
 
 export default function Loading() {
   return (
-    <PageShell wide>
+    <PageShell>
       <div
         className="w-full flex flex-col items-center gap-6"
         aria-busy="true"

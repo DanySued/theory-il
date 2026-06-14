@@ -44,7 +44,7 @@ export default async function TopicPage({
   const guide = GUIDES[decoded];
 
   return (
-    <PageShell wide>
+    <PageShell>
       <DrillClient topic={decoded} questions={questions} guide={guide} />
     </PageShell>
   );

@@ -32,6 +32,7 @@ export default function NavBar() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +46,7 @@ export default function NavBar() {
     router.push(href);
     setQuery("");
     setOpen(false);
+    setMobileSearchOpen(false);
     inputRef.current?.blur();
   }, [router]);
 
@@ -53,6 +55,7 @@ export default function NavBar() {
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setOpen(false);
+        setMobileSearchOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -61,7 +64,7 @@ export default function NavBar() {
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--th-bg)]/85 backdrop-blur-md border-b border-[var(--th-border)]">
-      <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 h-[61px] grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+      <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 h-[61px] flex items-center gap-3 sm:grid sm:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
           className="group inline-flex items-baseline gap-2 text-[var(--th-fg)] shrink-0"
@@ -69,8 +72,28 @@ export default function NavBar() {
           <span className="text-xl font-extrabold tracking-tight">תיאוריה</span>
         </Link>
 
-        {/* Search */}
-        <div ref={containerRef} className="relative w-64">
+        {/* Mobile search toggle */}
+        <button
+          type="button"
+          onClick={() => {
+            setMobileSearchOpen(true);
+            setTimeout(() => inputRef.current?.focus(), 0);
+          }}
+          aria-label="חיפוש"
+          className="sm:hidden ms-auto shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-[var(--th-radius-sm)] text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors"
+        >
+          <Search size={16} />
+        </button>
+
+        {/* Search (desktop inline, mobile overlay) */}
+        <div
+          ref={containerRef}
+          className={`${
+            mobileSearchOpen
+              ? "absolute inset-x-3 top-2 z-50"
+              : "hidden sm:block sm:relative sm:w-64"
+          }`}
+        >
           <div className="flex items-center gap-1.5 h-8 px-2.5 rounded-[var(--th-radius-sm)] bg-[var(--th-muted-bg)] border border-[var(--th-border)] focus-within:border-[var(--th-accent)] transition-colors">
             <Search size={13} className="text-[var(--th-muted)] shrink-0" />
             <input
@@ -85,15 +108,24 @@ export default function NavBar() {
               }}
               onFocus={() => setOpen(true)}
               onKeyDown={(e) => {
-                if (e.key === "Escape") { setOpen(false); setQuery(""); }
+                if (e.key === "Escape") { setOpen(false); setQuery(""); setMobileSearchOpen(false); }
                 if (e.key === "Enter" && filtered.length > 0) handleSelect(filtered[0].href);
               }}
               className="flex-1 bg-transparent text-sm text-[var(--th-fg)] placeholder:text-[var(--th-muted)] outline-none min-w-0"
             />
-            {query && (
+            {(query || mobileSearchOpen) && (
               <button
                 type="button"
-                onClick={() => { setQuery(""); setOpen(false); inputRef.current?.focus(); }}
+                onClick={() => {
+                  setQuery("");
+                  setOpen(false);
+                  if (mobileSearchOpen) {
+                    setMobileSearchOpen(false);
+                  } else {
+                    inputRef.current?.focus();
+                  }
+                }}
+                aria-label="סגור חיפוש"
                 className="shrink-0 text-[var(--th-muted)] hover:text-[var(--th-fg)] transition-colors"
               >
                 <X size={12} />

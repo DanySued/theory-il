@@ -57,7 +57,7 @@ export default function ExamStartScreen({
         transition={{ duration: 0.2, ease: "easeOut" }}
         whileHover={{ scale: 1.015 }}
         whileTap={{ scale: 0.97 }}
-        className="w-full inline-flex items-center justify-center h-14 px-8 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md"
+        className="w-full max-w-sm inline-flex items-center justify-center h-14 px-8 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md"
       >
         התחל מבחן
         <span aria-hidden className="ms-2">←</span>

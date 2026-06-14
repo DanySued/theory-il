@@ -120,7 +120,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
   return (
     <div className="w-full flex flex-col items-center gap-6">
       {/* Header */}
-      <div className="w-full max-w-6xl flex items-center justify-end gap-3">
+      <div className="w-full flex items-center justify-end gap-3">
         {guide ? (
           <div className="flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-full p-1">
             {(["guide", "drill"] as const).map((v) => (
@@ -141,7 +141,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
       </div>
 
       {/* Topic title */}
-      <div className={`w-full max-w-6xl flex flex-col gap-1 ${view === "guide" ? "text-center items-center" : ""}`}>
+      <div className={`w-full flex flex-col gap-1 ${view === "guide" ? "text-center items-center" : ""}`}>
         <span className="th-eyebrow">נושא</span>
         <h1 className="th-page-title">{topic}</h1>
         <p className="text-sm text-[var(--th-muted)]">
@@ -153,7 +153,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
       {view === "guide" && guide && (
         <>
           {topic === "תמרורים" ? (
-            <div className="w-full max-w-6xl">
+            <div className="w-full">
               <SignsCatalog
                 signs={SIGNS}
                 guideSections={Object.fromEntries(
