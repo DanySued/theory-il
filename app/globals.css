@@ -49,6 +49,14 @@
   --th-h1: clamp(1.875rem, 3.2vw, 2.5rem);
   --th-h2: 1.5rem;
   --th-eyebrow-tracking: 0.14em;
+
+  /* Layout tokens — the One True Width and rhythm */
+  --th-container: 48rem;        /* 3xl — default page width */
+  --th-container-wide: 72rem;   /* 6xl — NavBar + future wide grids */
+  --th-page-px: 1.5rem;         /* px-6 */
+  --th-page-py: 2rem;           /* py-8 */
+  --th-page-gap: 2rem;          /* gap-8 between page-level blocks */
+  --th-section-gap: 3.5rem;     /* py-14 between marketing sections */
 }
 
 .th-page-title {
