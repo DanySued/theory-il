@@ -9,11 +9,11 @@ import ProgressBar from "@/components/ProgressBar";
 import { CATEGORY_ORDER } from "@/lib/constants";
 
 const CATEGORY_ACCENT: Record<SignCategory, string> = {
-  "אזהרה": "#f59e0b",
-  "חובה": "#3b82f6",
-  "איסור": "#ef4444",
-  "מידע": "#22c55e",
-  "סימוני כביש": "#94a3b8",
+  "אזהרה": "var(--th-cat-warning)",
+  "חובה": "var(--th-cat-mandatory)",
+  "איסור": "var(--th-cat-prohibition)",
+  "מידע": "var(--th-cat-info)",
+  "סימוני כביש": "var(--th-cat-road)",
 };
 
 interface GuideSection {
@@ -44,16 +44,16 @@ function SignCard({
       onClick={() => onToggle(sign.id)}
       aria-pressed={known}
       title={known ? "לחץ כדי לחשוף את התמרור" : "לחץ אם אתה זוכר את התמרור"}
-      className="relative text-start rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md cursor-pointer"
+      className="relative text-start rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md cursor-pointer"
       style={{
         borderTop: `3px solid ${accent}`,
         minHeight: "190px",
-        ...(known ? { borderColor: "#22c55e", background: "var(--th-success-soft)" } : {}),
+        ...(known ? { borderColor: "var(--th-success)", background: "var(--th-success-soft)" } : {}),
       }}
     >
       {sign.officialNumber && (
         <span
-          className="absolute top-2 start-2 font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded px-1.5 py-0.5"
+          className="absolute top-2 start-2 font-mono font-bold tabular-nums text-[var(--th-muted)] bg-[var(--th-muted-bg)] rounded-[var(--th-radius-sm)] px-1.5 py-0.5"
           style={{ fontSize: "0.65rem" }}
         >
           {sign.officialNumber}
@@ -61,13 +61,13 @@ function SignCard({
       )}
 
       {known ? (
-        <span className="absolute top-2 end-2 text-green-500" title="סומן כידוע">
+        <span className="absolute top-2 end-2 text-[var(--th-success)]" title="סומן כידוע">
           <Check size={14} strokeWidth={3} />
         </span>
       ) : (
         sign.imageUnverified && (
           <span
-            className="absolute top-2 end-2 text-amber-400 text-xs"
+            className="absolute top-2 end-2 text-[var(--th-cat-warning)] text-xs"
             title="ייתכן שהתמונה אינה תואמת את התמרור"
           >
             *
@@ -76,7 +76,7 @@ function SignCard({
       )}
 
       {known ? (
-        <div className="h-[72px] w-[72px] shrink-0 flex items-center justify-center rounded-full border-2 border-green-500/60 text-green-500">
+        <div className="h-[72px] w-[72px] shrink-0 flex items-center justify-center rounded-full border-2 border-[var(--th-success)] text-[var(--th-success)]">
           <Check size={26} strokeWidth={3} />
         </div>
       ) : sign.image ? (
@@ -154,35 +154,30 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
     group.reduce((n, s) => (knownSigns.has(s.id) ? n + 1 : n), 0);
 
   return (
-    <div className="w-full flex flex-col gap-8 mt-4">
-      {/* Header */}
-      <div className="flex flex-col gap-3 items-center text-center">
-        <h2 className="text-4xl font-bold text-[var(--th-fg)]">מילון התמרורים</h2>
-
-        {/* Overall progress */}
-        <div className="w-full max-w-md flex flex-col gap-2">
-          <div className="flex items-center gap-3">
-            <span className="font-mono tabular-nums text-sm text-[var(--th-muted)] shrink-0">
-              {totalKnown}/{totalSigns}
-            </span>
-            <ProgressBar current={totalKnown} total={totalSigns} className="flex-1" />
-            <button
-              type="button"
-              onClick={handleReset}
-              disabled={totalKnown === 0}
-              title="איפוס ההתקדמות"
-              className="shrink-0 flex items-center gap-1 text-xs text-[var(--th-muted)] hover:text-[var(--th-fg)] disabled:opacity-40 disabled:cursor-default transition-colors"
-            >
-              <RotateCcw size={13} strokeWidth={2} />
-              איפוס
-            </button>
-          </div>
-          <span className="text-xs text-[var(--th-muted)]">
-            {totalKnown === totalSigns
-              ? "כל הכבוד! סימנת שאתה זוכר את כל התמרורים"
-              : "לחץ על תמרור שאתה זוכר כדי להסתירו ולעקוב אחר ההתקדמות"}
+    <div className="w-full flex flex-col gap-5">
+      {/* Header — overall progress */}
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-3">
+          <span className="font-mono tabular-nums text-sm text-[var(--th-muted)] shrink-0">
+            {totalKnown}/{totalSigns}
           </span>
+          <ProgressBar current={totalKnown} total={totalSigns} className="flex-1" />
+          <button
+            type="button"
+            onClick={handleReset}
+            disabled={totalKnown === 0}
+            title="איפוס ההתקדמות"
+            className="shrink-0 flex items-center gap-1 text-xs text-[var(--th-muted)] hover:text-[var(--th-fg)] disabled:opacity-40 disabled:cursor-default transition-colors"
+          >
+            <RotateCcw size={13} strokeWidth={2} />
+            איפוס
+          </button>
         </div>
+        <span className="text-xs text-[var(--th-muted)]">
+          {totalKnown === totalSigns
+            ? "כל הכבוד! סימנת שאתה זוכר את כל התמרורים"
+            : "לחץ על תמרור שאתה זוכר כדי להסתירו ולעקוב אחר ההתקדמות"}
+        </span>
       </div>
 
       {/* Categories */}
@@ -202,15 +197,15 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
               className={`sticky top-14 z-20 w-full flex items-center justify-between gap-3 py-3 px-4 text-start
                 border border-[var(--th-border)] transition-all group
                 ${isOpen
-                  ? "rounded-t-2xl border-b-transparent shadow-sm"
-                  : "rounded-2xl"
+                  ? "rounded-t-[var(--th-radius-lg)] border-b-transparent shadow-sm"
+                  : "rounded-[var(--th-radius-lg)]"
                 }
               `}
               style={{
                 "--cat-accent": accent,
                 backgroundColor: "var(--th-bg)",
                 backgroundImage: isOpen
-                  ? `linear-gradient(${accent}40, ${accent}40)`
+                  ? `linear-gradient(color-mix(in srgb, ${accent} 25%, transparent), color-mix(in srgb, ${accent} 25%, transparent))`
                   : undefined,
                 ...(isOpen ? { borderBottom: `2px solid ${accent}` } : {}),
               } as React.CSSProperties}
@@ -254,7 +249,7 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                   style={{ overflow: "hidden" }}
-                  className="border border-[var(--th-border)] border-t-0 rounded-b-2xl"
+                  className="border border-[var(--th-border)] border-t-0 rounded-b-[var(--th-radius-lg)]"
                 >
                   <div className="pt-4 pb-5 px-4 flex flex-col gap-4">
                     {guideSection && (

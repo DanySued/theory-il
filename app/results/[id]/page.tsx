@@ -137,13 +137,11 @@ export default function ResultsPage() {
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-8 gap-8">
-      <div className="w-full px-0 pb-2 flex justify-start">
-        <BackButton />
-      </div>
       <div className="w-full max-w-2xl flex flex-col gap-6">
+        <BackButton />
         {/* Score banner */}
         <div
-          className={`rounded-[var(--th-radius)] border p-6 text-center flex flex-col gap-2 ${
+          className={`rounded-[var(--th-radius-lg)] border p-6 text-center flex flex-col gap-2 ${
             isFullExam
               ? passed
                 ? "bg-[var(--th-success-soft)] border-[var(--th-success)]"
@@ -185,28 +183,28 @@ export default function ResultsPage() {
         <div className="flex flex-col gap-3">
           <Link
             href="/exam"
-            className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+            className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
           >
             מבחן נוסף
           </Link>
           <div className="grid grid-cols-2 gap-2">
             <Link
               href="/study"
-              className="text-center px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
             >
               חזרה ללמוד
             </Link>
             {wrongCount > 0 ? (
               <Link
                 href={`/exam/retake/${id}`}
-                className="text-center px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+                className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
               >
                 שגיאות ({wrongCount})
               </Link>
             ) : (
               <button
                 disabled
-                className="px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
+                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
               >
                 שגיאות
               </button>
@@ -214,7 +212,7 @@ export default function ResultsPage() {
             <button
               onClick={handleShare}
               disabled={sharing || !isFullExam}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
@@ -225,7 +223,7 @@ export default function ResultsPage() {
             <button
               onClick={handleExportDocx}
               disabled={exportingDocx}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
@@ -236,7 +234,7 @@ export default function ResultsPage() {
         </div>
 
         {/* Per-question review */}
-        <h2 className="text-xl font-bold">סקירת שאלות</h2>
+        <h2 className="th-section-h">סקירת שאלות</h2>
 
         <div className="flex flex-col gap-3">
           {attempt.questions.map((q, i) => {
@@ -247,7 +245,7 @@ export default function ResultsPage() {
             return (
               <div
                 key={q.id}
-                className={`rounded-[var(--th-radius)] border p-3 flex flex-col gap-3 ${
+                className={`rounded-[var(--th-radius-lg)] border p-4 flex flex-col gap-3 ${
                   unanswered
                     ? "border-[var(--th-border)]"
                     : isCorrect

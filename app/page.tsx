@@ -13,11 +13,11 @@ const TOPICS = [
 ];
 
 const SIGN_CATEGORIES = [
-  { name: "אזהרה", color: "#f59e0b", desc: "משולשים אדומים — מזהירים מפני סכנה קרובה" },
-  { name: "חובה", color: "#3b82f6", desc: "עיגולים כחולים — מחייבים פעולה מסוימת" },
-  { name: "איסור", color: "#ef4444", desc: "עיגולים אדומים — אוסרים פעולה מסוימת" },
-  { name: "מידע", color: "#22c55e", desc: "מלבנים ירוקים — מספקים מידע לנהג" },
-  { name: "סימוני כביש", color: "#94a3b8", desc: "סימונים על הכביש — קווים, חצים ורצועות" },
+  { name: "אזהרה", color: "var(--th-cat-warning)", desc: "משולשים אדומים — מזהירים מפני סכנה קרובה" },
+  { name: "חובה", color: "var(--th-cat-mandatory)", desc: "עיגולים כחולים — מחייבים פעולה מסוימת" },
+  { name: "איסור", color: "var(--th-cat-prohibition)", desc: "עיגולים אדומים — אוסרים פעולה מסוימת" },
+  { name: "מידע", color: "var(--th-cat-info)", desc: "מלבנים ירוקים — מספקים מידע לנהג" },
+  { name: "סימוני כביש", color: "var(--th-cat-road)", desc: "סימונים על הכביש — קווים, חצים ורצועות" },
 ];
 
 const STUDY_MODES = [
@@ -80,7 +80,7 @@ export default function Home() {
         <div className="flex flex-col items-center gap-4 w-full">
           <Link
             href="/study/תמרורים"
-            className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-xl bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
+            className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
           >
             בוא נתחיל בתמרורים?
             <span aria-hidden className="ms-2">←</span>
@@ -99,7 +99,7 @@ export default function Home() {
         <FadeSection>
           <div className="flex flex-col gap-1 mb-6">
             <span className="th-eyebrow">דרכי לימוד</span>
-            <h2 className="text-2xl font-bold text-[var(--th-fg)]">שלוש דרכים להתכונן</h2>
+            <h2 className="th-section-h">שלוש דרכים להתכונן</h2>
             <p className="text-sm text-[var(--th-muted-strong)] mt-1">
               כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
             </p>
@@ -110,7 +110,7 @@ export default function Home() {
             <FadeSection key={m.href} delay={i * 60}>
               <Link
                 href={m.href}
-                className="flex flex-col gap-2 p-5 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all h-full"
+                className="flex flex-col gap-2 p-5 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all h-full"
               >
                 <span className="font-bold text-[var(--th-fg)]">{m.label}</span>
                 <span className="text-sm text-[var(--th-muted)] leading-relaxed">{m.desc}</span>
@@ -125,7 +125,7 @@ export default function Home() {
         <FadeSection>
           <div className="flex flex-col gap-1 mb-2">
             <span className="th-eyebrow">נושאי הלימוד</span>
-            <h2 className="text-2xl font-bold text-[var(--th-fg)]">1,273 שאלות מהמאגר הרשמי</h2>
+            <h2 className="th-section-h">1,273 שאלות מהמאגר הרשמי</h2>
             <p className="text-sm text-[var(--th-muted-strong)] mt-1">
               כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
             </p>
@@ -136,13 +136,13 @@ export default function Home() {
             <FadeSection key={t.key} delay={i * 70}>
               <Link
                 href={t.href}
-                className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
+                className="flex items-center justify-between gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
               >
                 <div className="flex flex-col gap-0.5">
                   <span className="font-bold text-[var(--th-fg)]">{t.key}</span>
                   <span className="text-xs text-[var(--th-muted)]">{t.desc}</span>
                 </div>
-                <span className="shrink-0 font-mono text-sm font-semibold text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2.5 py-1 rounded-lg">
+                <span className="shrink-0 font-mono text-sm font-semibold text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2.5 py-1 rounded-[var(--th-radius-sm)]">
                   {t.count}
                 </span>
               </Link>
@@ -156,7 +156,7 @@ export default function Home() {
         <FadeSection>
           <div className="flex flex-col gap-1 mb-2">
             <span className="th-eyebrow">מילון התמרורים</span>
-            <h2 className="text-2xl font-bold text-[var(--th-fg)]">חמש קטגוריות של תמרורים</h2>
+            <h2 className="th-section-h">חמש קטגוריות של תמרורים</h2>
             <p className="text-sm text-[var(--th-muted-strong)] mt-1">
               ניתן לסמן כל תמרור שאתה מכיר ולעקוב אחר ההתקדמות
             </p>
@@ -167,7 +167,7 @@ export default function Home() {
             <FadeSection key={cat.name} delay={i * 55}>
               <Link
                 href="/study/תמרורים"
-                className="flex items-center gap-4 p-4 rounded-2xl bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
+                className="flex items-center gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
               >
                 <span
                   className="shrink-0 w-3 h-3 rounded-full"

@@ -139,10 +139,17 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
               </button>
             ))}
           </div>
-        ) : (
-          <span className="text-sm font-semibold">{topic}</span>
-        )}
+        ) : null}
 
+      </div>
+
+      {/* Topic title */}
+      <div className={`w-full max-w-6xl flex flex-col gap-1 ${view === "guide" ? "text-center items-center" : ""}`}>
+        <span className="th-eyebrow">נושא</span>
+        <h1 className="th-page-title">{topic}</h1>
+        <p className="text-sm text-[var(--th-muted)]">
+          {total} שאלות במאגר
+        </p>
       </div>
 
 
@@ -184,7 +191,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
           {/* No weak questions message */}
           {weakOnly && activeTotal === 0 && (
-            <div className="w-full max-w-2xl rounded-[var(--th-radius)] border border-[var(--th-border)] bg-[var(--th-card)] p-6 text-center text-[var(--th-muted)] text-sm">
+            <div className="w-full max-w-2xl rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] p-6 text-center text-[var(--th-muted)] text-sm">
               אין עדיין שאלות קשות — ענה על כמה שאלות קודם
             </div>
           )}

@@ -16,12 +16,14 @@ export default function ExamPage() {
 
   if (!questions) {
     return (
-      <>
-        <div className="w-full px-4 pt-3 flex justify-start">
+      <main className="flex flex-1 flex-col items-center px-4 py-8 gap-8">
+        <div className="w-full max-w-lg">
           <BackButton />
         </div>
-        <ExamStartScreen onStart={handleStart} />
-      </>
+        <div className="w-full max-w-lg">
+          <ExamStartScreen onStart={handleStart} />
+        </div>
+      </main>
     );
   }
   return <ExamRunner questions={questions} />;

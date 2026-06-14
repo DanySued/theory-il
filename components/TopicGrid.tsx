@@ -26,7 +26,7 @@ export default function TopicGrid({ topics }: TopicGridProps) {
         <Link
           key={t.key}
           href={`/study/${encodeURIComponent(t.key)}`}
-          className="th-card-hover flex flex-col gap-3 p-6 rounded-[var(--th-radius)] bg-[var(--th-card)] border border-[var(--th-border)] min-h-[9rem]"
+          className="th-card-hover flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] min-h-[9rem]"
         >
           <span className="text-3xl" aria-hidden>
             {TOPIC_ICON[t.label] ?? "📄"}

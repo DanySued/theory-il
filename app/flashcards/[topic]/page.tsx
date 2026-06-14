@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import questionsData from "@/lib/data/questions.json";
 import type { Question } from "@/components/QuestionCard";
 import FlashcardRunner from "@/components/FlashcardRunner";
-import BackButton from "@/components/BackButton";
 
 const TOPIC_KEYS = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"] as const;
 const allQuestions = questionsData as Question[];
@@ -25,12 +24,5 @@ export default async function FlashcardsTopicPage({
 
   const questions = allQuestions.filter((q) => q.topic === decoded);
 
-  return (
-    <>
-      <div className="w-full px-4 pt-3 flex justify-start">
-        <BackButton />
-      </div>
-      <FlashcardRunner questions={questions} />
-    </>
-  );
+  return <FlashcardRunner questions={questions} />;
 }
