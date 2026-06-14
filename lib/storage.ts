@@ -93,6 +93,22 @@ export function getAttempt(id: string): Attempt | null {
   }
 }
 
+export function listAttempts(): Attempt[] {
+  if (typeof window === "undefined") return [];
+  const out: Attempt[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key || !key.startsWith(KEY_PREFIX)) continue;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) out.push(JSON.parse(raw) as Attempt);
+    } catch {
+      // skip malformed
+    }
+  }
+  return out.sort((a, b) => b.startedAt - a.startedAt);
+}
+
 export function generateId(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
     return crypto.randomUUID();

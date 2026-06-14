@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import { motion } from "motion/react";
@@ -29,13 +30,16 @@ interface DrillClientProps {
 type View = "guide" | "drill";
 
 export default function DrillClient({ topic, questions, guide }: DrillClientProps) {
-  const [view, setView] = useState<View>(guide ? "guide" : "drill");
+  const searchParams = useSearchParams();
+  const weakInitial = searchParams?.get("weak") === "1";
+
+  const [view, setView] = useState<View>(weakInitial || !guide ? "drill" : "guide");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [showAnswer, setShowAnswer] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [jumpInput, setJumpInput] = useState("");
-  const [weakOnly, setWeakOnly] = useState(false);
+  const [weakOnly, setWeakOnly] = useState(weakInitial);
   const [weakIds, setWeakIds] = useState<Set<string>>(new Set());
 
   const total = questions.length;

@@ -9,6 +9,7 @@ const links = [
   { href: "/study", label: "לימוד" },
   { href: "/exam", label: "מבחן" },
   { href: "/flashcards", label: "כרטיסיות" },
+  { href: "/progress", label: "התקדמות" },
 ];
 
 // Real content from the app — topics, pages, sign categories
@@ -20,6 +21,7 @@ const SEARCH_SUGGESTIONS: { label: string; href: string; kind: string }[] = [
   { label: "מבחן תרגול", href: "/exam", kind: "עמוד" },
   { label: "כרטיסיות שינון", href: "/flashcards", kind: "עמוד" },
   { label: "כל הנושאים", href: "/study", kind: "עמוד" },
+  { label: "התקדמות שלי", href: "/progress", kind: "עמוד" },
   { label: "תמרורי אזהרה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי חובה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי איסור", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
