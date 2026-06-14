@@ -4,6 +4,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Search, X } from "lucide-react";
+import questionsData from "@/lib/data/questions.json";
+import { searchQuestions } from "@/lib/search";
+import type { Question } from "@/components/QuestionCard";
+
+const allQuestions = questionsData as Question[];
 
 const links = [
   { href: "/study", label: "לימוד" },
@@ -41,11 +46,28 @@ export default function NavBar() {
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const filtered = query.trim().length > 0
-    ? SEARCH_SUGGESTIONS.filter((s) =>
-        s.label.includes(query) || s.kind.includes(query)
-      )
+  const trimmedQuery = query.trim();
+
+  const suggestionMatches = trimmedQuery.length > 0
+    ? SEARCH_SUGGESTIONS.filter((s) => s.label.includes(trimmedQuery) || s.kind.includes(trimmedQuery))
     : [];
+
+  // Search the real question corpus per keystroke; React Compiler handles memoization.
+  const questionMatches = trimmedQuery.length >= 2 ? searchQuestions(allQuestions, trimmedQuery, 6) : [];
+
+  // Unified suggestion list: pages first (fast routes), then live question matches.
+  type Suggestion =
+    | { kind: "suggestion"; label: string; href: string; meta: string }
+    | { kind: "question"; label: string; href: string; meta: string };
+  const filtered: Suggestion[] = [
+    ...suggestionMatches.map((s) => ({ kind: "suggestion" as const, label: s.label, href: s.href, meta: s.kind })),
+    ...questionMatches.map((r) => ({
+      kind: "question" as const,
+      label: r.question.text,
+      href: `/q/${encodeURIComponent(r.question.id)}`,
+      meta: r.question.topic,
+    })),
+  ];
 
   const handleSelect = useCallback((href: string) => {
     router.push(href);
@@ -141,17 +163,25 @@ export default function NavBar() {
           {open && filtered.length > 0 && (
             <ul
               role="listbox"
-              className="absolute top-full mt-1 w-full bg-[var(--th-card)] border border-[var(--th-border)] rounded-[var(--th-radius)] shadow-lg overflow-hidden z-50"
+              className="absolute top-full mt-1 w-full bg-[var(--th-card)] border border-[var(--th-border)] rounded-[var(--th-radius)] shadow-lg overflow-hidden z-50 max-h-[60vh] overflow-y-auto"
             >
               {filtered.map((s, i) => (
                 <li key={i} role="option" aria-selected={false}>
                   <button
                     type="button"
                     onMouseDown={(e) => { e.preventDefault(); handleSelect(s.href); }}
-                    className="w-full text-start px-3 py-2 flex items-center justify-between gap-2 hover:bg-[var(--th-muted-bg)] transition-colors"
+                    className="w-full text-start px-3 py-2 flex items-center justify-between gap-3 hover:bg-[var(--th-muted-bg)] transition-colors"
                   >
-                    <span className="text-sm font-medium text-[var(--th-fg)]">{s.label}</span>
-                    <span className="text-xs text-[var(--th-muted)] shrink-0">{s.kind}</span>
+                    <span
+                      className={
+                        s.kind === "question"
+                          ? "text-sm text-[var(--th-fg-soft)] line-clamp-2 leading-snug min-w-0"
+                          : "text-sm font-medium text-[var(--th-fg)]"
+                      }
+                    >
+                      {s.label}
+                    </span>
+                    <span className="text-xs text-[var(--th-muted)] shrink-0">{s.meta}</span>
                   </button>
                 </li>
               ))}
