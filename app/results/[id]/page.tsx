@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt } from "@/lib/storage";
 import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
-import BackButton from "@/components/BackButton";
+import PageShell from "@/components/PageShell";
 import Skeleton from "@/components/Skeleton";
 import { LABELS } from "@/lib/constants";
 
@@ -68,15 +68,8 @@ export default function ResultsPage() {
 
   if (attempt === "loading") {
     return (
-      <main
-        className="flex flex-1 flex-col items-center px-4 py-8 gap-8"
-        aria-busy="true"
-        aria-live="polite"
-      >
-        <div className="w-full px-0 pb-2 flex justify-start">
-          <Skeleton className="h-8 w-20" />
-        </div>
-        <div className="w-full max-w-2xl flex flex-col gap-6">
+      <PageShell showBack={false}>
+        <div aria-busy="true" aria-live="polite" className="flex flex-col gap-6">
           <Skeleton className="h-44 rounded-[var(--th-radius)]" />
           <div className="flex flex-col gap-3">
             <Skeleton className="h-12 rounded-[var(--th-radius)]" />
@@ -94,18 +87,20 @@ export default function ResultsPage() {
             ))}
           </div>
         </div>
-      </main>
+      </PageShell>
     );
   }
 
   if (!attempt) {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 gap-4">
-        <p className="text-[var(--th-muted)]">תוצאות המבחן לא נמצאו.</p>
-        <Link href="/exam" className="text-[var(--th-accent)] underline">
-          מבחן נוסף
-        </Link>
-      </main>
+      <PageShell>
+        <div className="flex flex-col items-center justify-center gap-4 py-8">
+          <p className="text-[var(--th-muted)]">תוצאות המבחן לא נמצאו.</p>
+          <Link href="/exam" className="text-[var(--th-accent)] underline">
+            מבחן נוסף
+          </Link>
+        </div>
+      </PageShell>
     );
   }
 
@@ -136,9 +131,8 @@ export default function ResultsPage() {
   }
 
   return (
-    <main className="flex flex-1 flex-col items-center px-4 py-8 gap-8">
-      <div className="w-full max-w-2xl flex flex-col gap-6">
-        <BackButton />
+    <PageShell>
+      <div className="w-full flex flex-col gap-6">
         {/* Score banner */}
         <div
           className={`rounded-[var(--th-radius-lg)] border p-6 text-center flex flex-col gap-2 ${
@@ -317,6 +311,6 @@ export default function ResultsPage() {
       >
         <ShareCard ref={shareCardRef} correct={correct} passed={passed} duration={duration} />
       </div>
-    </main>
+    </PageShell>
   );
 }

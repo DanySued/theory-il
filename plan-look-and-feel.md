@@ -8,7 +8,7 @@
 
 ## PHASE STATUS
 - [x] Phase 1 — Foundation tokens + `PageShell`
-- [ ] Phase 2 — Adopt `PageShell` everywhere + unify back-button slot
+- [x] Phase 2 — Adopt `PageShell` everywhere + unify back-button slot
 - [ ] Phase 3 — Unify cards (`TopicCard`, `SectionHead`)
 - [ ] Phase 4 — Fix loading skeletons + remove layout shift
 - [ ] Phase 5 — Heading/eyebrow normalization + polish pass

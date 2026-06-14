@@ -5,7 +5,8 @@ import Link from "next/link";
 import questionsData from "@/lib/data/questions.json";
 import type { Question } from "@/components/QuestionCard";
 import { getDueCountByTopic } from "@/lib/srs";
-import BackButton from "@/components/BackButton";
+import PageShell from "@/components/PageShell";
+import SectionHead from "@/components/SectionHead";
 
 const questions = questionsData as Question[];
 const TOPIC_ORDER = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"];
@@ -27,21 +28,18 @@ export default function FlashcardsPage() {
   const totalDue = topics.reduce((s, t) => s + t.due, 0);
 
   return (
-    <main className="flex flex-1 flex-col items-center px-6 py-8 gap-8">
-      <div className="w-full max-w-3xl flex justify-start">
-        <BackButton />
-      </div>
-      <div className="w-full max-w-3xl flex flex-col gap-3">
-        <span className="th-eyebrow">חזרה מרווחת · SRS</span>
-        <h1 className="th-page-title">כרטיסיות שינון</h1>
-        <p className="text-[var(--th-muted-strong)] text-base">
-          {totalDue > 0
+    <PageShell>
+      <SectionHead
+        eyebrow="חזרה מרווחת · SRS"
+        title="כרטיסיות שינון"
+        subtitle={
+          totalDue > 0
             ? `${totalDue} כרטיסיות מחכות לחזרה היום — בחר נושא כדי להתחיל.`
-            : "אין כרטיסיות לחזרה — חזור מחר."}
-        </p>
-      </div>
+            : "אין כרטיסיות לחזרה — חזור מחר."
+        }
+      />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-3xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
         {topics.map(({ topic, total, due }, i) => (
           <Link
             key={topic}
@@ -77,6 +75,6 @@ export default function FlashcardsPage() {
           </Link>
         ))}
       </div>
-    </main>
+    </PageShell>
   );
 }

@@ -20,7 +20,7 @@ export default function ExamStartScreen({
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-3 text-center">
+      <div className="flex flex-col gap-3">
         <span className="th-eyebrow">סימולציה · 30 שאלות · 40 דקות</span>
         <h1 className="th-page-title">מבחן מדומה</h1>
       </div>

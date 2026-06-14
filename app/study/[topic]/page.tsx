@@ -4,6 +4,7 @@ import questionsData from "@/lib/data/questions.json";
 import { type Question } from "@/components/QuestionCard";
 import { GUIDES } from "@/lib/data/guides";
 import DrillClient from "./DrillClient";
+import PageShell from "@/components/PageShell";
 
 const TOPIC_KEYS = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"] as const;
 
@@ -42,5 +43,9 @@ export default async function TopicPage({
   const questions = allQuestions.filter((q) => q.topic === decoded);
   const guide = GUIDES[decoded];
 
-  return <DrillClient topic={decoded} questions={questions} guide={guide} />;
+  return (
+    <PageShell wide>
+      <DrillClient topic={decoded} questions={questions} guide={guide} />
+    </PageShell>
+  );
 }

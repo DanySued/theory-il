@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
-import BackButton from "@/components/BackButton";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import { motion } from "motion/react";
@@ -104,12 +103,12 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   if (total === 0) {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 gap-4">
+      <div className="flex flex-col items-center justify-center gap-4 py-8">
         <p className="text-[var(--th-muted)]">לא נמצאו שאלות לנושא זה.</p>
         <Link href="/study" className="text-[var(--th-accent)] underline">
           חזרה לנושאים
         </Link>
-      </main>
+      </div>
     );
   }
 
@@ -119,11 +118,9 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     }`;
 
   return (
-    <main className="flex flex-1 flex-col items-center px-4 py-8 gap-6">
+    <div className="w-full flex flex-col items-center gap-6">
       {/* Header */}
-      <div className="w-full max-w-6xl flex items-center justify-between gap-3">
-        <BackButton />
-
+      <div className="w-full max-w-6xl flex items-center justify-end gap-3">
         {guide ? (
           <div className="flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-full p-1">
             {(["guide", "drill"] as const).map((v) => (
@@ -240,6 +237,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
           )}
         </>
       )}
-    </main>
+    </div>
   );
 }
