@@ -30,6 +30,8 @@ const SEARCH_SUGGESTIONS: { label: string; href: string; kind: string }[] = [
   { label: "התקדמות שלי", href: "/progress", kind: "עמוד" },
   { label: "שאלות שמורות", href: "/saved", kind: "עמוד" },
   { label: "חזרה חכמה", href: "/review", kind: "עמוד" },
+  { label: "הגדרות", href: "/settings", kind: "עמוד" },
+  { label: "גיבוי וייצוא", href: "/settings", kind: "עמוד" },
   { label: "תמרורי אזהרה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי חובה", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
   { label: "תמרורי איסור", href: "/study/תמרורים", kind: "קטגוריית תמרורים" },
