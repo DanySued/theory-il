@@ -25,7 +25,7 @@ export default function TopicCard({
   return (
     <Link
       href={href}
-      className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[0_8px_24px_-12px_rgba(29,78,216,0.25)] hover:-translate-y-0.5 transition-all"
+      className="group relative flex flex-col gap-3 p-6 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-[var(--th-shadow-accent)] hover:-translate-y-0.5 transition-all"
     >
       <div className="flex items-baseline justify-between">
         {tag ? (

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import StreakBadge from "@/components/StreakBadge";
 
 // Real topic data — counts from questions.json
@@ -26,36 +25,8 @@ const STUDY_MODES = [
   { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מהירה בשיטת SRS — מתאים לשנות מועד" },
 ];
 
-function useVisible(threshold = 0.15) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return { ref, visible };
-}
-
-function FadeSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const { ref, visible } = useVisible();
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(20px)",
-        transition: `opacity 0.45s ease ${delay}ms, transform 0.45s ease ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
+function FadeSection({ children }: { children: React.ReactNode; delay?: number }) {
+  return <>{children}</>;
 }
 
 export default function Home() {

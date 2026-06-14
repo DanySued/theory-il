@@ -27,7 +27,6 @@ export default function RetakePage() {
       return;
     }
     const wrong = a.questions.filter((q, i) => a.answers[i] !== q.correctIndex);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setState({ kind: "ready", questions: shuffle(wrong) });
   }, [sourceId]);
 

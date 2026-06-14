@@ -80,6 +80,8 @@ function SignCard({
           <Check size={26} strokeWidth={3} />
         </div>
       ) : sign.image ? (
+        // External Wikimedia SVGs at fixed 72×72 — next/Image gives no win and needs remotePatterns config
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={sign.image}
           alt={sign.name}

@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 import StudyGuide from "@/components/StudyGuide";
 import SignsCatalog from "@/components/SignsCatalog";
 import { SIGNS, type SignCategory } from "@/lib/data/signs";
-import { getQStats, updateStreak } from "@/lib/storage";
+import { getQStats, updateStreak, getDrillPosition, saveDrillPosition } from "@/lib/storage";
 import type { TopicGuide } from "@/lib/data/guides";
 
 // Maps guide section titles (for "תמרורים") to SignCategory keys
@@ -59,6 +59,22 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
   useEffect(() => {
     updateStreak();
   }, []);
+
+  // Restore last-viewed question for this topic on mount
+  useEffect(() => {
+    const saved = getDrillPosition(topic);
+    if (saved > 0 && saved < questions.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCurrentIndex(saved);
+    }
+  }, [topic, questions.length]);
+
+  // Persist position only in normal drill mode (not when filtering by weakOnly)
+  useEffect(() => {
+    if (!weakOnly && view === "drill") {
+      saveDrillPosition(topic, currentIndex);
+    }
+  }, [topic, currentIndex, weakOnly, view]);
 
   const activeQuestions = weakOnly
     ? questions.filter((q) => weakIds.has(q.id))
@@ -234,6 +250,10 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
                   עבור
                 </button>
               </form>
+
+              <p className="text-[0.7rem] text-[var(--th-muted)] hidden sm:block" aria-hidden>
+                קיצורי מקלדת: ← → לניווט · 1-4 לתשובה · רווח / R לחשיפה
+              </p>
             </>
           )}
         </>

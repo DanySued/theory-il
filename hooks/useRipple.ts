@@ -8,8 +8,9 @@ export function useRipple() {
   const pendingTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
+    const timeoutsArr = pendingTimeouts.current;
     return () => {
-      pendingTimeouts.current.forEach(clearTimeout);
+      timeoutsArr.forEach(clearTimeout);
     };
   }, []);
 

@@ -50,16 +50,26 @@ export default function QuestionCard({
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      // RTL: ArrowRight = previous, ArrowLeft = next
       if (e.key === "ArrowLeft") {
+        e.preventDefault();
         onNext();
       } else if (e.key === "ArrowRight") {
+        e.preventDefault();
         onPrev();
-      } else if (e.key === " " || e.key === "Spacebar") {
+      } else if (e.key === " " || e.key === "Spacebar" || e.key === "r" || e.key === "R") {
         e.preventDefault();
         if (!showAnswer) onReveal();
       } else if (["1", "2", "3", "4"].includes(e.key)) {
         const idx = parseInt(e.key, 10) - 1;
-        if (!showAnswer) onAnswer(idx);
+        if (!showAnswer) {
+          e.preventDefault();
+          onAnswer(idx);
+        }
       }
     },
     [showAnswer, onReveal, onAnswer, onNext, onPrev]

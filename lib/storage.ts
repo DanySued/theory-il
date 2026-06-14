@@ -16,6 +16,32 @@ const KEY_PREFIX = "theory-il:attempt:";
 const QSTATS_KEY = "theory-il:qstats";
 const STREAK_KEY = "theory-il:streak";
 const KNOWN_SIGNS_KEY = "theory-il:signsKnown";
+const DRILL_POS_KEY = "theory-il:drillPos";
+
+// --- Drill position (last-viewed question index per topic) ---
+
+export function getDrillPosition(topic: string): number {
+  if (typeof window === "undefined") return 0;
+  try {
+    const raw = localStorage.getItem(DRILL_POS_KEY);
+    const all = raw ? (JSON.parse(raw) as Record<string, number>) : {};
+    return all[topic] ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function saveDrillPosition(topic: string, index: number): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem(DRILL_POS_KEY);
+    const all = raw ? (JSON.parse(raw) as Record<string, number>) : {};
+    all[topic] = index;
+    localStorage.setItem(DRILL_POS_KEY, JSON.stringify(all));
+  } catch {
+    // ignore quota errors
+  }
+}
 
 // --- Known signs (catalog self-study) ---
 

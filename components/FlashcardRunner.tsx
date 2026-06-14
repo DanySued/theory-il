@@ -27,7 +27,6 @@ export default function FlashcardRunner({ questions }: Props) {
     const shuffled = [...due].sort(() => Math.random() - 0.5);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setDueIds(shuffled);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (shuffled.length === 0) setDone(true);
   }, [questions]);
 
