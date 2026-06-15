@@ -45,7 +45,7 @@ export default function FlashcardsPage() {
             key={topic}
             href={`/flashcards/${encodeURIComponent(topic)}`}
             title={topic}
-            tag="SRS"
+            tag="חזרה מרווחת"
             meta={`${total} כרטיסיות`}
             badge={
               due > 0 ? (

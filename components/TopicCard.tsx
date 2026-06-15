@@ -29,7 +29,7 @@ export default function TopicCard({
     >
       <div className="flex items-baseline justify-between">
         {tag ? (
-          <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1.5 text-[0.7rem] font-bold text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2 py-0.5 rounded-full">
             <span aria-hidden className="w-1 h-1 rounded-full bg-[var(--th-accent)]" />
             {tag}
           </span>
