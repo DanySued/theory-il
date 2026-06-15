@@ -1,0 +1,80 @@
+<h2>Which "homemade" flavor are we chasing?</h2>
+<p class="subtitle">"Homemade" can mean many things. Click the card that's closest to what you want — we'll refine from there.</p>
+
+<style>
+  .vibe-card { padding: 28px; border-radius: 14px; min-height: 280px; display:flex; flex-direction:column; gap:14px; }
+  .vibe-card h3 { margin:0; font-size: 1.15rem; }
+  .vibe-card .swatches { display:flex; gap:8px; }
+  .vibe-card .sw { width:32px; height:32px; border-radius: 50%; border:1px solid rgba(0,0,0,0.1); }
+  .vibe-card .sample { font-size: 1.5rem; font-weight: 700; }
+  .vibe-card .body { font-size: 0.9rem; opacity: 0.85; }
+  .vibe-card .tag { display:inline-block; padding:4px 10px; border-radius:999px; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; }
+
+  /* A — Notebook / Stationery */
+  .v-a { background: #f5efe1; color: #2b2417; border: 1px solid #d9ceb4; font-family: 'Georgia', serif; box-shadow: 2px 2px 0 #e2d6b8; }
+  .v-a .tag { background:#2b2417; color:#f5efe1; }
+
+  /* B — Warm Pottery / Clay */
+  .v-b { background: #efe6dc; color: #3a2a1c; border: 1px solid #d7c4ad; border-radius: 22px; }
+  .v-b .tag { background: #b06a3b; color: #fff7ec; }
+
+  /* C — Crafted / Crayon */
+  .v-c { background: #fffaf0; color: #2a2018; border: 2px dashed #cba66b; }
+  .v-c .tag { background: #d97757; color: #fff; }
+  .v-c h3, .v-c .sample { font-family: 'Comic Sans MS', 'Caveat', cursive; }
+
+  /* D — Old-school textbook */
+  .v-d { background: #f1ecdf; color: #1a1a1a; border:1px solid #1a1a1a; border-radius: 6px; }
+  .v-d .tag { background:#1a1a1a; color:#f1ecdf; border-radius:0; }
+  .v-d h3 { font-family: 'Georgia', serif; }
+</style>
+
+<div class="cards">
+  <div class="card vibe-card v-a" data-choice="a" onclick="toggleSelect(this)">
+    <span class="tag">A · Notebook</span>
+    <div class="sample">חוקי התנועה</div>
+    <div class="swatches">
+      <span class="sw" style="background:#f5efe1"></span>
+      <span class="sw" style="background:#3a5a40"></span>
+      <span class="sw" style="background:#d4a017"></span>
+      <span class="sw" style="background:#2b2417"></span>
+    </div>
+    <div class="body">Cream paper, ink-blue, ruled-notebook feel. Serif headings, slight off-white shadow. Feels like a study notebook you'd actually carry.</div>
+  </div>
+
+  <div class="card vibe-card v-b" data-choice="b" onclick="toggleSelect(this)">
+    <span class="tag">B · Pottery</span>
+    <div class="sample">חוקי התנועה</div>
+    <div class="swatches">
+      <span class="sw" style="background:#efe6dc"></span>
+      <span class="sw" style="background:#b06a3b"></span>
+      <span class="sw" style="background:#6b8e23"></span>
+      <span class="sw" style="background:#3a2a1c"></span>
+    </div>
+    <div class="body">Warm terracotta + sage. Soft rounded everything. Earthy, calm, very tactile. Like a craft-shop product page.</div>
+  </div>
+
+  <div class="card vibe-card v-c" data-choice="c" onclick="toggleSelect(this)">
+    <span class="tag">C · Crafted</span>
+    <div class="sample">חוקי התנועה</div>
+    <div class="swatches">
+      <span class="sw" style="background:#fffaf0"></span>
+      <span class="sw" style="background:#d97757"></span>
+      <span class="sw" style="background:#3b6ea8"></span>
+      <span class="sw" style="background:#2a2018"></span>
+    </div>
+    <div class="body">Hand-drawn dashed borders, slightly playful headings, sticker-like accents. Feels made-by-a-person, not a designer.</div>
+  </div>
+
+  <div class="card vibe-card v-d" data-choice="d" onclick="toggleSelect(this)">
+    <span class="tag">D · Textbook</span>
+    <div class="sample">חוקי התנועה</div>
+    <div class="swatches">
+      <span class="sw" style="background:#f1ecdf"></span>
+      <span class="sw" style="background:#1a1a1a"></span>
+      <span class="sw" style="background:#a83232"></span>
+      <span class="sw" style="background:#3a3a3a"></span>
+    </div>
+    <div class="body">Old printed-textbook vibe. Sharp serifs, hard black borders, single accent stamp red. Hand-bound, library-shelf, archival.</div>
+  </div>
+</div>
