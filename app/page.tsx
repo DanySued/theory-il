@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import StreakBadge from "@/components/StreakBadge";
+import ContinueTile from "@/components/ContinueTile";
+import DailyChallengeTile from "@/components/DailyChallengeTile";
 
 // Real topic data — counts from questions.json
 const TOPICS = [
@@ -66,12 +68,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Daily challenge + continue tile (each renders only when relevant) */}
+      <section className="w-full max-w-3xl pt-10 flex flex-col gap-3">
+        <DailyChallengeTile />
+        <ContinueTile />
+      </section>
+
       {/* Study modes */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6">
         <FadeSection>
           <div className="flex flex-col gap-1 mb-6">
             <span className="th-eyebrow">דרכי לימוד</span>
-            <h2 className="th-section-h">שלוש דרכים להתכונן</h2>
+            <h2 className="th-section-h">ארבע דרכים להתכונן</h2>
             <p className="text-sm text-[var(--th-muted-strong)] mt-1">
               כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
             </p>

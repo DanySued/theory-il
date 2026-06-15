@@ -9,25 +9,35 @@ export type BucketKey =
   | "bookmarks"
   | "drillPos"
   | "knownSigns"
-  | "srs";
+  | "srs"
+  | "daily";
+
+interface BucketEntry {
+  prefix: string;
+  /** True if this entry can have multiple keys under the prefix. */
+  multi?: boolean;
+}
 
 interface BucketSpec {
   key: BucketKey;
   label: string;
-  /** localStorage key prefix; an empty `suffix` means an exact match. */
-  storagePrefix: string;
-  /** True if this bucket can have multiple localStorage keys under the prefix. */
-  multi?: boolean;
+  /** All localStorage prefixes that belong to this logical bucket. */
+  entries: BucketEntry[];
 }
 
 const BUCKETS: BucketSpec[] = [
-  { key: "attempts", label: "מבחנים שמורים", storagePrefix: "theory-il:attempt:", multi: true },
-  { key: "qstats", label: "סטטיסטיקת שאלות", storagePrefix: "theory-il:qstats" },
-  { key: "streak", label: "רצף ימים", storagePrefix: "theory-il:streak" },
-  { key: "bookmarks", label: "שאלות שמורות (כוכב)", storagePrefix: "theory-il:bookmarks" },
-  { key: "drillPos", label: "מיקום אחרון בלימוד", storagePrefix: "theory-il:drillPos" },
-  { key: "knownSigns", label: "תמרורים שסומנו כמוכרים", storagePrefix: "theory-il:signsKnown" },
-  { key: "srs", label: "כרטיסיות SRS", storagePrefix: "theory-il:srs" },
+  { key: "attempts", label: "מבחנים שמורים", entries: [{ prefix: "theory-il:attempt:", multi: true }] },
+  { key: "qstats", label: "סטטיסטיקת שאלות", entries: [{ prefix: "theory-il:qstats" }] },
+  { key: "streak", label: "רצף ימים", entries: [{ prefix: "theory-il:streak" }] },
+  { key: "bookmarks", label: "שאלות שמורות (כוכב)", entries: [{ prefix: "theory-il:bookmarks" }] },
+  {
+    key: "drillPos",
+    label: "מיקום אחרון בלימוד",
+    entries: [{ prefix: "theory-il:drillPos" }, { prefix: "theory-il:lastDrill" }],
+  },
+  { key: "knownSigns", label: "תמרורים שסומנו כמוכרים", entries: [{ prefix: "theory-il:signsKnown" }] },
+  { key: "srs", label: "כרטיסיות SRS", entries: [{ prefix: "theory-il:srs" }] },
+  { key: "daily", label: "אתגר יומי", entries: [{ prefix: "theory-il:dailyChallenge" }] },
 ];
 
 export interface BucketSummary {
@@ -45,14 +55,16 @@ export interface BackupPayload {
   data: Record<string, string>;
 }
 
+function entryMatches(entry: BucketEntry, k: string): boolean {
+  return entry.multi ? k.startsWith(entry.prefix) : k === entry.prefix;
+}
+
 function collectKeys(spec: BucketSpec): string[] {
   const out: string[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
     if (!k) continue;
-    if (spec.multi ? k.startsWith(spec.storagePrefix) : k === spec.storagePrefix) {
-      out.push(k);
-    }
+    if (spec.entries.some((e) => entryMatches(e, k))) out.push(k);
   }
   return out;
 }
@@ -62,23 +74,29 @@ export function summarizeBuckets(): BucketSummary[] {
     return BUCKETS.map((b) => ({ key: b.key, label: b.label, count: 0, bytes: 0 }));
   }
   return BUCKETS.map((spec) => {
-    const keys = collectKeys(spec);
     let bytes = 0;
     let count = 0;
-    for (const k of keys) {
-      const v = localStorage.getItem(k) ?? "";
-      bytes += k.length + v.length;
-      if (spec.multi) {
-        count++;
-      } else {
-        // For singleton buckets we count entries inside the JSON when sensible.
-        try {
-          const parsed = JSON.parse(v);
-          if (Array.isArray(parsed)) count = parsed.length;
-          else if (parsed && typeof parsed === "object") count = Object.keys(parsed).length;
-          else count = v ? 1 : 0;
-        } catch {
-          count = v ? 1 : 0;
+    for (const entry of spec.entries) {
+      const keys: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && entryMatches(entry, k)) keys.push(k);
+      }
+      for (const k of keys) {
+        const v = localStorage.getItem(k) ?? "";
+        bytes += k.length + v.length;
+        if (entry.multi) {
+          count++;
+        } else {
+          // For singleton entries count items inside the JSON when sensible.
+          try {
+            const parsed = JSON.parse(v);
+            if (Array.isArray(parsed)) count += parsed.length;
+            else if (parsed && typeof parsed === "object") count += Object.keys(parsed).length;
+            else count += v ? 1 : 0;
+          } catch {
+            count += v ? 1 : 0;
+          }
         }
       }
     }
@@ -128,11 +146,8 @@ export function importAll(raw: string, opts: { merge?: boolean } = {}): ImportRe
   }
 
   // Only accept keys belonging to a known bucket — prevents arbitrary writes.
-  const allowedPrefixes = BUCKETS.flatMap((b) =>
-    b.multi ? [{ prefix: b.storagePrefix, exact: false }] : [{ prefix: b.storagePrefix, exact: true }]
-  );
-  const isAllowed = (k: string) =>
-    allowedPrefixes.some((p) => (p.exact ? k === p.prefix : k.startsWith(p.prefix)));
+  const allowedEntries = BUCKETS.flatMap((b) => b.entries);
+  const isAllowed = (k: string) => allowedEntries.some((e) => entryMatches(e, k));
 
   if (!opts.merge) {
     // Replace mode: clear all known buckets first

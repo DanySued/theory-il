@@ -17,6 +17,7 @@ const QSTATS_KEY = "theory-il:qstats";
 const STREAK_KEY = "theory-il:streak";
 const KNOWN_SIGNS_KEY = "theory-il:signsKnown";
 const DRILL_POS_KEY = "theory-il:drillPos";
+const LAST_DRILL_KEY = "theory-il:lastDrill";
 const BOOKMARKS_KEY = "theory-il:bookmarks";
 
 // --- Bookmarked questions ---
@@ -68,8 +69,28 @@ export function saveDrillPosition(topic: string, index: number): void {
     const all = raw ? (JSON.parse(raw) as Record<string, number>) : {};
     all[topic] = index;
     localStorage.setItem(DRILL_POS_KEY, JSON.stringify(all));
+    localStorage.setItem(
+      LAST_DRILL_KEY,
+      JSON.stringify({ topic, index, ts: Date.now() })
+    );
   } catch {
     // ignore quota errors
+  }
+}
+
+export interface LastDrill {
+  topic: string;
+  index: number;
+  ts: number;
+}
+
+export function getLastDrill(): LastDrill | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(LAST_DRILL_KEY);
+    return raw ? (JSON.parse(raw) as LastDrill) : null;
+  } catch {
+    return null;
   }
 }
 
