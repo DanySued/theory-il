@@ -7,6 +7,7 @@ import { Search, X } from "lucide-react";
 import questionsData from "@/lib/data/questions.json";
 import { searchQuestions } from "@/lib/search";
 import type { Question } from "@/components/QuestionCard";
+import NavStreakBadge from "@/components/NavStreakBadge";
 
 const allQuestions = questionsData as Question[];
 
@@ -193,7 +194,8 @@ export default function NavBar() {
           )}
         </div>
 
-        <nav className="flex items-center gap-1 text-sm justify-end">
+        <nav className="flex items-center gap-2 text-sm justify-end">
+          <NavStreakBadge />
           {links.map((l) => {
             const active =
               pathname === l.href || pathname.startsWith(l.href + "/");
