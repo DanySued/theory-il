@@ -6,12 +6,25 @@ import { localDateStr } from "@/lib/utils";
 const allQuestions = questionsData as Question[];
 
 const DAILY_KEY = "theory-il:dailyChallenge";
+const DAILY_HISTORY_KEY = "theory-il:dailyHistory";
+const HISTORY_CAP = 180;
 export const DAILY_DECK_SIZE = 3;
 
 export interface DailyChallengeRecord {
   date: string; // "YYYY-MM-DD"
   completedAt: number;
   correctCount: number;
+}
+
+export interface DailyHistoryEntry {
+  date: string;
+  correctCount: number;
+}
+
+export interface DailyStreak {
+  current: number;
+  best: number;
+  totalDays: number;
 }
 
 export function getDailyChallengeRecord(): DailyChallengeRecord | null {
@@ -24,14 +37,92 @@ export function getDailyChallengeRecord(): DailyChallengeRecord | null {
   }
 }
 
+export function getDailyHistory(): DailyHistoryEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(DAILY_HISTORY_KEY);
+    const parsed = raw ? (JSON.parse(raw) as DailyHistoryEntry[]) : [];
+    // Backfill from the single-record key on first read (legacy upgrade path).
+    if (parsed.length === 0) {
+      const rec = getDailyChallengeRecord();
+      if (rec) return [{ date: rec.date, correctCount: rec.correctCount }];
+    }
+    return parsed;
+  } catch {
+    return [];
+  }
+}
+
 export function saveDailyChallengeRecord(rec: DailyChallengeRecord): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(DAILY_KEY, JSON.stringify(rec));
+  // Mirror into history (replace same-day entry if any), then cap and persist.
+  try {
+    const raw = localStorage.getItem(DAILY_HISTORY_KEY);
+    const existing = raw ? (JSON.parse(raw) as DailyHistoryEntry[]) : [];
+    const filtered = existing.filter((h) => h.date !== rec.date);
+    filtered.push({ date: rec.date, correctCount: rec.correctCount });
+    filtered.sort((a, b) => a.date.localeCompare(b.date));
+    const trimmed = filtered.slice(-HISTORY_CAP);
+    localStorage.setItem(DAILY_HISTORY_KEY, JSON.stringify(trimmed));
+  } catch {
+    // ignore quota errors
+  }
 }
 
 export function isDailyCompletedToday(): boolean {
   const rec = getDailyChallengeRecord();
   return rec !== null && rec.date === localDateStr(new Date());
+}
+
+function shiftDate(date: string, days: number): string {
+  const d = new Date(`${date}T00:00:00`);
+  d.setDate(d.getDate() + days);
+  return localDateStr(d);
+}
+
+/**
+ * Counts consecutive daily completions ending at today (or yesterday — so the user
+ * doesn't lose the streak until they actually skip a day). "best" scans all of history.
+ */
+export function getDailyStreak(history?: DailyHistoryEntry[]): DailyStreak {
+  const h = history ?? getDailyHistory();
+  if (h.length === 0) return { current: 0, best: 0, totalDays: 0 };
+
+  const dates = new Set(h.map((e) => e.date));
+  const totalDays = dates.size;
+
+  const today = localDateStr(new Date());
+  const yesterday = shiftDate(today, -1);
+
+  let cursor: string;
+  if (dates.has(today)) cursor = today;
+  else if (dates.has(yesterday)) cursor = yesterday;
+  else return { current: 0, best: longestRun(dates), totalDays };
+
+  let current = 0;
+  while (dates.has(cursor)) {
+    current++;
+    cursor = shiftDate(cursor, -1);
+  }
+
+  return { current, best: Math.max(current, longestRun(dates)), totalDays };
+}
+
+function longestRun(dates: Set<string>): number {
+  let best = 0;
+  for (const d of dates) {
+    // Only start counting from the beginning of a run
+    if (dates.has(shiftDate(d, -1))) continue;
+    let len = 1;
+    let cursor = shiftDate(d, 1);
+    while (dates.has(cursor)) {
+      len++;
+      cursor = shiftDate(cursor, 1);
+    }
+    if (len > best) best = len;
+  }
+  return best;
 }
 
 /**

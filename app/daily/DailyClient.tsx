@@ -119,10 +119,10 @@ export default function DailyClient() {
               חזרה חכמה
             </Link>
             <Link
-              href="/progress"
+              href="/daily/history"
               className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
             >
-              ההתקדמות שלי
+              היסטוריה ורצף
             </Link>
           </div>
         </div>
@@ -157,10 +157,10 @@ export default function DailyClient() {
               להמשיך בחזרה חכמה
             </Link>
             <Link
-              href="/progress"
+              href="/daily/history"
               className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
             >
-              ההתקדמות שלי
+              היסטוריה ורצף
             </Link>
           </div>
         </div>

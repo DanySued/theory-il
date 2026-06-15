@@ -37,7 +37,11 @@ const BUCKETS: BucketSpec[] = [
   },
   { key: "knownSigns", label: "תמרורים שסומנו כמוכרים", entries: [{ prefix: "theory-il:signsKnown" }] },
   { key: "srs", label: "כרטיסיות SRS", entries: [{ prefix: "theory-il:srs" }] },
-  { key: "daily", label: "אתגר יומי", entries: [{ prefix: "theory-il:dailyChallenge" }] },
+  {
+    key: "daily",
+    label: "אתגר יומי",
+    entries: [{ prefix: "theory-il:dailyChallenge" }, { prefix: "theory-il:dailyHistory" }],
+  },
 ];
 
 export interface BucketSummary {

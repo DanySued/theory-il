@@ -2,13 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getDailyChallengeRecord, DAILY_DECK_SIZE } from "@/lib/dailyChallenge";
+import {
+  getDailyChallengeRecord,
+  getDailyStreak,
+  DAILY_DECK_SIZE,
+} from "@/lib/dailyChallenge";
 import { localDateStr } from "@/lib/utils";
 
 type State =
   | { kind: "loading" }
-  | { kind: "fresh" }
-  | { kind: "done"; correctCount: number };
+  | { kind: "fresh"; streak: number }
+  | { kind: "done"; correctCount: number; streak: number };
 
 export default function DailyChallengeTile() {
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -16,11 +20,12 @@ export default function DailyChallengeTile() {
   useEffect(() => {
     const rec = getDailyChallengeRecord();
     const today = localDateStr(new Date());
+    const streakInfo = getDailyStreak();
     if (rec && rec.date === today) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setState({ kind: "done", correctCount: rec.correctCount });
+      setState({ kind: "done", correctCount: rec.correctCount, streak: streakInfo.current });
     } else {
-      setState({ kind: "fresh" });
+      setState({ kind: "fresh", streak: streakInfo.current });
     }
   }, []);
 
@@ -33,9 +38,18 @@ export default function DailyChallengeTile() {
   const title = isDone
     ? `${state.correctCount}/${DAILY_DECK_SIZE} נכון היום`
     : "3 שאלות · כדקה";
-  const subtitle = isDone
-    ? "נחזור מחר עם אתגר חדש."
-    : "סבב יומי קצר שמתעדכן כל יום על בסיס החולשות שלך.";
+
+  let subtitle: string;
+  if (isDone) {
+    subtitle =
+      state.streak > 1
+        ? `🔥 רצף ${state.streak} ימים — אל תשבור אותו מחר.`
+        : "התחלת רצף — נחזור מחר.";
+  } else if (state.streak >= 1) {
+    subtitle = `🔥 רצף ${state.streak} ${state.streak === 1 ? "יום" : "ימים"} — אל תפספס היום.`;
+  } else {
+    subtitle = "סבב יומי קצר שמתעדכן כל יום על בסיס החולשות שלך.";
+  }
 
   return (
     <Link
