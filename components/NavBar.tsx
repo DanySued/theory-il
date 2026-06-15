@@ -31,6 +31,7 @@ const SEARCH_SUGGESTIONS: { label: string; href: string; kind: string }[] = [
   { label: "התקדמות שלי", href: "/progress", kind: "עמוד" },
   { label: "שאלות שמורות", href: "/saved", kind: "עמוד" },
   { label: "חזרה חכמה", href: "/review", kind: "עמוד" },
+  { label: "הטעויות שלי", href: "/mistakes", kind: "עמוד" },
   { label: "אתגר יומי", href: "/daily", kind: "עמוד" },
   { label: "היסטוריית אתגרים", href: "/daily/history", kind: "עמוד" },
   { label: "הגדרות", href: "/settings", kind: "עמוד" },

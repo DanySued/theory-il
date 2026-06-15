@@ -111,7 +111,12 @@ export default function ProgressClient() {
             <section className="w-full flex flex-col gap-4">
               <div className="flex items-baseline justify-between">
                 <h2 className="th-section-h">השאלות שמפילות אותך</h2>
-                <span className="text-xs text-[var(--th-muted)]">{data.missed.length} שאלות</span>
+                <Link
+                  href="/mistakes"
+                  className="text-xs font-semibold text-[var(--th-accent)] hover:underline"
+                >
+                  תרגל את כולן ←
+                </Link>
               </div>
               <div className="flex flex-col gap-2">
                 {data.missed.map((m) => (
