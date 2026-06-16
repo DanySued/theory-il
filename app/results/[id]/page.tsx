@@ -189,12 +189,30 @@ export default function ResultsPage() {
 
         {/* Actions */}
         <div className="flex flex-col gap-3">
-          <Link
-            href="/exam"
-            className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
-          >
-            מבחן נוסף
-          </Link>
+          {/* After failing a full exam, drill mistakes is the primary next action */}
+          {isFullExam && !passed && wrongCount > 0 ? (
+            <>
+              <Link
+                href={`/exam/retake/${id}`}
+                className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              >
+                תרגל שגיאות ({wrongCount})
+              </Link>
+              <Link
+                href="/exam"
+                className="w-full flex items-center justify-center px-5 h-11 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-semibold hover:bg-[var(--th-muted-bg)] transition-colors"
+              >
+                מבחן נוסף
+              </Link>
+            </>
+          ) : (
+            <Link
+              href="/exam"
+              className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+            >
+              מבחן נוסף
+            </Link>
+          )}
           <div className="grid grid-cols-2 gap-2">
             <Link
               href="/study"
@@ -202,7 +220,7 @@ export default function ResultsPage() {
             >
               חזרה ללמוד
             </Link>
-            {wrongCount > 0 ? (
+            {wrongCount > 0 && !(isFullExam && !passed) ? (
               <Link
                 href={`/exam/retake/${id}`}
                 className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"

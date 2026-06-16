@@ -14,12 +14,15 @@ import {
   type Attempt,
   type QuestionStats,
 } from "@/lib/storage";
-import { getDueCards } from "@/lib/srs";
+import { getSRSCards } from "@/lib/srs";
+import { localDateStr } from "@/lib/utils";
 import { getTopicAccuracy, getMostMissed, type TopicAccuracy, type MissedQuestion } from "@/lib/progress";
 
 const TOPIC_ORDER = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"];
 const questions = questionsData as Question[];
 const PASS_SCORE = 26;
+const READINESS_MIN_SEEN = 30; // min questions seen before showing readiness score
+const READINESS_PASS_PCT = 87; // 26/30 = 86.7%
 
 interface DataState {
   stats: Record<string, QuestionStats>;
@@ -30,6 +33,8 @@ interface DataState {
   streakCurrent: number;
   streakLongest: number;
   bookmarkCount: number;
+  readinessPct: number | null; // null = not enough data yet
+  totalSeen: number;
 }
 
 export default function ProgressClient() {
@@ -49,9 +54,20 @@ export default function ProgressClient() {
     });
     const missed = getMostMissed(questions, stats, 10);
     const attempts = listAttempts().slice(0, 5);
-    const dueCount = getDueCards(questions.map((q) => q.id)).length;
+    // FIX-03: only count SRS cards that have been reviewed before and are due — not unseen questions
+    const srsCards = getSRSCards();
+    const today = localDateStr(new Date());
+    const dueCount = Object.values(srsCards).filter((c) => c.dueDate <= today).length;
     const streak = getStreak();
     const bookmarkCount = getBookmarks().size;
+    // FIX-02: weighted readiness score (only when ≥30 questions seen)
+    const totalSeen = topics.reduce((s, t) => s + t.seen, 0);
+    let readinessPct: number | null = null;
+    if (totalSeen >= READINESS_MIN_SEEN) {
+      const totalQ = questions.length;
+      const weighted = topics.reduce((s, t) => s + t.accuracy * t.total, 0);
+      readinessPct = Math.round((weighted / totalQ) * 100);
+    }
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setData({
       stats,
@@ -62,6 +78,8 @@ export default function ProgressClient() {
       streakCurrent: streak.current,
       streakLongest: streak.longest,
       bookmarkCount,
+      readinessPct,
+      totalSeen,
     });
   }, []);
 
@@ -81,6 +99,9 @@ export default function ProgressClient() {
         <EmptyState />
       ) : (
         <>
+          {/* Exam readiness score */}
+          <ReadinessCard pct={data.readinessPct} totalSeen={data.totalSeen} />
+
           {/* Quick stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full">
             <StatCard label="רצף ימים" value={data.streakCurrent} sub={data.streakLongest > data.streakCurrent ? `שיא: ${data.streakLongest}` : undefined} />
@@ -279,6 +300,54 @@ function MissedRow({ m }: { m: MissedQuestion }) {
         {m.wrong}/{m.seen}
       </span>
     </Link>
+  );
+}
+
+function ReadinessCard({ pct, totalSeen }: { pct: number | null; totalSeen: number }) {
+  if (pct === null) {
+    return (
+      <div className="w-full rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] p-5 flex flex-col gap-2">
+        <span className="text-xs text-[var(--th-muted)] font-medium uppercase tracking-wide">מוכנות לבחינה</span>
+        <p className="text-sm text-[var(--th-muted-strong)]">
+          ענה על {READINESS_MIN_SEEN - totalSeen} שאלות נוספות לחישוב הציון שלך
+        </p>
+      </div>
+    );
+  }
+  const color =
+    pct >= READINESS_PASS_PCT
+      ? "var(--th-success)"
+      : pct >= 70
+      ? "var(--th-accent)"
+      : "var(--th-error)";
+  const label =
+    pct >= READINESS_PASS_PCT
+      ? "מוכן לבחינה ✓"
+      : pct >= 70
+      ? "מתקדם — המשך לתרגל"
+      : "עדיין יש עבודה";
+  return (
+    <div
+      className="w-full rounded-[var(--th-radius-lg)] border p-5 flex flex-col gap-3"
+      style={{ borderColor: color, background: `color-mix(in srgb, ${color} 8%, var(--th-card))` }}
+    >
+      <div className="flex items-baseline justify-between gap-3">
+        <span className="text-xs text-[var(--th-muted)] font-medium uppercase tracking-wide">מוכנות לבחינה</span>
+        <span className="text-xs text-[var(--th-muted)]">סף מעבר: {READINESS_PASS_PCT}%</span>
+      </div>
+      <div className="flex items-end gap-4">
+        <span className="text-5xl font-extrabold tabular-nums leading-none" style={{ color }}>
+          {pct}%
+        </span>
+        <span className="text-sm font-semibold mb-1" style={{ color }}>{label}</span>
+      </div>
+      <div className="h-2 w-full bg-[var(--th-muted-bg)] rounded-full overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all duration-700"
+          style={{ width: `${pct}%`, background: color }}
+        />
+      </div>
+    </div>
   );
 }
 
