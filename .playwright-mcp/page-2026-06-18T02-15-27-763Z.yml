@@ -1,0 +1,108 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e6]:
+        - 'link "רצף יומי: 3 ימים" [ref=e7] [cursor=pointer]':
+          - /url: /daily
+          - generic [ref=e8]: 🔥
+          - generic [ref=e9]: "3"
+        - button "חיפוש" [ref=e10]:
+          - img [ref=e11]
+        - button "תפריט" [ref=e14]:
+          - img [ref=e15]
+  - main [ref=e16]:
+    - button "חזרה לדף הקודם" [ref=e18]:
+      - generic [ref=e19]: →
+      - text: חזרה
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: התקדמות
+        - heading "לאן ללכת מכאן" [level=1] [ref=e23]
+        - paragraph [ref=e24]: כל הנתונים שלך במקום אחד — נקודות חולשה, מבחנים אחרונים, וכרטיסיות לחזרה.
+      - generic [ref=e25]:
+        - generic [ref=e26]: מוכנות לבחינה
+        - paragraph [ref=e27]: ענה על 28 שאלות נוספות לחישוב הציון שלך
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: רצף ימים
+          - generic [ref=e31]: "3"
+        - link "שמורות 0 לחזרה" [ref=e32] [cursor=pointer]:
+          - /url: /review?tab=saved
+          - generic [ref=e33]:
+            - generic [ref=e34]: שמורות
+            - generic [ref=e35]: "0"
+            - generic [ref=e36]: לחזרה
+        - link "לחזרה 0 כרטיסיות" [ref=e37] [cursor=pointer]:
+          - /url: /flashcards
+          - generic [ref=e38]:
+            - generic [ref=e39]: לחזרה
+            - generic [ref=e40]: "0"
+            - generic [ref=e41]: כרטיסיות
+        - generic [ref=e42]:
+          - generic [ref=e43]: נצפו
+          - generic [ref=e44]: "2"
+          - generic [ref=e45]: מתוך 1273
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - heading "דיוק לפי נושא" [level=2] [ref=e48]
+          - generic [ref=e49]: החלש קודם
+        - generic [ref=e50]:
+          - link "תמרורים 0% 0 נכון · 2 שגוי כיסוי 1%" [ref=e51] [cursor=pointer]:
+            - /url: /study/%D7%AA%D7%9E%D7%A8%D7%95%D7%A8%D7%99%D7%9D?weak=1
+            - generic [ref=e52]:
+              - generic [ref=e53]: תמרורים
+              - generic [ref=e54]: 0%
+            - generic [ref=e56]:
+              - generic [ref=e57]: 0 נכון · 2 שגוי
+              - generic [ref=e58]: כיסוי 1%
+          - link "חוקי התנועה טרם תורגל 501 שאלות זמינות כיסוי 0%" [ref=e59] [cursor=pointer]:
+            - /url: /study/%D7%97%D7%95%D7%A7%D7%99%20%D7%94%D7%AA%D7%A0%D7%95%D7%A2%D7%94
+            - generic [ref=e60]:
+              - generic [ref=e61]: חוקי התנועה
+              - generic [ref=e62]: טרם תורגל
+            - generic [ref=e64]:
+              - generic [ref=e65]: 501 שאלות זמינות
+              - generic [ref=e66]: כיסוי 0%
+          - link "בטיחות טרם תורגל 305 שאלות זמינות כיסוי 0%" [ref=e67] [cursor=pointer]:
+            - /url: /study/%D7%91%D7%98%D7%99%D7%97%D7%95%D7%AA
+            - generic [ref=e68]:
+              - generic [ref=e69]: בטיחות
+              - generic [ref=e70]: טרם תורגל
+            - generic [ref=e72]:
+              - generic [ref=e73]: 305 שאלות זמינות
+              - generic [ref=e74]: כיסוי 0%
+          - link "הכרת הרכב טרם תורגל 106 שאלות זמינות כיסוי 0%" [ref=e75] [cursor=pointer]:
+            - /url: /study/%D7%94%D7%9B%D7%A8%D7%AA%20%D7%94%D7%A8%D7%9B%D7%91
+            - generic [ref=e76]:
+              - generic [ref=e77]: הכרת הרכב
+              - generic [ref=e78]: טרם תורגל
+            - generic [ref=e80]:
+              - generic [ref=e81]: 106 שאלות זמינות
+              - generic [ref=e82]: כיסוי 0%
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - heading "השאלות שמפילות אותך" [level=2] [ref=e85]
+          - link "תרגל את כולן ←" [ref=e86] [cursor=pointer]:
+            - /url: /review?tab=mistakes
+        - generic [ref=e87]:
+          - link "100% מה פירוש התמרור? 1/1" [ref=e88] [cursor=pointer]:
+            - /url: /study/%D7%AA%D7%9E%D7%A8%D7%95%D7%A8%D7%99%D7%9D?weak=1
+            - generic [ref=e89]: 100%
+            - generic [ref=e90]: מה פירוש התמרור?
+            - generic [ref=e91]: 1/1
+          - link "100% איזה תמרור משמעו \"דרך מהירה\"? 1/1" [ref=e92] [cursor=pointer]:
+            - /url: /study/%D7%AA%D7%9E%D7%A8%D7%95%D7%A8%D7%99%D7%9D?weak=1
+            - generic [ref=e93]: 100%
+            - generic [ref=e94]: איזה תמרור משמעו "דרך מהירה"?
+            - generic [ref=e95]: 1/1
+      - generic [ref=e96]:
+        - heading "מבחנים אחרונים" [level=2] [ref=e97]
+        - link "מבחן מלא 0/30 17 ביוני" [ref=e99] [cursor=pointer]:
+          - /url: /results/fc8b8cb9-1269-4ea4-b144-19645d1dc7c4
+          - generic [ref=e101]: מבחן מלא
+          - generic [ref=e102]: 0/30
+          - generic [ref=e103]: 17 ביוני
+  - alert [ref=e104]

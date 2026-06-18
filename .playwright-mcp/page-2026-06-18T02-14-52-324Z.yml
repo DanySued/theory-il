@@ -1,0 +1,48 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e6]:
+        - 'link "רצף יומי: 3 ימים" [ref=e7] [cursor=pointer]':
+          - /url: /daily
+          - generic [ref=e8]: 🔥
+          - generic [ref=e9]: "3"
+        - button "חיפוש" [ref=e10]:
+          - img [ref=e11]
+        - button "תפריט" [ref=e14]:
+          - img [ref=e15]
+  - main [ref=e16]:
+    - button "חזרה לדף הקודם" [ref=e18]:
+      - generic [ref=e19]: →
+      - text: חזרה
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: סימולציה · 30 שאלות · 40 דקות
+        - heading "מבחן מדומה" [level=1] [ref=e24]
+      - generic [ref=e25]:
+        - generic [ref=e26]: נושא
+        - generic [ref=e27]:
+          - button "כל הנושאים" [ref=e28]
+          - button "חוקי התנועה" [ref=e29]
+          - button "תמרורים" [ref=e30]
+          - button "בטיחות" [ref=e31]
+          - button "הכרת הרכב" [ref=e32]
+      - generic [ref=e33]:
+        - generic [ref=e34]: מספר שאלות
+        - generic [ref=e35]:
+          - button "10" [ref=e36]
+          - button "20" [ref=e37]
+          - button "30" [pressed] [ref=e38]
+          - button "40" [ref=e39]
+      - generic [ref=e40] [cursor=pointer]:
+        - checkbox "התמקד בחולשות שלי נדגום שאלות לפי הנתונים שלך — מה שטעית בו, מה ששמרת, ומה שעוד לא ראית." [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e43]: התמקד בחולשות שלי
+          - generic [ref=e44]: נדגום שאלות לפי הנתונים שלך — מה שטעית בו, מה ששמרת, ומה שעוד לא ראית.
+      - button "התחל מבחן" [ref=e45]:
+        - text: התחל מבחן
+        - generic [ref=e46]: ←
+      - paragraph [ref=e47]: לעבור צריך 26 תשובות נכונות מתוך 30.
+  - alert [ref=e48]

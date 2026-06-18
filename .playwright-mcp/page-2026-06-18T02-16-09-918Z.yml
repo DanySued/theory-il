@@ -1,0 +1,83 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e6]:
+        - 'link "רצף יומי: 3 ימים" [ref=e7] [cursor=pointer]':
+          - /url: /daily
+          - generic [ref=e8]: 🔥
+          - generic [ref=e9]: "3"
+        - button "חיפוש" [ref=e10]:
+          - img [ref=e11]
+        - button "תפריט" [ref=e14]:
+          - img [ref=e15]
+  - main [ref=e16]:
+    - button "חזרה לדף הקודם" [ref=e18]:
+      - generic [ref=e19]: →
+      - text: חזרה
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: הגדרות
+        - heading "גיבוי, ייבוא ואיפוס" [level=1] [ref=e23]
+        - paragraph [ref=e24]: כל הנתונים נשמרים בדפדפן שלך בלבד. גבה אותם מדי פעם אם אתה מתכוון להתחלף בין מכשירים — או לפני שמנקים את הדפדפן.
+      - generic [ref=e25]:
+        - heading "גיבוי ושחזור" [level=2] [ref=e26]
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]: ייצוא לקובץ
+            - generic [ref=e31]: שומר את כל ההתקדמות כקובץ JSON להורדה.
+          - button "הורד גיבוי" [ref=e32]
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - generic [ref=e35]: ייבוא מקובץ
+            - generic [ref=e36]: שחזר התקדמות מקובץ שהורד בעבר.
+          - generic [ref=e37]:
+            - button "מיזוג" [ref=e38]
+            - button "החלפה" [ref=e39]
+          - generic [ref=e40]: "מיזוג: ערכים מהקובץ ידרסו רק מה שמופיע בו. השאר נשמר."
+          - button "בחר קובץ…" [ref=e41]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - heading "הנתונים שלך" [level=2] [ref=e44]
+          - generic [ref=e45]: 8 קטגוריות
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - generic [ref=e49]: מבחנים שמורים
+              - generic [ref=e50]: 1 פריטים · 10.0 KB
+            - button "אפס" [ref=e51]
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]: סטטיסטיקת שאלות
+              - generic [ref=e55]: 2 פריטים · 171 B
+            - button "אפס" [ref=e56]
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e59]: רצף ימים
+              - generic [ref=e60]: 3 פריטים · 70 B
+            - button "אפס" [ref=e61]
+          - generic [ref=e63]:
+            - generic [ref=e64]: שאלות שמורות (כוכב)
+            - generic [ref=e65]: ריק
+          - generic [ref=e66]:
+            - generic [ref=e67]:
+              - generic [ref=e68]: מיקום אחרון בלימוד
+              - generic [ref=e69]: 4 פריטים · 98 B
+            - button "אפס" [ref=e70]
+          - generic [ref=e72]:
+            - generic [ref=e73]: תמרורים שסומנו כמוכרים
+            - generic [ref=e74]: ריק
+          - generic [ref=e76]:
+            - generic [ref=e77]: כרטיסיות SRS
+            - generic [ref=e78]: ריק
+          - generic [ref=e80]:
+            - generic [ref=e81]: אתגר יומי
+            - generic [ref=e82]: ריק
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - generic [ref=e86]: איפוס מלא
+          - generic [ref=e87]: מוחק את כל ההתקדמות, השמורות, הסטטיסטיקות והמבחנים. אין דרך חזרה — גבה לפני.
+        - button "מחק הכל…" [ref=e88]
+  - alert [ref=e89]
