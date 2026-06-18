@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getStreak } from "@/lib/storage";
-import { isDailyCompletedToday } from "@/lib/dailyChallenge";
+import { isDailyCompletedToday } from "@/lib/dailyChallengeStatus";
 
 interface StreakState {
   current: number;

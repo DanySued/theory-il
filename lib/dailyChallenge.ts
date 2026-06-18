@@ -2,19 +2,24 @@ import questionsData from "@/lib/data/questions.json";
 import type { Question } from "@/components/QuestionCard";
 import { getQStats, type QuestionStats } from "@/lib/storage";
 import { localDateStr } from "@/lib/utils";
+import {
+  DAILY_KEY,
+  getDailyChallengeRecord,
+  isDailyCompletedToday,
+  type DailyChallengeRecord,
+} from "@/lib/dailyChallengeStatus";
+
+export {
+  getDailyChallengeRecord,
+  isDailyCompletedToday,
+  type DailyChallengeRecord,
+};
 
 const allQuestions = questionsData as Question[];
 
-const DAILY_KEY = "theory-il:dailyChallenge";
 const DAILY_HISTORY_KEY = "theory-il:dailyHistory";
 const HISTORY_CAP = 180;
 export const DAILY_DECK_SIZE = 3;
-
-export interface DailyChallengeRecord {
-  date: string; // "YYYY-MM-DD"
-  completedAt: number;
-  correctCount: number;
-}
 
 export interface DailyHistoryEntry {
   date: string;
@@ -25,16 +30,6 @@ export interface DailyStreak {
   current: number;
   best: number;
   totalDays: number;
-}
-
-export function getDailyChallengeRecord(): DailyChallengeRecord | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(DAILY_KEY);
-    return raw ? (JSON.parse(raw) as DailyChallengeRecord) : null;
-  } catch {
-    return null;
-  }
 }
 
 export function getDailyHistory(): DailyHistoryEntry[] {
@@ -68,11 +63,6 @@ export function saveDailyChallengeRecord(rec: DailyChallengeRecord): void {
   } catch {
     // ignore quota errors
   }
-}
-
-export function isDailyCompletedToday(): boolean {
-  const rec = getDailyChallengeRecord();
-  return rec !== null && rec.date === localDateStr(new Date());
 }
 
 function shiftDate(date: string, days: number): string {

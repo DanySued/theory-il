@@ -23,14 +23,14 @@ export default function ReviewHub() {
   const initial = sp.get("tab");
   const [tab, setTab] = useState<TabId>(isTab(initial) ? initial : "hard");
 
+  // Follow URL changes from any source: <Link> soft navigations (useSearchParams
+  // is reactive in the App Router) and browser back/forward. popstate alone misses
+  // pushState-based <Link> clicks, so the tab would desync on same-route nav.
   useEffect(() => {
-    const onPop = () => {
-      const t = new URLSearchParams(window.location.search).get("tab");
-      setTab(isTab(t) ? t : "hard");
-    };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, []);
+    const t = sp.get("tab");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTab(isTab(t) ? t : "hard");
+  }, [sp]);
 
   const select = (t: TabId) => {
     setTab(t);
