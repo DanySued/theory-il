@@ -2,14 +2,12 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
-import questionsData from "@/lib/data/questions.json";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
-import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import QuestionSkeleton from "@/components/QuestionSkeleton";
+import { loadCorpus } from "@/lib/data/corpus";
 import { getQStats, updateStreak, type QuestionStats } from "@/lib/storage";
-
-const allQuestions = questionsData as Question[];
 
 interface MistakeRow {
   question: Question;
@@ -17,7 +15,10 @@ interface MistakeRow {
   wrongRate: number;
 }
 
-function buildDeck(stats: Record<string, QuestionStats>): MistakeRow[] {
+function buildDeck(
+  allQuestions: Question[],
+  stats: Record<string, QuestionStats>
+): MistakeRow[] {
   const rows: MistakeRow[] = [];
   for (const q of allQuestions) {
     const s = stats[q.id];
@@ -45,8 +46,7 @@ export default function MistakesClient() {
 
   useEffect(() => {
     const stats = getQStats();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDeck(buildDeck(stats));
+    loadCorpus().then((all) => setDeck(buildDeck(all, stats)));
     updateStreak();
   }, []);
 
@@ -94,15 +94,15 @@ export default function MistakesClient() {
 
   if (deck === null) {
     return (
-      <PageShell>
-        <div className="w-full h-64 bg-[var(--th-muted-bg)] rounded-[var(--th-radius-lg)] animate-pulse" />
-      </PageShell>
+      <>
+        <QuestionSkeleton />
+      </>
     );
   }
 
   if (deck.length === 0) {
     return (
-      <PageShell>
+      <>
         <div className="w-full text-center py-12 flex flex-col items-center gap-4">
           <div className="text-4xl" aria-hidden>
             🧹
@@ -128,14 +128,14 @@ export default function MistakesClient() {
             </Link>
           </div>
         </div>
-      </PageShell>
+      </>
     );
   }
 
   if (done) {
     const pct = Math.round((correctCount / deck.length) * 100);
     return (
-      <PageShell>
+      <>
         <div className="w-full text-center py-12 flex flex-col items-center gap-4">
           <div className="text-4xl" aria-hidden>
             🎯
@@ -162,7 +162,7 @@ export default function MistakesClient() {
             </Link>
           </div>
         </div>
-      </PageShell>
+      </>
     );
   }
 
@@ -170,7 +170,7 @@ export default function MistakesClient() {
   const wrongPct = Math.round(current.wrongRate * 100);
 
   return (
-    <PageShell>
+    <>
       <SectionHead
         eyebrow="הטעויות שלי"
         title={`${deck.length} שאלות שטעית בהן`}
@@ -203,6 +203,6 @@ export default function MistakesClient() {
         direction={direction}
         trackStats
       />
-    </PageShell>
+    </>
   );
 }

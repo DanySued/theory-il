@@ -82,7 +82,7 @@ export default function QuestionDetailClient({ question }: Props) {
           ללימוד הנושא: {question.topic}
         </Link>
         <Link
-          href="/saved"
+          href="/review?tab=saved"
           className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
         >
           השמורות שלי

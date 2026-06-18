@@ -1,31 +1,51 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import questionsData from "@/lib/data/questions.json";
 import TopicCard from "@/components/TopicCard";
 import type { Question } from "@/components/QuestionCard";
+import { loadCorpus } from "@/lib/data/corpus";
 import { getDueCountByTopic } from "@/lib/srs";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import Skeleton from "@/components/Skeleton";
 
-const questions = questionsData as Question[];
 const TOPIC_ORDER = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"];
 
 export default function FlashcardsPage() {
+  const [questions, setQuestions] = useState<Question[] | null>(null);
   const [dueCounts, setDueCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDueCounts(getDueCountByTopic(questions));
+    loadCorpus().then((all) => {
+      setQuestions(all);
+      setDueCounts(getDueCountByTopic(all));
+    });
   }, []);
 
   const topics = TOPIC_ORDER.map((topic) => {
-    const total = questions.filter((q) => q.topic === topic).length;
+    const total = questions ? questions.filter((q) => q.topic === topic).length : 0;
     const due = dueCounts[topic] ?? total; // first time: all cards are due
     return { topic, total, due };
   });
 
   const totalDue = topics.reduce((s, t) => s + t.due, 0);
+
+  if (questions === null) {
+    return (
+      <PageShell>
+        <div className="w-full flex flex-col gap-3">
+          <Skeleton className="h-3 w-28" />
+          <Skeleton className="h-10 w-64 max-w-full" />
+          <Skeleton className="h-5 w-full max-w-md" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+          {[0, 1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-36 rounded-[var(--th-radius-lg)]" />
+          ))}
+        </div>
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell>

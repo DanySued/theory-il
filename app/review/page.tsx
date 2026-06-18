@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import ReviewClient from "./ReviewClient";
+import { Suspense } from "react";
+import ReviewHub from "./ReviewHub";
 
 export const metadata: Metadata = {
-  title: "חזרה חכמה — תיאוריה",
+  title: "חזרה — תיאוריה",
 };
 
 export default function ReviewPage() {
-  return <ReviewClient />;
+  return (
+    <Suspense fallback={null}>
+      <ReviewHub />
+    </Suspense>
+  );
 }

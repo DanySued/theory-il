@@ -2,15 +2,14 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
-import questionsData from "@/lib/data/questions.json";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
-import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import QuestionSkeleton from "@/components/QuestionSkeleton";
+import { loadCorpus } from "@/lib/data/corpus";
 import { getQStats, getBookmarks, updateStreak } from "@/lib/storage";
 import { rankQuestions, reviewDeckSummary } from "@/lib/review";
 
-const allQuestions = questionsData as Question[];
 const DECK_SIZE = 20;
 
 interface Deck {
@@ -30,10 +29,11 @@ export default function ReviewClient() {
   useEffect(() => {
     const stats = getQStats();
     const bookmarks = getBookmarks();
-    const questions = rankQuestions({ questions: allQuestions, stats, bookmarks }, DECK_SIZE);
-    const summary = reviewDeckSummary(questions, stats, bookmarks);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDeck({ questions, summary });
+    loadCorpus().then((allQuestions) => {
+      const questions = rankQuestions({ questions: allQuestions, stats, bookmarks }, DECK_SIZE);
+      const summary = reviewDeckSummary(questions, stats, bookmarks);
+      setDeck({ questions, summary });
+    });
     updateStreak();
   }, []);
 
@@ -81,15 +81,15 @@ export default function ReviewClient() {
 
   if (deck === null) {
     return (
-      <PageShell>
-        <div className="w-full h-64 bg-[var(--th-muted-bg)] rounded-[var(--th-radius-lg)] animate-pulse" />
-      </PageShell>
+      <>
+        <QuestionSkeleton />
+      </>
     );
   }
 
   if (deck.questions.length === 0) {
     return (
-      <PageShell>
+      <>
         <div className="w-full text-center py-12 flex flex-col items-center gap-4">
           <div className="text-4xl" aria-hidden>
             ✨
@@ -115,14 +115,14 @@ export default function ReviewClient() {
             </Link>
           </div>
         </div>
-      </PageShell>
+      </>
     );
   }
 
   if (done) {
     const pct = Math.round((correctCount / deck.questions.length) * 100);
     return (
-      <PageShell>
+      <>
         <div className="w-full text-center py-12 flex flex-col items-center gap-4">
           <div className="text-4xl" aria-hidden>
             🎯
@@ -149,7 +149,7 @@ export default function ReviewClient() {
             </Link>
           </div>
         </div>
-      </PageShell>
+      </>
     );
   }
 
@@ -160,7 +160,7 @@ export default function ReviewClient() {
   if (summary.bookmarkCount > 0) chips.push(`${summary.bookmarkCount} שמורות`);
 
   return (
-    <PageShell>
+    <>
       <SectionHead
         eyebrow="חזרה חכמה"
         title={`${deck.questions.length} שאלות שכדאי לחזור עליהן`}
@@ -187,6 +187,6 @@ export default function ReviewClient() {
         direction={direction}
         trackStats
       />
-    </PageShell>
+    </>
   );
 }

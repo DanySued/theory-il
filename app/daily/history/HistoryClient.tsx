@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import Skeleton from "@/components/Skeleton";
 import {
   getDailyHistory,
   getDailyStreak,
@@ -59,7 +60,22 @@ export default function HistoryClient() {
   if (!data) {
     return (
       <PageShell>
-        <div className="w-full h-64 bg-[var(--th-muted-bg)] rounded-[var(--th-radius-lg)] animate-pulse" />
+        <div className="w-full flex flex-col gap-6" aria-busy="true" aria-live="polite">
+          <div className="w-full flex flex-col gap-3">
+            <Skeleton className="h-3 w-24" />
+            <Skeleton className="h-9 w-56 max-w-full" />
+            <Skeleton className="h-5 w-full max-w-md" />
+          </div>
+          <div className="flex gap-3">
+            <Skeleton className="h-20 flex-1 rounded-[var(--th-radius-lg)]" />
+            <Skeleton className="h-20 flex-1 rounded-[var(--th-radius-lg)]" />
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {Array.from({ length: 49 }).map((_, i) => (
+              <Skeleton key={i} className="h-4 w-4 rounded-sm" />
+            ))}
+          </div>
+        </div>
       </PageShell>
     );
   }

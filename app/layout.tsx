@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Heebo } from "next/font/google";
 import NavBar from "@/components/NavBar";
 import "./globals.css";
@@ -12,6 +12,16 @@ const heebo = Heebo({
 export const metadata: Metadata = {
   title: "תיאוריה — אתר לימוד לבחינה העיונית",
   description: "לומדים לבחינה העיונית לרישיון נהיגה ב׳ עם שאלות מהמאגר הרשמי של משרד התחבורה",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f4ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1014" },
+  ],
 };
 
 export default function RootLayout({

@@ -262,8 +262,8 @@ export default function QuestionCard({
         </button>
       </div>
 
-      {/* Keyboard hint */}
-      <p className="text-xs text-center text-[var(--th-muted)]">
+      {/* Keyboard hint (desktop only) */}
+      <p className="hidden sm:block text-xs text-center text-[var(--th-muted)]">
         ← → לניווט · 1–4 לבחירה · רווח להצגת תשובה
       </p>
     </div>

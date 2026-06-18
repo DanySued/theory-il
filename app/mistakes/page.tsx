@@ -1,10 +1,5 @@
-import type { Metadata } from "next";
-import MistakesClient from "./MistakesClient";
-
-export const metadata: Metadata = {
-  title: "הטעויות שלי — תיאוריה",
-};
+import { redirect } from "next/navigation";
 
 export default function MistakesPage() {
-  return <MistakesClient />;
+  redirect("/review?tab=mistakes");
 }

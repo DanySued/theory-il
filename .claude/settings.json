@@ -1,17 +1,1 @@
-{
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "shell": "bash",
-            "command": "status=$(git status --porcelain); if [ -n \"$status\" ]; then files=$(git diff --name-only HEAD 2>/dev/null | head -3 | tr '\\n' ' ' | sed 's/ $//'); git add -A && git commit -m \"auto: ${files:-update}\" && git push; fi",
-            "timeout": 60,
-            "statusMessage": "Pushing to GitHub..."
-          }
-        ]
-      }
-    ]
-  }
-}
+{}

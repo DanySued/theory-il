@@ -1,10 +1,5 @@
-import type { Metadata } from "next";
-import SavedClient from "./SavedClient";
-
-export const metadata: Metadata = {
-  title: "שמורות — תיאוריה",
-};
+import { redirect } from "next/navigation";
 
 export default function SavedPage() {
-  return <SavedClient />;
+  redirect("/review?tab=saved");
 }

@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, Check, RotateCcw } from "lucide-react";
+import { ChevronDown, EyeOff, RotateCcw } from "lucide-react";
 import type { TrafficSign, SignCategory } from "@/lib/data/signs";
 import { getKnownSigns, toggleKnownSign, clearKnownSigns } from "@/lib/storage";
-import ProgressBar from "@/components/ProgressBar";
 import { CATEGORY_ORDER } from "@/lib/constants";
 
 const CATEGORY_ACCENT: Record<SignCategory, string> = {
@@ -28,11 +27,11 @@ interface Props {
 
 function SignCard({
   sign,
-  known,
+  hidden,
   onToggle,
 }: {
   sign: TrafficSign;
-  known: boolean;
+  hidden: boolean;
   onToggle: (id: string) => void;
 }) {
   const description = sign.meaning || sign.behavior;
@@ -42,13 +41,12 @@ function SignCard({
     <button
       type="button"
       onClick={() => onToggle(sign.id)}
-      aria-pressed={known}
-      title={known ? "לחץ כדי לחשוף את התמרור" : "לחץ אם אתה זוכר את התמרור"}
+      aria-pressed={hidden}
+      title={hidden ? "התמרור מוסתר — לחץ כדי לחשוף אותו" : "לחץ כדי להסתיר את התמרור ולבחון את עצמך"}
       className="relative text-start rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md cursor-pointer"
       style={{
         borderTop: `3px solid ${accent}`,
         minHeight: "190px",
-        ...(known ? { borderColor: "var(--th-success)", background: "var(--th-success-soft)" } : {}),
       }}
     >
       {sign.officialNumber && (
@@ -60,9 +58,9 @@ function SignCard({
         </span>
       )}
 
-      {known ? (
-        <span className="absolute top-2 end-2 text-[var(--th-success)]" title="סומן כידוע">
-          <Check size={14} strokeWidth={3} />
+      {hidden ? (
+        <span className="absolute top-2 end-2 text-[var(--th-muted)]" title="התמרור מוסתר">
+          <EyeOff size={14} strokeWidth={2.5} />
         </span>
       ) : (
         sign.imageUnverified && (
@@ -75,9 +73,12 @@ function SignCard({
         )
       )}
 
-      {known ? (
-        <div className="h-[72px] w-[72px] shrink-0 flex items-center justify-center rounded-full border-2 border-[var(--th-success)] text-[var(--th-success)]">
-          <Check size={26} strokeWidth={3} />
+      {hidden ? (
+        <div className="h-[72px] w-[72px] shrink-0 flex flex-col items-center justify-center gap-1 rounded-[var(--th-radius)] border-2 border-dashed border-[var(--th-border)] text-[var(--th-muted)]">
+          <EyeOff size={24} strokeWidth={2} />
+          <span style={{ fontSize: "0.6rem" }} className="font-semibold">
+            לחשיפה
+          </span>
         </div>
       ) : sign.image ? (
         // External Wikimedia SVGs at fixed 72×72 — next/Image gives no win and needs remotePatterns config
@@ -140,7 +141,6 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
     setKnownSigns(new Set());
   };
 
-  const totalSigns = signs.length;
   const totalKnown = signs.reduce((n, s) => (knownSigns.has(s.id) ? n + 1 : n), 0);
 
   const toggle = (cat: SignCategory) => {
@@ -153,34 +153,24 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
   };
 
   const byCategory = (cat: SignCategory) => signs.filter((s) => s.category === cat);
-  const knownCount = (group: TrafficSign[]) =>
-    group.reduce((n, s) => (knownSigns.has(s.id) ? n + 1 : n), 0);
 
   return (
     <div className="w-full flex flex-col gap-5">
-      {/* Header — overall progress */}
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3">
-          <span className="font-mono tabular-nums text-sm text-[var(--th-muted)] shrink-0">
-            {totalKnown}/{totalSigns}
-          </span>
-          <ProgressBar current={totalKnown} total={totalSigns} className="flex-1" />
-          <button
-            type="button"
-            onClick={handleReset}
-            disabled={totalKnown === 0}
-            title="איפוס ההתקדמות"
-            className="shrink-0 flex items-center gap-1 text-xs text-[var(--th-muted)] hover:text-[var(--th-fg)] disabled:opacity-40 disabled:cursor-default transition-colors"
-          >
-            <RotateCcw size={13} strokeWidth={2} />
-            איפוס
-          </button>
-        </div>
+      {/* Header — self-test hint */}
+      <div className="flex items-center justify-between gap-3">
         <span className="text-xs text-[var(--th-muted)]">
-          {totalKnown === totalSigns
-            ? "כל הכבוד! סימנת שאתה זוכר את כל התמרורים"
-            : "לחץ על תמרור שאתה זוכר כדי להסתירו ולעקוב אחר ההתקדמות"}
+          לחץ על תמרור כדי להסתירו ולבחון אם אתה זוכר אותו · לחיצה נוספת חושפת אותו
         </span>
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={totalKnown === 0}
+          title="חשוף את כל התמרורים"
+          className="shrink-0 flex items-center gap-1 text-xs text-[var(--th-muted)] hover:text-[var(--th-fg)] disabled:opacity-40 disabled:cursor-default transition-colors"
+        >
+          <RotateCcw size={13} strokeWidth={2} />
+          חשוף הכל
+        </button>
       </div>
 
       {/* Categories */}
@@ -191,7 +181,6 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
         const accent = CATEGORY_ACCENT[cat];
         const guideSection = guideSections?.[cat];
         const total = group.length;
-        const done = knownCount(group);
 
         return (
           <section key={cat}>
@@ -229,10 +218,9 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
                     className="ms-auto font-mono tabular-nums text-[var(--th-muted)] shrink-0"
                     style={{ fontSize: "0.72rem" }}
                   >
-                    {done}/{total}
+                    {total}
                   </span>
                 </div>
-                <ProgressBar current={done} total={total} />
               </div>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
@@ -284,7 +272,7 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
                         <SignCard
                           key={sign.id}
                           sign={sign}
-                          known={knownSigns.has(sign.id)}
+                          hidden={knownSigns.has(sign.id)}
                           onToggle={handleToggleKnown}
                         />
                       ))}

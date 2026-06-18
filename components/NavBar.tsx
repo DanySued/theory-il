@@ -4,18 +4,17 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Search, X } from "lucide-react";
-import questionsData from "@/lib/data/questions.json";
 import { searchQuestions } from "@/lib/search";
 import type { Question } from "@/components/QuestionCard";
+import { loadCorpus } from "@/lib/data/corpus";
 import NavStreakBadge from "@/components/NavStreakBadge";
-
-const allQuestions = questionsData as Question[];
+import MobileDrawer from "@/components/MobileDrawer";
 
 const links = [
   { href: "/study", label: "לימוד" },
   { href: "/exam", label: "מבחן" },
   { href: "/flashcards", label: "כרטיסיות" },
-  { href: "/saved", label: "שמורות" },
+  { href: "/review", label: "חזרה" },
   { href: "/progress", label: "התקדמות" },
   { href: "/glossary", label: "מילון" },
 ];
@@ -50,8 +49,13 @@ export default function NavBar() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [corpus, setCorpus] = useState<Question[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const ensureCorpus = useCallback(() => {
+    if (corpus.length === 0) loadCorpus().then(setCorpus);
+  }, [corpus.length]);
 
   const trimmedQuery = query.trim();
 
@@ -60,7 +64,7 @@ export default function NavBar() {
     : [];
 
   // Search the real question corpus per keystroke; React Compiler handles memoization.
-  const questionMatches = trimmedQuery.length >= 2 ? searchQuestions(allQuestions, trimmedQuery, 6) : [];
+  const questionMatches = trimmedQuery.length >= 2 ? searchQuestions(corpus, trimmedQuery, 6) : [];
 
   // Unified suggestion list: pages first (fast routes), then live question matches.
   type Suggestion =
@@ -97,7 +101,10 @@ export default function NavBar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--th-bg)]/85 backdrop-blur-md border-b border-[var(--th-border)]">
+    <header
+      className="sticky top-0 z-40 bg-[var(--th-bg)]/85 backdrop-blur-md border-b border-[var(--th-border)]"
+      style={{ viewTransitionName: "site-header", paddingTop: "env(safe-area-inset-top)" }}
+    >
       <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 h-[61px] flex items-center gap-3 sm:grid sm:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
@@ -106,18 +113,23 @@ export default function NavBar() {
           <span className="text-xl font-extrabold tracking-tight">תיאוריה</span>
         </Link>
 
-        {/* Mobile search toggle */}
-        <button
-          type="button"
-          onClick={() => {
-            setMobileSearchOpen(true);
-            setTimeout(() => inputRef.current?.focus(), 0);
-          }}
-          aria-label="חיפוש"
-          className="sm:hidden ms-auto shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-[var(--th-radius-sm)] text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors"
-        >
-          <Search size={16} />
-        </button>
+        {/* Mobile bar group: streak · search · menu */}
+        <div className="sm:hidden ms-auto flex items-center gap-1 shrink-0">
+          <NavStreakBadge />
+          <button
+            type="button"
+            onClick={() => {
+              ensureCorpus();
+              setMobileSearchOpen(true);
+              setTimeout(() => inputRef.current?.focus(), 0);
+            }}
+            aria-label="חיפוש"
+            className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-[var(--th-radius-sm)] text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors"
+          >
+            <Search size={16} />
+          </button>
+          <MobileDrawer links={links} />
+        </div>
 
         {/* Search (desktop inline, mobile overlay) */}
         <div
@@ -140,7 +152,7 @@ export default function NavBar() {
                 setQuery(e.target.value);
                 setOpen(true);
               }}
-              onFocus={() => setOpen(true)}
+              onFocus={() => { ensureCorpus(); setOpen(true); }}
               onKeyDown={(e) => {
                 if (e.key === "Escape") { setOpen(false); setQuery(""); setMobileSearchOpen(false); }
                 if (e.key === "Enter" && filtered.length > 0) handleSelect(filtered[0].href);
@@ -196,7 +208,7 @@ export default function NavBar() {
           )}
         </div>
 
-        <nav className="flex items-center gap-2 text-sm justify-end">
+        <nav className="hidden sm:flex items-center gap-2 text-sm justify-end">
           <NavStreakBadge />
           {links.map((l) => {
             const active =

@@ -2,17 +2,16 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
-import questionsData from "@/lib/data/questions.json";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
-import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import QuestionSkeleton from "@/components/QuestionSkeleton";
+import { loadCorpus } from "@/lib/data/corpus";
 import { getBookmarks } from "@/lib/storage";
-
-const allQuestions = questionsData as Question[];
 
 export default function SavedClient() {
   const [savedIds, setSavedIds] = useState<Set<string> | null>(null);
+  const [allQuestions, setAllQuestions] = useState<Question[] | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -21,12 +20,13 @@ export default function SavedClient() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSavedIds(getBookmarks());
+    loadCorpus().then(setAllQuestions);
   }, []);
 
   const questions = useMemo(() => {
-    if (!savedIds) return [];
+    if (!savedIds || !allQuestions) return [];
     return allQuestions.filter((q) => savedIds.has(q.id));
-  }, [savedIds]);
+  }, [savedIds, allQuestions]);
 
   // If user un-bookmarks the current question, refresh the list and clamp the index
   // so we don't fall off the end.
@@ -57,17 +57,17 @@ export default function SavedClient() {
   const handleNext = useCallback(() => goTo(currentIndex + 1), [currentIndex, goTo]);
   const handlePrev = useCallback(() => goTo(currentIndex - 1), [currentIndex, goTo]);
 
-  if (savedIds === null) {
+  if (savedIds === null || allQuestions === null) {
     return (
-      <PageShell>
-        <div className="w-full h-64 bg-[var(--th-muted-bg)] rounded-[var(--th-radius-lg)] animate-pulse" />
-      </PageShell>
+      <>
+        <QuestionSkeleton />
+      </>
     );
   }
 
   if (questions.length === 0) {
     return (
-      <PageShell>
+      <>
         <div className="w-full text-center py-12 flex flex-col items-center gap-4">
           <div className="text-4xl" aria-hidden>
             ★
@@ -93,14 +93,14 @@ export default function SavedClient() {
             </Link>
           </div>
         </div>
-      </PageShell>
+      </>
     );
   }
 
   const safeIndex = Math.min(currentIndex, questions.length - 1);
 
   return (
-    <PageShell>
+    <>
       <SectionHead
         eyebrow="שמורות"
         title="השאלות שלך"
@@ -120,6 +120,6 @@ export default function SavedClient() {
         direction={direction}
         trackStats
       />
-    </PageShell>
+    </>
   );
 }

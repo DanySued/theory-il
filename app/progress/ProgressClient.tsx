@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import questionsData from "@/lib/data/questions.json";
-import type { Question } from "@/components/QuestionCard";
+import { loadCorpus } from "@/lib/data/corpus";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
 import {
@@ -19,7 +18,6 @@ import { localDateStr } from "@/lib/utils";
 import { getTopicAccuracy, getMostMissed, type TopicAccuracy, type MissedQuestion } from "@/lib/progress";
 
 const TOPIC_ORDER = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"];
-const questions = questionsData as Question[];
 const PASS_SCORE = 26;
 const READINESS_MIN_SEEN = 30; // min questions seen before showing readiness score
 const READINESS_PASS_PCT = 87; // 26/30 = 86.7%
@@ -35,51 +33,54 @@ interface DataState {
   bookmarkCount: number;
   readinessPct: number | null; // null = not enough data yet
   totalSeen: number;
+  totalQuestions: number;
 }
 
 export default function ProgressClient() {
   const [data, setData] = useState<DataState | null>(null);
 
   useEffect(() => {
-    const stats = getQStats();
-    const topics = getTopicAccuracy(questions, stats);
-    // Sort: lowest accuracy first; topics with zero data go last
-    topics.sort((a, b) => {
-      if (a.seen === 0 && b.seen === 0) {
-        return TOPIC_ORDER.indexOf(a.topic) - TOPIC_ORDER.indexOf(b.topic);
+    loadCorpus().then((questions) => {
+      const stats = getQStats();
+      const topics = getTopicAccuracy(questions, stats);
+      // Sort: lowest accuracy first; topics with zero data go last
+      topics.sort((a, b) => {
+        if (a.seen === 0 && b.seen === 0) {
+          return TOPIC_ORDER.indexOf(a.topic) - TOPIC_ORDER.indexOf(b.topic);
+        }
+        if (a.seen === 0) return 1;
+        if (b.seen === 0) return -1;
+        return a.accuracy - b.accuracy;
+      });
+      const missed = getMostMissed(questions, stats, 10);
+      const attempts = listAttempts().slice(0, 5);
+      // FIX-03: only count SRS cards that have been reviewed before and are due — not unseen questions
+      const srsCards = getSRSCards();
+      const today = localDateStr(new Date());
+      const dueCount = Object.values(srsCards).filter((c) => c.dueDate <= today).length;
+      const streak = getStreak();
+      const bookmarkCount = getBookmarks().size;
+      // FIX-02: weighted readiness score (only when ≥30 questions seen)
+      const totalSeen = topics.reduce((s, t) => s + t.seen, 0);
+      let readinessPct: number | null = null;
+      if (totalSeen >= READINESS_MIN_SEEN) {
+        const totalQ = questions.length;
+        const weighted = topics.reduce((s, t) => s + t.accuracy * t.total, 0);
+        readinessPct = Math.round((weighted / totalQ) * 100);
       }
-      if (a.seen === 0) return 1;
-      if (b.seen === 0) return -1;
-      return a.accuracy - b.accuracy;
-    });
-    const missed = getMostMissed(questions, stats, 10);
-    const attempts = listAttempts().slice(0, 5);
-    // FIX-03: only count SRS cards that have been reviewed before and are due — not unseen questions
-    const srsCards = getSRSCards();
-    const today = localDateStr(new Date());
-    const dueCount = Object.values(srsCards).filter((c) => c.dueDate <= today).length;
-    const streak = getStreak();
-    const bookmarkCount = getBookmarks().size;
-    // FIX-02: weighted readiness score (only when ≥30 questions seen)
-    const totalSeen = topics.reduce((s, t) => s + t.seen, 0);
-    let readinessPct: number | null = null;
-    if (totalSeen >= READINESS_MIN_SEEN) {
-      const totalQ = questions.length;
-      const weighted = topics.reduce((s, t) => s + t.accuracy * t.total, 0);
-      readinessPct = Math.round((weighted / totalQ) * 100);
-    }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setData({
-      stats,
-      topics,
-      missed,
-      attempts,
-      dueCount,
-      streakCurrent: streak.current,
-      streakLongest: streak.longest,
-      bookmarkCount,
-      readinessPct,
-      totalSeen,
+      setData({
+        stats,
+        topics,
+        missed,
+        attempts,
+        dueCount,
+        streakCurrent: streak.current,
+        streakLongest: streak.longest,
+        bookmarkCount,
+        readinessPct,
+        totalSeen,
+        totalQuestions: questions.length,
+      });
     });
   }, []);
 
@@ -105,12 +106,12 @@ export default function ProgressClient() {
           {/* Quick stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full">
             <StatCard label="רצף ימים" value={data.streakCurrent} sub={data.streakLongest > data.streakCurrent ? `שיא: ${data.streakLongest}` : undefined} />
-            <StatCard label="שמורות" value={data.bookmarkCount} sub="לחזרה" href="/saved" />
+            <StatCard label="שמורות" value={data.bookmarkCount} sub="לחזרה" href="/review?tab=saved" />
             <StatCard label="לחזרה" value={data.dueCount} sub="כרטיסיות" href="/flashcards" />
             <StatCard
               label="נצפו"
               value={data.topics.reduce((s, t) => s + t.seen, 0)}
-              sub={`מתוך ${questions.length}`}
+              sub={`מתוך ${data.totalQuestions}`}
             />
           </div>
 
@@ -133,7 +134,7 @@ export default function ProgressClient() {
               <div className="flex items-baseline justify-between">
                 <h2 className="th-section-h">השאלות שמפילות אותך</h2>
                 <Link
-                  href="/mistakes"
+                  href="/review?tab=mistakes"
                   className="text-xs font-semibold text-[var(--th-accent)] hover:underline"
                 >
                   תרגל את כולן ←

@@ -1,0 +1,84 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "תיאוריה" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: תיאוריה
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - searchbox "חיפוש…" [ref=e11]
+      - navigation [ref=e12]:
+        - 'link "רצף יומי: 1 יום" [ref=e112] [cursor=pointer]':
+          - /url: /daily
+          - generic [ref=e113]: 🔥
+          - generic [ref=e114]: "1"
+        - link "לימוד" [ref=e14] [cursor=pointer]:
+          - /url: /study
+          - text: לימוד
+        - link "מבחן" [ref=e15] [cursor=pointer]:
+          - /url: /exam
+        - link "כרטיסיות" [ref=e16] [cursor=pointer]:
+          - /url: /flashcards
+        - link "שמורות" [ref=e17] [cursor=pointer]:
+          - /url: /saved
+        - link "התקדמות" [ref=e18] [cursor=pointer]:
+          - /url: /progress
+  - button "Open Next.js Dev Tools" [ref=e131] [cursor=pointer]:
+    - img [ref=e132]
+  - alert [ref=e135]: תמרורים — לימוד תיאוריה
+  - main [ref=e137]:
+    - button "חזרה לדף הקודם" [ref=e139]:
+      - generic [ref=e140]: →
+      - text: חזרה
+    - generic [ref=e142]:
+      - generic [ref=e144]:
+        - button "לימוד" [ref=e145]
+        - button "תרגול" [ref=e147]: תרגול
+      - generic [ref=e148]:
+        - generic [ref=e149]: נושא
+        - heading "תמרורים" [level=1] [ref=e150]
+        - paragraph [ref=e151]: 361 שאלות במאגר
+      - generic [ref=e219]:
+        - progressbar "2 מתוך 361" [ref=e258]
+        - button "שאלות קשות" [ref=e221]
+      - generic [ref=e222]:
+        - generic [ref=e223]:
+          - generic [ref=e224]: שאלה 2 מתוך 361
+          - generic [ref=e225]:
+            - button "שמור שאלה" [ref=e226]:
+              - generic [ref=e227]: ☆
+            - generic [ref=e228]: תמרורים
+        - generic [ref=e261]:
+          - img "היכן תעצור כשבצומת שלפניך דולק ברמזור האור האדום?" [ref=e263]
+          - paragraph [ref=e264]: היכן תעצור כשבצומת שלפניך דולק ברמזור האור האדום?
+          - generic [ref=e265]:
+            - button "א.תעצור תמיד במקום שבו שדה הראייה הוא הטוב ביותר." [ref=e266] [cursor=pointer]:
+              - generic [ref=e267]:
+                - generic [ref=e268]: א.
+                - text: תעצור תמיד במקום שבו שדה הראייה הוא הטוב ביותר.
+            - button "ב.אחרי קו העצירה, ובאין קו עצירה – עצור לפני קו הצומת." [ref=e269] [cursor=pointer]:
+              - generic [ref=e270]:
+                - generic [ref=e271]: ב.
+                - text: אחרי קו העצירה, ובאין קו עצירה – עצור לפני קו הצומת.
+            - button "ג.אחרי מעבר החצייה, ובאין מעבר חצייה – במקום שבו שדה הראייה הטוב ביותר." [ref=e272] [cursor=pointer]:
+              - generic [ref=e273]:
+                - generic [ref=e274]: ג.
+                - text: אחרי מעבר החצייה, ובאין מעבר חצייה – במקום שבו שדה הראייה הטוב ביותר.
+            - button "ד.לפני קו העצירה, ובאין קו עצירה - עצור לפני מעבר החצייה." [ref=e275] [cursor=pointer]:
+              - generic [ref=e276]:
+                - generic [ref=e277]: ד.
+                - text: לפני קו העצירה, ובאין קו עצירה - עצור לפני מעבר החצייה.
+          - button "הצג תשובה" [ref=e278]
+        - generic [ref=e247]:
+          - button "→ הקודמת" [ref=e248]:
+            - generic [ref=e249]: →
+            - text: הקודמת
+          - button "הבאה ←" [active] [ref=e250]:
+            - text: הבאה
+            - generic [ref=e251]: ←
+        - paragraph [ref=e252]: ← → לניווט · 1–4 לבחירה · רווח להצגת תשובה
+      - generic [ref=e253]:
+        - generic [ref=e254]: "קפוץ לשאלה:"
+        - spinbutton "קפוץ לשאלה:" [ref=e255]
+        - button "עבור" [ref=e256]
+      - paragraph [ref=e257]: "קיצורי מקלדת: ← → לניווט · 1-4 לתשובה · רווח / R לחשיפה"

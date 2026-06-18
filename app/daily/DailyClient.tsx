@@ -6,6 +6,7 @@ import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import QuestionSkeleton from "@/components/QuestionSkeleton";
 import { updateStreak, getStreak } from "@/lib/storage";
 import {
   pickDailyDeck,
@@ -88,7 +89,7 @@ export default function DailyClient() {
   if (phase === "loading") {
     return (
       <PageShell>
-        <div className="w-full h-64 bg-[var(--th-muted-bg)] rounded-[var(--th-radius-lg)] animate-pulse" />
+        <QuestionSkeleton />
       </PageShell>
     );
   }
