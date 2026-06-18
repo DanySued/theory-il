@@ -17,6 +17,7 @@ const links = [
   { href: "/flashcards", label: "כרטיסיות" },
   { href: "/saved", label: "שמורות" },
   { href: "/progress", label: "התקדמות" },
+  { href: "/glossary", label: "מילון" },
 ];
 
 // Real content from the app — topics, pages, sign categories

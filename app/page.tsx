@@ -53,7 +53,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center gap-4 w-full">
           <Link
-            href="/study/תמרורים"
+            href="/study/תמרורים?view=drill"
             className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
           >
             בוא נתחיל בתמרורים?

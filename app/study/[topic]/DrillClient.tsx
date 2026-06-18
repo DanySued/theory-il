@@ -32,8 +32,11 @@ type View = "guide" | "drill";
 export default function DrillClient({ topic, questions, guide }: DrillClientProps) {
   const searchParams = useSearchParams();
   const weakInitial = searchParams?.get("weak") === "1";
+  const viewParam = searchParams?.get("view");
 
-  const [view, setView] = useState<View>(weakInitial || !guide ? "drill" : "guide");
+  const [view, setView] = useState<View>(
+    viewParam === "drill" || weakInitial || !guide ? "drill" : "guide"
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [showAnswer, setShowAnswer] = useState(false);
