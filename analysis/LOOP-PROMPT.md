@@ -1,3 +1,6 @@
+> ⚠️ **ARCHIVED (prior run).** STALE — the current loop command is in the orchestrator:
+> `docs/superpowers/plans/2026-06-18-overnight-orchestrator.md`.
+
 # The /loop prompt to paste before bed
 
 Copy everything inside the fence below, paste into Claude Code, and hit enter. Omit any interval — the model will self-pace via ScheduleWakeup.

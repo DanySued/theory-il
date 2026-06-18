@@ -1,3 +1,5 @@
+> ⚠️ **ARCHIVED (prior run, commit 146bff2).** STALE. The current run rewrites this at finish.
+
 # Morning Brief — theory-il overnight analysis
 
 Commit: `146bff2` (local only, not pushed)

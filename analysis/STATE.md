@@ -1,3 +1,6 @@
+> ⚠️ **ARCHIVED (prior run, 2026-06-17).** STALE — do not act on this. The authoritative
+> state machine for the current run is `docs/superpowers/plans/2026-06-18-overnight-orchestrator.md`.
+
 # Overnight Analysis — State Tracker
 
 > **Single source of truth for the /loop run.** Read this first every iteration. Update it at the end of every iteration. Never skip a phase.

@@ -1,3 +1,5 @@
+> ⚠️ **SUPERSEDED by `analysis/backpocket.md`.** STALE seed only — re-verify before use.
+
 # Fix Plan (Phase 4 output)
 
 > Ranked by impact ÷ effort. Each fix tagged: persona, severity, effort (S/M/L), risk (low/med/high).
