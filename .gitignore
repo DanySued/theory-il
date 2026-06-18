@@ -44,3 +44,6 @@ next-env.d.ts
 
 IMPROVEMENTS.md
 limud/
+
+# Playwright MCP scratch artifacts
+.playwright-mcp/

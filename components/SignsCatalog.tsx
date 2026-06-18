@@ -43,7 +43,7 @@ function SignCard({
       onClick={() => onToggle(sign.id)}
       aria-pressed={hidden}
       title={hidden ? "התמרור מוסתר — לחץ כדי לחשוף אותו" : "לחץ כדי להסתיר את התמרור ולבחון את עצמך"}
-      className="relative text-start rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md cursor-pointer"
+      className="relative w-full max-w-[156px] text-start rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] flex flex-col items-center justify-center gap-1.5 px-3 pt-7 pb-3 transition-shadow hover:shadow-md cursor-pointer"
       style={{
         borderTop: `3px solid ${accent}`,
         minHeight: "190px",
@@ -261,13 +261,7 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
                       </div>
                     )}
 
-                    <div
-                      className="grid gap-3"
-                      style={{
-                        gridTemplateColumns: "repeat(auto-fit, minmax(140px, 156px))",
-                        justifyContent: "center",
-                      }}
-                    >
+                    <div className="signs-grid">
                       {group.map((sign) => (
                         <SignCard
                           key={sign.id}

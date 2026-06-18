@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 
@@ -13,8 +14,15 @@ interface Props {
 export default function MobileDrawer({ links }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
+
+  // Portal target is only available on the client.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   // Close on route change.
   useEffect(() => {
@@ -89,9 +97,14 @@ export default function MobileDrawer({ links }: Props) {
         <Menu size={18} />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <>
+      {/* Portal to <body> so the drawer escapes the NavBar header's
+          backdrop-filter, which would otherwise make `position: fixed` resolve
+          against the 61px header box instead of the viewport. */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <>
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -152,9 +165,11 @@ export default function MobileDrawer({ links }: Props) {
                 })}
               </div>
             </motion.nav>
-          </>
+              </>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </>
   );
 }

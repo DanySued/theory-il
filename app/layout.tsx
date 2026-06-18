@@ -32,6 +32,13 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[var(--th-bg)] text-[var(--th-fg)] font-sans antialiased">
+        {/* Apply the saved theme choice before paint to avoid a flash. No stored
+            choice → leave the attribute unset so CSS follows the OS preference. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theory-il:theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t;}catch(e){}`,
+          }}
+        />
         <NavBar />
         {children}
       </body>

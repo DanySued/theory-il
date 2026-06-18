@@ -9,6 +9,7 @@ import type { Question } from "@/components/QuestionCard";
 import { loadCorpus } from "@/lib/data/corpus";
 import NavStreakBadge from "@/components/NavStreakBadge";
 import MobileDrawer from "@/components/MobileDrawer";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { href: "/study", label: "לימוד" },
@@ -16,7 +17,6 @@ const links = [
   { href: "/flashcards", label: "כרטיסיות" },
   { href: "/review", label: "חזרה" },
   { href: "/progress", label: "התקדמות" },
-  { href: "/glossary", label: "מילון" },
 ];
 
 // Real content from the app — topics, pages, sign categories
@@ -116,6 +116,7 @@ export default function NavBar() {
         {/* Mobile bar group: streak · search · menu */}
         <div className="sm:hidden ms-auto flex items-center gap-1 shrink-0">
           <NavStreakBadge />
+          <ThemeToggle />
           <button
             type="button"
             onClick={() => {
@@ -210,6 +211,7 @@ export default function NavBar() {
 
         <nav className="hidden sm:flex items-center gap-2 text-sm justify-end">
           <NavStreakBadge />
+          <ThemeToggle />
           {links.map((l) => {
             const active =
               pathname === l.href || pathname.startsWith(l.href + "/");
