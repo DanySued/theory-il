@@ -1042,8 +1042,7 @@
       "רק אם הרכב סמוך למדרכה.",
       "רק בתנאי שמאחורי הרכב יעמוד אדם מכוון שייראה לעיני נהג הרכב."
     ],
-    "correctIndex": 0,
-    "image": "realistic_visual_road_demo"
+    "correctIndex": 0
   },
   {
     "id": "0045",
@@ -6406,7 +6405,8 @@
       "בעוד 2,500 מטרים מתחילה ירידה תלולה.",
       "בעוד 2,500 מטרים מתחילה עלייה מסוכנת."
     ],
-    "correctIndex": 0
+    "correctIndex": 0,
+    "image": "https://www.gov.il/BlobFolder/generalpage/tq_pic_01/he/TQ_PIC_3483.jpg"
   },
   {
     "id": "0154",
@@ -6826,7 +6826,7 @@
       "צפור לרוכב האופניים עד שיפנה את נתיב נסיעתך, ועבור על פניו במהירות הרגילה שלך."
     ],
     "correctIndex": 2,
-    "image": "x"
+    "image": "https://www.gov.il/BlobFolder/generalpage/tq_pic_02/he/TQ_PIC_3907.jpg"
   },
   {
     "id": "0246",
@@ -15046,7 +15046,7 @@
       "הכניסה מותרת לטרקטור ולרכב עבודה."
     ],
     "correctIndex": 1,
-    "image": "ה"
+    "image": "https://www.gov.il/BlobFolder/generalpage/tq_pic_02/he/TQ_PIC_3574.jpg"
   },
   {
     "id": "1017",

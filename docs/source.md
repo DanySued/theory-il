@@ -61,3 +61,25 @@ Per CC-BY license, the site must display:
 ## Data Freshness
 
 The dataset was last updated December 2021. Post-2021 additions to the bank may not be reflected. Monitor the dataset page for updates or contact tdata@mot.gov.il.
+
+**Verified 2026-10-30:** the ministry's own page
+([gov.il theoryexamhe_data](https://www.gov.il/he/departments/dynamiccollectors/theoryexamhe_data))
+reads this same dataset through its data.gov.il proxy (1,802 questions), so it is still the
+current official bank. Our `questions.json` matches the live ב subset exactly (1,273 questions:
+same IDs, text, answers and correct keys). Exam rules (30 questions, 40 minutes, pass at 26)
+match [gov.il](https://www.gov.il/he/service/apply_for_new_driver_drivers_license).
+
+## Known source defects (handled in `scripts/fetch-questions.ts`)
+
+| Question | Problem in dataset | Fix |
+|---|---|---|
+| 0483 | `<img src=` missing its opening quote | parser accepts unquoted src |
+| 0120 | src is the placeholder `realistic_visual_road_demo` (text-only question) | dropped |
+| 0574, 0907 | src is a placeholder (`ה`, `x`) though the question needs an image | `IMAGE_FIXES` points to the matching gov.il `TQ_PIC_3<id>.jpg`, checked by eye |
+
+## Study content
+
+The study guides (`lib/data/guides.ts`) and the signs catalog (`lib/data/signs.ts`) are written by
+us, not taken from the dataset. Rule: state only what the bank gives as a correct answer. Each
+guide section lists the question IDs it is based on (`questionIds`); sign names follow the official
+sign numbers as used in the bank's "which sign…" questions and `signs-canonical.json`.

@@ -17,13 +17,13 @@ const SIGN_CATEGORIES = [
   { name: "אזהרה", color: "var(--th-cat-warning)", desc: "משולשים אדומים — מזהירים מפני סכנה קרובה" },
   { name: "חובה", color: "var(--th-cat-mandatory)", desc: "עיגולים כחולים — מחייבים פעולה מסוימת" },
   { name: "איסור", color: "var(--th-cat-prohibition)", desc: "עיגולים אדומים — אוסרים פעולה מסוימת" },
-  { name: "מידע", color: "var(--th-cat-info)", desc: "מלבנים ירוקים — מספקים מידע לנהג" },
+  { name: "מידע", color: "var(--th-cat-info)", desc: "מלבנים, לרוב כחולים או ירוקים — מספקים מידע לנהג" },
   { name: "סימוני כביש", color: "var(--th-cat-road)", desc: "סימונים על הכביש — קווים, חצים ורצועות" },
 ];
 
 const STUDY_MODES = [
   { label: "חזרה חכמה", href: "/review", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
-  { label: "לימוד לפי נושא", href: "/study", desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם הסבר מיידי" },
+  { label: "לימוד לפי נושא", href: "/study", desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם התשובה הנכונה מיד" },
   { label: "מבחן תרגול", href: "/exam", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
   { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מהירה בשיטת SRS — מתאים לשנות מועד" },
 ];
@@ -107,7 +107,7 @@ export default function Home() {
             <span className="th-eyebrow">נושאי הלימוד</span>
             <h2 className="th-section-h">1,273 שאלות מהמאגר הרשמי</h2>
             <p className="text-sm text-[var(--th-muted-strong)] mt-1">
-              כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
+              כל השאלות לקוחות מהמאגר הרשמי של משרד התחבורה לרישיון ב׳ — המאגר שממנו נבחרות שאלות המבחן
             </p>
           </div>
         </FadeSection>
