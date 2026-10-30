@@ -8,18 +8,13 @@ import type { Question } from "@/components/QuestionCard";
 const LABELS = ["א", "ב", "ג", "ד"] as const;
 const RELATED_PER_SECTION = 3;
 
-function findRelated(keywords: string[], questions: Question[]): Question[] {
-  const lower = keywords.map((k) => k.toLowerCase());
-  const scored = questions.map((q) => {
-    const text = q.text.toLowerCase() + " " + q.answers.join(" ").toLowerCase();
-    const score = lower.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
-    return { q, score };
-  });
-  return scored
-    .filter((x) => x.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, RELATED_PER_SECTION)
-    .map((x) => x.q);
+// The section's own source questions, in the order the guide lists them.
+function findRelated(ids: string[], questions: Question[]): Question[] {
+  const byId = new Map(questions.map((q) => [q.id, q]));
+  return ids
+    .map((id) => byId.get(id))
+    .filter((q): q is Question => !!q)
+    .slice(0, RELATED_PER_SECTION);
 }
 
 function RelatedQuestion({ question }: { question: Question }) {
@@ -79,7 +74,7 @@ function Section({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const [showQ, setShowQ] = useState(false);
-  const related = findRelated(section.keywords, questions);
+  const related = findRelated(section.questionIds, questions);
 
   return (
     <div className="rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] overflow-hidden">

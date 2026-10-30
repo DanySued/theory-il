@@ -13,6 +13,15 @@ type Question = {
   correctIndex: 0 | 1 | 2 | 3;
 };
 
+const IMG_BASE = "https://www.gov.il/BlobFolder/generalpage";
+
+// Questions whose image the dataset lists as a placeholder ("x", "ה") although the question
+// needs one. URLs follow the gov.il TQ_PIC_3<id> naming and were checked by eye against the question.
+const IMAGE_FIXES: Record<string, string> = {
+  "0574": `${IMG_BASE}/tq_pic_02/he/TQ_PIC_3574.jpg`, // אסור לרכב עבודה וטרקטור
+  "0907": `${IMG_BASE}/tq_pic_02/he/TQ_PIC_3907.jpg`, // רוכב אופניים לפני צומת
+};
+
 function decodeEntities(str: string): string {
   return str
     .replace(/&nbsp;/g, " ")
@@ -61,9 +70,11 @@ function parseRecord(record: Record<string, string>): Question | null {
 
     if (correctIndex === -1) return null;
 
-    // Optional image
-    const imgMatch = description4.match(/<img[^>]+src="([^"]+)"/i);
-    const image = imgMatch ? imgMatch[1] : undefined;
+    // Optional image. The source HTML is sloppy: one src is missing its opening quote (0483)
+    // and some hold placeholders like "x" — accept only real URLs, then apply manual fixes.
+    const imgMatch = description4.match(/<img[^>]+src="?([^"\s>]+)/i);
+    const src = imgMatch?.[1];
+    const image = id in IMAGE_FIXES ? IMAGE_FIXES[id] : src?.startsWith("https://") ? src : undefined;
 
     const q: Question = {
       id,

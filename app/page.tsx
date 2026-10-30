@@ -23,7 +23,7 @@ const SIGN_CATEGORIES = [
   { name: "אזהרה", color: "var(--th-cat-warning)", desc: "משולשים אדומים — מזהירים מפני סכנה קרובה" },
   { name: "חובה", color: "var(--th-cat-mandatory)", desc: "עיגולים כחולים — מחייבים פעולה מסוימת" },
   { name: "איסור", color: "var(--th-cat-prohibition)", desc: "עיגולים אדומים — אוסרים פעולה מסוימת" },
-  { name: "מידע", color: "var(--th-cat-info)", desc: "מלבנים ירוקים — מספקים מידע לנהג" },
+  { name: "מידע", color: "var(--th-cat-info)", desc: "מלבנים, לרוב כחולים או ירוקים — מספקים מידע לנהג" },
   { name: "סימוני כביש", color: "var(--th-cat-road)", desc: "סימונים על הכביש — קווים, חצים ורצועות" },
 ];
 
@@ -108,7 +108,7 @@ export default function Home() {
           <span className="th-eyebrow">נושאי הלימוד</span>
           <h2 className="th-section-h">{TOTAL_QUESTIONS.toLocaleString("en-US")} שאלות מהמאגר הרשמי</h2>
           <p className="text-sm text-[var(--th-muted-strong)] mt-1">
-            כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
+            כל השאלות לקוחות מהמאגר הרשמי של משרד התחבורה לרישיון ב׳ — המאגר שממנו נבחרות שאלות המבחן
           </p>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">

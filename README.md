@@ -26,6 +26,8 @@ npm install
 npm run dev
 ```
 
+Pushing to `master` auto-deploys to production on Vercel; other branches get preview deployments.
+
 Checks:
 
 ```bash

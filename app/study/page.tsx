@@ -30,7 +30,7 @@ export default function StudyPage() {
       <SectionHead
         eyebrow="לימוד לפי נושאים"
         title="בחר נושא להתחיל ללמוד"
-        subtitle="כל השאלות מהמאגר הרשמי של משרד התחבורה, עם הסבר אחרי כל תשובה."
+        subtitle="כל השאלות מהמאגר הרשמי של משרד התחבורה, עם התשובה הנכונה אחרי כל שאלה."
       />
       <TopicGridClient topics={topics} questions={questions} />
     </PageShell>
