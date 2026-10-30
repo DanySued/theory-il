@@ -21,12 +21,19 @@ See [`docs/source.md`](docs/source.md) for full provenance and license details.
 
 ## Setup
 
-No local dev needed — push to `main` and Vercel auto-deploys.
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint
+```
+
+Pushing to `master` auto-deploys to production on Vercel; other branches get preview deployments.
 
 To re-import questions from the official source:
 
 ```bash
-npx ts-node scripts/fetch-questions.ts
+npx tsx scripts/fetch-questions.ts
 ```
 
 This writes `lib/data/questions.json`.
