@@ -38,7 +38,7 @@ export default function ReviewHub() {
   };
 
   return (
-    <PageShell>
+    <PageShell mobileBack={false}>
       <div role="tablist" aria-label="חזרה" className="flex gap-2 w-full">
         {TABS.map((t) => (
           <button

@@ -271,6 +271,30 @@ html {
 .th-card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
+.th-page {
+  padding-block: var(--th-page-py);
+}
+
+/* Phone chrome. Browse screens: global header + bottom tab bar, so the page keeps
+   clear of the fixed bar. Focus screens (a .th-focus-marker from <FocusMode/> is on
+   the page): FocusHeader + FocusActionBar replace both, and the page clears the bar. */
+@media (max-width: 639px) {
+  body {
+    padding-bottom: calc(var(--th-tabbar-h) + var(--th-safe-b));
+  }
+  body:has(.th-focus-marker) {
+    padding-bottom: calc(var(--th-actionbar-h) + var(--th-safe-b));
+  }
+  body:has(.th-focus-marker) .th-tabbar,
+  body:has(.th-focus-marker) .th-site-header,
+  body:has(.th-focus-marker) .th-page-back {
+    display: none;
+  }
+  body:has(.th-focus-marker) .th-page {
+    padding-top: 0.75rem;
+  }
+}
+
 /* Gated like Tailwind's hover: so the lift doesn't stick after a tap on touch screens. */
 @media (hover: hover) {
   .th-card-hover:hover {
@@ -313,6 +337,17 @@ a,
   display: none;
 }
 ::view-transition-new(site-header) {
+  animation: none;
+}
+/* …and the bottom tab bar, so tab switches don't animate or flash it */
+::view-transition-group(tabbar) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(tabbar) {
+  display: none;
+}
+::view-transition-new(tabbar) {
   animation: none;
 }
 

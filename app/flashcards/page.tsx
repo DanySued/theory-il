@@ -32,7 +32,7 @@ export default function FlashcardsPage() {
 
   if (questions === null) {
     return (
-      <PageShell>
+      <PageShell mobileBack={false}>
         <div className="w-full flex flex-col gap-3">
           <Skeleton className="h-3 w-28" />
           <Skeleton className="h-10 w-64 max-w-full" />
@@ -48,7 +48,7 @@ export default function FlashcardsPage() {
   }
 
   return (
-    <PageShell>
+    <PageShell mobileBack={false}>
       <SectionHead
         eyebrow="חזרה מרווחת · SRS"
         title="כרטיסיות שינון"

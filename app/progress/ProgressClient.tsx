@@ -92,7 +92,7 @@ export default function ProgressClient() {
   const hasAnyData = data && (data.attempts.length > 0 || data.topics.some((t) => t.seen > 0));
 
   return (
-    <PageShell>
+    <PageShell mobileBack={false}>
       <SectionHead
         eyebrow="התקדמות"
         title="לאן ללכת מכאן"

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo } from "next/font/google";
 import NavBar from "@/components/NavBar";
+import BottomTabBar from "@/components/BottomTabBar";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -46,6 +47,7 @@ export default function RootLayout({
         />
         <NavBar />
         {children}
+        <BottomTabBar />
       </body>
     </html>
   );

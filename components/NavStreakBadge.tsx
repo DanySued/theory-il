@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Flame } from "lucide-react";
 import { getStreak } from "@/lib/storage";
 import { isDailyCompletedToday } from "@/lib/dailyChallengeStatus";
 
@@ -38,19 +39,23 @@ export default function NavStreakBadge() {
           ? `רצף ${state.current} ימים — אתגר היום עדיין מחכה`
           : `רצף ${state.current} ימים — האתגר של היום הושלם`
       }
-      className={`shrink-0 inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-bold tabular-nums transition-colors ${
-        state.needsDaily
-          ? "bg-[var(--th-accent-soft)] text-[var(--th-accent)] hover:bg-[var(--th-accent-soft)]/70"
-          : "bg-[var(--th-muted-bg)] text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]/70"
-      }`}
+      // 44px tap area on phones around the 32px (28px on desktop) pill
+      className="group shrink-0 inline-flex items-center h-11 sm:h-auto"
     >
       <span
-        aria-hidden
-        className={`leading-none text-sm ${state.needsDaily ? "animate-pulse" : ""}`}
+        className={`inline-flex items-center gap-1 h-8 sm:h-7 px-2.5 rounded-full text-sm sm:text-xs font-bold tabular-nums transition-colors ${
+          state.needsDaily
+            ? "bg-[var(--th-accent-soft)] text-[var(--th-accent)] group-hover:bg-[var(--th-accent-soft)]/70"
+            : "bg-[var(--th-muted-bg)] text-[var(--th-fg)] group-hover:bg-[var(--th-muted-bg)]/70"
+        }`}
       >
-        🔥
+        <Flame
+          size={16}
+          aria-hidden
+          className={`shrink-0 ${state.needsDaily ? "motion-safe:animate-pulse" : ""}`}
+        />
+        <span>{state.current}</span>
       </span>
-      <span>{state.current}</span>
     </Link>
   );
 }
