@@ -56,23 +56,32 @@ for (const theme of ["light", "dark"]) {
   await startBtn.click();
   await page.waitForTimeout(300);
   await page.keyboard.press("1");
-  await page.getByRole("button", { name: "סיים מבחן" }).click();
+  // Phones submit from the focus header ("הגשה"); ≥sm from the sticky bar ("סיים מבחן").
+  await page.getByRole("button", { name: /^(הגשה|סיים מבחן)$/ }).first().click();
   const confirm = page.getByRole("dialog").getByRole("button", { name: /סיים/ });
   if (await confirm.count()) await confirm.first().click();
   await page.waitForURL(/\/results\//, { timeout: 10_000 }).catch(() => fail("exam: did not reach results"));
   if (page.url().includes("/results/")) console.log("  ✓ exam → results");
 
-  // Flow: mobile drawer opens and closes with Escape
+  // Flow: phone search sheet opens as a dialog and closes with Escape
   await page.goto(BASE + "/", { waitUntil: "networkidle" });
-  const menu = page.getByRole("button", { name: /תפריט/ }).first();
-  if (await menu.count()) {
-    await menu.click();
-    if (!(await page.getByRole("dialog").count())) fail("drawer: did not open as a dialog");
+  const searchBtn = page.getByRole("button", { name: "חיפוש" }).first();
+  if (await searchBtn.count()) {
+    await searchBtn.click();
+    if (!(await page.getByRole("dialog").count())) fail("search: did not open as a dialog");
     await page.keyboard.press("Escape");
     await page.waitForTimeout(400);
-    if (await page.getByRole("dialog").count()) fail("drawer: Escape did not close it");
-    else console.log("  ✓ drawer open/Escape");
-  } else fail("drawer: no menu button with accessible name");
+    if (await page.getByRole("dialog").count()) fail("search: Escape did not close it");
+    else console.log("  ✓ search sheet open/Escape");
+  } else fail("search: no search button with accessible name");
+
+  // Bottom tab bar: shown on browse routes, hidden on focus routes
+  const tabbar = page.getByRole("navigation", { name: "ניווט ראשי" });
+  for (const [route, shown] of [["/", true], ["/progress", true], ["/study/בטיחות?view=drill", false]]) {
+    await page.goto(BASE + encodeURI(route), { waitUntil: "networkidle" });
+    if ((await tabbar.isVisible()) !== shown) fail(`tab bar: expected ${shown ? "visible" : "hidden"} on ${route}`);
+    else console.log(`  ✓ tab bar ${shown ? "visible" : "hidden"} on ${route}`);
+  }
 
   await ctx.close();
 }

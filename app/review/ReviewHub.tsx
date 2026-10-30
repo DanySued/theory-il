@@ -38,18 +38,23 @@ export default function ReviewHub() {
   };
 
   return (
-    <PageShell>
-      <div role="tablist" aria-label="חזרה" className="flex gap-2 w-full">
+    <PageShell mobileBack={false}>
+      {/* Phones: segmented control (card pill on a muted track); ≥sm: separate accent buttons */}
+      <div
+        role="tablist"
+        aria-label="חזרה"
+        className="grid grid-cols-3 sm:flex gap-1 sm:gap-2 w-full p-1 sm:p-0 rounded-[14px] sm:rounded-none bg-[var(--th-muted-bg)] sm:bg-transparent"
+      >
         {TABS.map((t) => (
           <button
             key={t.id}
             role="tab"
             aria-selected={tab === t.id}
             onClick={() => select(t.id)}
-            className={`flex-1 min-h-11 px-3 rounded-[var(--th-radius-lg)] text-sm font-semibold transition-colors ${
+            className={`flex-1 min-h-11 px-2 sm:px-3 rounded-[10px] sm:rounded-[var(--th-radius-lg)] text-[15px] sm:text-sm font-semibold transition-colors ${
               tab === t.id
-                ? "bg-[var(--th-accent)] text-[var(--th-on-accent)]"
-                : "bg-[var(--th-card)] border border-[var(--th-border)] text-[var(--th-muted-strong)] hover:border-[var(--th-accent)]"
+                ? "bg-[var(--th-card)] sm:bg-[var(--th-accent)] text-[var(--th-fg)] sm:text-[var(--th-on-accent)] font-bold sm:font-semibold shadow-sm sm:shadow-none"
+                : "sm:bg-[var(--th-card)] sm:border border-[var(--th-border)] text-[var(--th-muted-strong)] hover:border-[var(--th-accent)]"
             }`}
           >
             {t.label}

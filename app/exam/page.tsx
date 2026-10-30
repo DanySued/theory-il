@@ -37,7 +37,7 @@ export default function ExamPage() {
 
   if (!questions) {
     return (
-      <PageShell>
+      <PageShell mobileBack={false}>
         <ExamStartScreen onStart={handleStart} />
       </PageShell>
     );

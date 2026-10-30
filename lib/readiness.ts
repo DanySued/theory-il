@@ -12,6 +12,11 @@ import { EXAM_LENGTH, EXAM_TOPIC_ALLOC, PASS_SCORE } from "@/lib/constants";
  * reaching the pass mark (binomial tail).
  */
 
+/** Pass chance as text. Bidi-safe: a literal "<1%" renders as "1%>" inside RTL text. */
+export function formatChance(p: number): string {
+  return p < 0.01 ? "פחות מ-1%" : `${Math.round(p * 100)}%`;
+}
+
 /** Rough chance of getting a never-seen question right (common sense beats a 25% guess). */
 export const UNSEEN_BASELINE = 0.5;
 /** Below this many answered questions the estimate is too noisy to show. */

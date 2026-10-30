@@ -109,7 +109,7 @@ export default function SettingsClient() {
             <button
               type="button"
               onClick={handleExport}
-              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 sm:h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               הורד גיבוי
             </button>
@@ -134,7 +134,7 @@ export default function SettingsClient() {
                 key={m.value}
                 type="button"
                 onClick={() => setImportMode(m.value)}
-                className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                className={`min-h-11 sm:min-h-0 px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
                   importMode === m.value
                     ? "bg-[var(--th-card)] text-[var(--th-fg)] shadow-sm"
                     : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
@@ -152,7 +152,7 @@ export default function SettingsClient() {
           <button
             type="button"
             onClick={handlePickImport}
-            className="inline-flex items-center justify-center h-10 px-4 self-start rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+            className="inline-flex items-center justify-center h-11 sm:h-10 px-4 self-start rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
           >
             בחר קובץ…
           </button>
@@ -202,7 +202,7 @@ export default function SettingsClient() {
                   <button
                     type="button"
                     onClick={() => setConfirming(s.key)}
-                    className="shrink-0 text-xs px-3 py-1.5 rounded-full border border-[var(--th-border)] text-[var(--th-muted-strong)] hover:border-[var(--th-error)] hover:text-[var(--th-error)] transition-colors"
+                    className="shrink-0 min-h-11 sm:min-h-0 text-xs px-3 py-1.5 rounded-full border border-[var(--th-border)] text-[var(--th-muted-strong)] hover:border-[var(--th-error)] hover:text-[var(--th-error)] transition-colors"
                   >
                     אפס
                   </button>
@@ -212,14 +212,14 @@ export default function SettingsClient() {
                     <button
                       type="button"
                       onClick={() => setConfirming(null)}
-                      className="text-xs px-3 py-1.5 rounded-full border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
+                      className="min-h-11 sm:min-h-0 text-xs px-3 py-1.5 rounded-full border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
                     >
                       ביטול
                     </button>
                     <button
                       type="button"
                       onClick={() => handleClear(s.key)}
-                      className="text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-[var(--th-on-error)] font-semibold hover:opacity-90 transition-opacity"
+                      className="min-h-11 sm:min-h-0 text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-[var(--th-on-error)] font-semibold hover:opacity-90 transition-opacity"
                     >
                       מחק
                     </button>
@@ -251,14 +251,14 @@ export default function SettingsClient() {
               <button
                 type="button"
                 onClick={() => setConfirming(null)}
-                className="text-xs px-3 py-1.5 rounded-full border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
+                className="min-h-11 sm:min-h-0 text-xs px-3 py-1.5 rounded-full border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
               >
                 ביטול
               </button>
               <button
                 type="button"
                 onClick={() => handleClear("all")}
-                className="text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-[var(--th-on-error)] font-semibold hover:opacity-90 transition-opacity"
+                className="min-h-11 sm:min-h-0 text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-[var(--th-on-error)] font-semibold hover:opacity-90 transition-opacity"
               >
                 מחק הכל
               </button>
@@ -267,7 +267,7 @@ export default function SettingsClient() {
             <button
               type="button"
               onClick={() => setConfirming("all")}
-              className="shrink-0 text-xs px-3 py-1.5 rounded-full border border-[var(--th-error)] text-[var(--th-error)] font-semibold hover:bg-[var(--th-error-soft)] transition-colors"
+              className="shrink-0 min-h-11 sm:min-h-0 text-xs px-3 py-1.5 rounded-full border border-[var(--th-error)] text-[var(--th-error)] font-semibold hover:bg-[var(--th-error-soft)] transition-colors"
             >
               מחק הכל…
             </button>

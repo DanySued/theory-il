@@ -46,7 +46,7 @@ export default function ExamStartScreen({
                 key={t.value}
                 type="button"
                 onClick={() => setTopic(t.value)}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
+                className={`min-h-11 sm:min-h-0 px-4 py-2 rounded-full text-sm font-medium border transition-all ${
                   active
                     ? "bg-[var(--th-fg)] text-[var(--th-bg)] border-[var(--th-fg)]"
                     : "bg-[var(--th-card)] text-[var(--th-muted-strong)] border-[var(--th-border)] hover:border-[var(--th-border-strong)] hover:text-[var(--th-fg)]"
@@ -70,7 +70,7 @@ export default function ExamStartScreen({
                 type="button"
                 onClick={() => setLength(n)}
                 aria-pressed={active}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all tabular-nums ${
+                className={`min-h-11 sm:min-h-0 min-w-11 px-4 py-2 rounded-full text-sm font-medium border transition-all tabular-nums ${
                   active
                     ? "bg-[var(--th-fg)] text-[var(--th-bg)] border-[var(--th-fg)]"
                     : "bg-[var(--th-card)] text-[var(--th-muted-strong)] border-[var(--th-border)] hover:border-[var(--th-border-strong)] hover:text-[var(--th-fg)]"

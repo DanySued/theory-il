@@ -1,28 +1,19 @@
 import { ImageResponse } from "next/og";
+import { BrandMark } from "@/lib/brandMark";
 
-export const size = { width: 64, height: 64 };
-export const contentType = "image/png";
+// One file, three sizes: the 64px favicon plus the 192/512px icons the web manifest
+// points at (served as /icon/64, /icon/192 and /icon/512).
+const SIZES = [64, 192, 512] as const;
 
-export default function Icon() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0a0a0a",
-          color: "#fafafa",
-          fontSize: 48,
-          fontWeight: 800,
-          borderRadius: 12,
-        }}
-      >
-        ת
-      </div>
-    ),
-    { ...size }
-  );
+export function generateImageMetadata() {
+  return SIZES.map((s) => ({
+    id: String(s),
+    size: { width: s, height: s },
+    contentType: "image/png",
+  }));
+}
+
+export default async function Icon({ id }: { id: Promise<string> }) {
+  const s = Number(await id);
+  return new ImageResponse(<BrandMark size={s} rounded />, { width: s, height: s });
 }

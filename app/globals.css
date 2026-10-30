@@ -17,6 +17,9 @@
   --th-error: #dc2626;
   --th-success-soft: #f0fdf4;
   --th-error-soft: #fef2f2;
+  /* Text on the soft fills (≥4.5:1); dark mode reuses the base hues */
+  --th-success-fg: #15803d;
+  --th-error-fg: #b91c1c;
   --th-muted: #6b6f78;
   --th-muted-strong: #4a4e57;
   --th-muted-bg: #ecebe4;
@@ -60,6 +63,26 @@
   --th-page-py: 2rem;           /* py-8 */
   --th-page-gap: 2rem;          /* gap-8 between page-level blocks */
   --th-section-gap: 3.5rem;     /* py-14 between marketing sections */
+
+  /* Mobile chrome (iPhone × Chrome) */
+  --th-header-h: 56px;          /* global header on phones (desktop keeps 61px) */
+  --th-tabbar-h: 56px;          /* bottom tab bar, excluding the safe area */
+  --th-actionbar-h: 72px;       /* 52px button + 10px + 10px padding */
+  --th-safe-b: env(safe-area-inset-bottom, 0px);
+  --th-safe-t: env(safe-area-inset-top, 0px);
+  --th-tap: 44px;               /* minimum touch target */
+}
+
+@media (max-width: 639px) {
+  :root {
+    --th-page-px: 1rem;
+    --th-page-py: 1.25rem;
+    --th-page-gap: 1.25rem;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 .th-page-title {
@@ -149,6 +172,8 @@
     --th-error: #f87171;
     --th-success-soft: #052e16;
     --th-error-soft: #450a0a;
+    --th-success-fg: #22c55e;
+    --th-error-fg: #f87171;
     --th-muted: #9ca3af;
     --th-muted-strong: #b8bcc4;
     --th-muted-bg: #1a1d24;
@@ -189,6 +214,8 @@
   --th-error: #f87171;
   --th-success-soft: #052e16;
   --th-error-soft: #450a0a;
+  --th-success-fg: #22c55e;
+  --th-error-fg: #f87171;
   --th-muted: #9ca3af;
   --th-muted-strong: #b8bcc4;
   --th-muted-bg: #1a1d24;
@@ -228,17 +255,28 @@
   }
 }
 
-/* Home hero: first-time vs returning learner (see the boot script in layout.tsx). */
-.th-hero {
-  min-height: calc(100dvh - 61px);
+/* Home hero: first-time vs returning learner (see the boot script in layout.tsx).
+   Phones get a compact hero (no full-screen min-height) so "continue" sits above the fold. */
+@media (min-width: 640px) {
+  .th-hero {
+    min-height: calc(100dvh - 61px);
+  }
 }
-:root[data-returning] .th-hero {
-  min-height: 0;
-  padding-block: 2.5rem 0;
-  gap: 1.5rem;
+@media (min-width: 640px) {
+  :root[data-returning] .th-hero {
+    min-height: 0;
+    padding-block: 2.5rem 0;
+    gap: 1.5rem;
+  }
+  :root[data-returning] .th-hero .th-display {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+  }
 }
-:root[data-returning] .th-hero .th-display {
-  font-size: clamp(2rem, 4.5vw, 3rem);
+@media (max-width: 639px) {
+  .th-hero-title {
+    font-size: 30px;
+    line-height: 1.1;
+  }
 }
 :root[data-returning] .th-new-only,
 :root:not([data-returning]) .th-returning-only {
@@ -248,15 +286,77 @@
 .th-card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.th-card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.12);
-  border-color: var(--th-accent);
+.th-page {
+  padding-block: var(--th-page-py);
+}
+
+/* Phone chrome. Browse screens: global header + bottom tab bar, so the page keeps
+   clear of the fixed bar. Focus screens (a .th-focus-marker from <FocusHeader/> is on
+   the page): FocusHeader + FocusActionBar replace both, and the page clears the bar. */
+@media (max-width: 639px) {
+  body {
+    padding-bottom: calc(var(--th-tabbar-h) + var(--th-safe-b));
+  }
+  body:has(.th-focus-marker) {
+    padding-bottom: calc(var(--th-actionbar-h) + var(--th-safe-b));
+  }
+  body:has(.th-focus-marker) .th-tabbar,
+  body:has(.th-focus-marker) .th-site-header,
+  body:has(.th-focus-marker) .th-page-back {
+    display: none;
+  }
+  body:has(.th-focus-marker) .th-page {
+    padding-top: 0;
+  }
+  /* Scrolling/focus targets stay clear of the sticky header and the fixed bottom bar */
+  html:has(.th-focus-marker) {
+    scroll-padding-top: calc(59px + var(--th-safe-t));
+    scroll-padding-bottom: calc(var(--th-actionbar-h) + var(--th-safe-b) + 0.75rem);
+  }
+}
+
+/* Bottom sheets slide up on phones */
+@media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+  .th-sheet {
+    animation: th-sheet-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+@keyframes th-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* Flashcard: phones fill the space between FocusHeader (56 + 3px) and the rating bar */
+.th-flashcard {
+  min-height: 260px;
+}
+@media (max-width: 639px) {
+  .th-flashcard {
+    min-height: max(260px, calc(100svh - 59px - var(--th-safe-t) - 6.75rem - var(--th-safe-b) - 2rem));
+  }
+}
+
+/* Gated like Tailwind's hover: so the lift doesn't stick after a tap on touch screens. */
+@media (hover: hover) {
+  .th-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.12);
+    border-color: var(--th-accent);
+  }
 }
 
 body {
   background: var(--th-bg);
   color: var(--th-fg);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-x: none;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
 }
 
 :focus-visible {
@@ -279,6 +379,17 @@ body {
   display: none;
 }
 ::view-transition-new(site-header) {
+  animation: none;
+}
+/* …and the bottom tab bar, so tab switches don't animate or flash it */
+::view-transition-group(tabbar) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(tabbar) {
+  display: none;
+}
+::view-transition-new(tabbar) {
   animation: none;
 }
 

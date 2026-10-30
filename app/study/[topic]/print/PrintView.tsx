@@ -49,6 +49,7 @@ export default function PrintView({ topic, questions, showAnswers }: PrintViewPr
           <button
             onClick={() => window.print()}
             style={{
+              minHeight: 44,
               padding: "8px 16px",
               background: "#2563eb",
               color: "white",
@@ -64,6 +65,7 @@ export default function PrintView({ topic, questions, showAnswers }: PrintViewPr
           <button
             onClick={() => window.close()}
             style={{
+              minHeight: 44,
               padding: "8px 16px",
               background: "transparent",
               border: "1px solid #ddd",

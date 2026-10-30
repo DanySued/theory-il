@@ -26,7 +26,7 @@ export default function StudyPage() {
   }));
 
   return (
-    <PageShell>
+    <PageShell mobileBack={false}>
       <SectionHead
         eyebrow="לימוד לפי נושאים"
         title="בחר נושא להתחיל ללמוד"

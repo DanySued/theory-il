@@ -5,10 +5,26 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import type { SuperMemoGrade } from "supermemo";
-import { getDueCards, reviewCard } from "@/lib/srs";
+import { getDueCards, previewIntervals, reviewCard } from "@/lib/srs";
 import type { Question } from "@/components/QuestionCard";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import FocusHeader from "@/components/FocusHeader";
+import FocusActionBar, { focusPrimary } from "@/components/FocusActionBar";
+
+const RATINGS = [
+  { grade: 1 as SuperMemoGrade, label: "לא ידעתי", tone: "error" },
+  { grade: 3 as SuperMemoGrade, label: "בערך", tone: "neutral" },
+  { grade: 5 as SuperMemoGrade, label: "ידעתי", tone: "accent" },
+] as const;
+
+/** Next-review hint computed from the card's real SRS state. */
+function intervalHint(days: number): string {
+  if (days <= 0) return "שוב היום";
+  if (days === 1) return "מחר";
+  if (days === 2) return "בעוד יומיים";
+  return `בעוד ${days} ימים`;
+}
 
 interface Props {
   questions: Question[];
@@ -125,13 +141,22 @@ export default function FlashcardRunner({ questions }: Props) {
   const q = questions.find((q) => q.id === dueIds[currentIdx])!;
   const displayText = q.text;
   const displayAnswer = q.answers[q.correctIndex];
+  const intervals = flipped ? previewIntervals(q.id, RATINGS.map((r) => r.grade)) : null;
 
   return (
     <main
-      className="flex flex-1 flex-col items-center py-8 gap-6"
+      className="flex flex-1 flex-col items-center pb-[calc(2rem+var(--th-safe-b))] sm:py-8 gap-4 sm:gap-6"
       style={{ paddingInline: "var(--th-page-px)" }}
     >
-      <div className="w-full max-w-lg flex items-center justify-between">
+      <FocusHeader
+        bleed
+        back={{ label: "חזרה לכרטיסיות", href: "/flashcards" }}
+        title={q.topic}
+        subtitle={`כרטיס ${currentIdx + 1} מתוך ${dueIds.length} להיום`}
+        progress={currentIdx / dueIds.length}
+      />
+
+      <div className="hidden sm:flex w-full max-w-lg items-center justify-between">
         <Link
           href="/flashcards"
           className="inline-flex items-center gap-1.5 h-8 px-3 rounded-[var(--th-radius-sm)] text-sm text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors border border-[var(--th-border)]"
@@ -148,7 +173,7 @@ export default function FlashcardRunner({ questions }: Props) {
       </div>
 
       {/* Progress bar */}
-      <div className="w-full max-w-lg h-1.5 bg-[var(--th-muted-bg)] rounded-full overflow-hidden">
+      <div className="hidden sm:block w-full max-w-lg h-1.5 bg-[var(--th-muted-bg)] rounded-full overflow-hidden">
         <motion.div
           className="h-full bg-[var(--th-accent)] rounded-full"
           animate={{ width: `${(currentIdx / dueIds.length) * 100}%` }}
@@ -158,38 +183,59 @@ export default function FlashcardRunner({ questions }: Props) {
 
       {/* Flip card */}
       <div
-        className="w-full max-w-lg cursor-pointer"
+        role="button"
+        tabIndex={0}
+        aria-label={flipped ? "הפוך חזרה לשאלה" : "הצג תשובה"}
+        className="w-full max-w-lg cursor-pointer rounded-3xl sm:rounded-[var(--th-radius-lg)]"
         style={{ perspective: 1200 }}
         onClick={() => setFlipped((f) => !f)}
       >
         <motion.div
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-          style={{ transformStyle: "preserve-3d", position: "relative", minHeight: 260 }}
+          className="th-flashcard"
+          style={{ transformStyle: "preserve-3d", position: "relative" }}
         >
           {/* Front */}
           <div
-            className="absolute inset-0 backface-hidden rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-3"
+            className="absolute inset-0 backface-hidden rounded-3xl sm:rounded-[var(--th-radius-lg)] border border-[var(--th-border)] bg-[var(--th-card)] shadow-[var(--th-shadow-lg)] sm:shadow-none p-5 sm:p-8 flex flex-col justify-start sm:justify-center gap-4 sm:gap-3"
           >
+            <span className="sm:hidden self-start text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--th-muted-bg)] text-[var(--th-muted-strong)]">
+              שאלה
+            </span>
             {q.image && (
               <div className="flex justify-center mb-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={q.image} alt="" className="max-h-32 object-contain rounded-lg" />
+                <img src={q.image} alt="" decoding="async" className="max-h-32 object-contain rounded-lg" />
               </div>
             )}
-            <p className="text-xl font-bold leading-relaxed">{displayText}</p>
-            <p className="text-xs text-[var(--th-muted)] mt-auto">
-              לחץ להצגת התשובה
-              <span className="hidden sm:inline"> · רווח / Enter</span>
+            <p className="text-xl font-bold leading-normal sm:leading-relaxed">{displayText}</p>
+            <p className="text-[13px] sm:text-xs text-[var(--th-muted)] mt-auto text-center sm:text-start">
+              <span className="sm:hidden">הקש על הכרטיס כדי להפוך</span>
+              <span className="hidden sm:inline">לחץ להצגת התשובה · רווח / Enter</span>
             </p>
           </div>
 
-          {/* Back */}
+          {/* Back (phones repeat the question above the answer, as in the design) */}
           <div
-            className="absolute inset-0 backface-hidden rounded-[var(--th-radius-lg)] border border-[var(--th-success)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-4 overflow-y-auto"
+            className="absolute inset-0 backface-hidden rounded-3xl sm:rounded-[var(--th-radius-lg)] border border-[var(--th-success)] bg-[var(--th-card)] shadow-[var(--th-shadow-lg)] sm:shadow-none p-5 sm:p-8 flex flex-col justify-start sm:justify-center gap-4 overflow-y-auto"
             style={{ transform: "rotateY(180deg)" }}
           >
-            <p className="text-xl font-bold text-[var(--th-success)]">{displayAnswer}</p>
+            <div className="sm:hidden flex flex-col gap-3">
+              <span className="self-start text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--th-muted-bg)] text-[var(--th-muted-strong)]">
+                שאלה
+              </span>
+              {q.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={q.image} alt="" decoding="async" className="self-center max-h-24 object-contain rounded-lg" />
+              )}
+              <p className="text-base font-bold leading-normal text-[var(--th-fg-soft)]">{displayText}</p>
+              <div className="h-px bg-[var(--th-border)]" />
+              <span className="self-start text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--th-success-soft)] text-[var(--th-success-fg)]">
+                תשובה
+              </span>
+            </div>
+            <p className="text-[22px] sm:text-xl leading-snug font-extrabold sm:font-bold text-[var(--th-success-fg)] sm:text-[var(--th-success)]">{displayAnswer}</p>
             {flipped && <Explanation question={q} />}
           </div>
         </motion.div>
@@ -203,7 +249,7 @@ export default function FlashcardRunner({ questions }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.2 }}
-            className="flex gap-3 w-full max-w-lg"
+            className="hidden sm:flex gap-3 w-full max-w-lg"
           >
             <button
               onClick={() => handleRate(1 as SuperMemoGrade)}
@@ -230,6 +276,39 @@ export default function FlashcardRunner({ questions }: Props) {
         )}
       </AnimatePresence>
 
+      {/* Phone bar: flip, then rate (grades 1/3/5, hints from the card's real SRS state) */}
+      <FocusActionBar>
+        {flipped ? (
+          <div className="flex-1 flex flex-col gap-2">
+            <span className="text-[13px] text-center text-[var(--th-muted-strong)]">כמה טוב ידעת?</span>
+            <div className="grid grid-cols-3 gap-2">
+              {RATINGS.map((r) => (
+                <button
+                  key={r.grade}
+                  type="button"
+                  onClick={() => handleRate(r.grade)}
+                  className={`h-14 rounded-[14px] inline-flex flex-col items-center justify-center font-bold leading-tight text-base transition-colors ${
+                    r.tone === "error"
+                      ? "border border-[var(--th-error)] bg-[var(--th-error-soft)] text-[var(--th-error-fg)]"
+                      : r.tone === "accent"
+                        ? "bg-[var(--th-accent)] text-[var(--th-on-accent)]"
+                        : "border border-[var(--th-border-strong)] bg-[var(--th-card)] text-[var(--th-fg)]"
+                  }`}
+                >
+                  {r.label}
+                  <span className="text-[11px] font-medium opacity-85">
+                    {intervals && intervalHint(intervals[r.grade])}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <button type="button" onClick={() => setFlipped(true)} className={focusPrimary}>
+            הצג תשובה
+          </button>
+        )}
+      </FocusActionBar>
     </main>
   );
 }

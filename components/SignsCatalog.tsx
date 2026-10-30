@@ -166,7 +166,7 @@ export default function SignsCatalog({ signs, guideSections }: Props) {
           onClick={handleReset}
           disabled={totalKnown === 0}
           title="חשוף את כל התמרורים"
-          className="shrink-0 flex items-center gap-1 text-xs text-[var(--th-muted)] hover:text-[var(--th-fg)] disabled:opacity-40 disabled:cursor-default transition-colors"
+          className="shrink-0 flex items-center gap-1 min-h-11 sm:min-h-0 text-xs text-[var(--th-muted)] hover:text-[var(--th-fg)] disabled:opacity-40 disabled:cursor-default transition-colors"
         >
           <RotateCcw size={13} strokeWidth={2} />
           חשוף הכל
