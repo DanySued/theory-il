@@ -194,7 +194,7 @@ export default function ResultsPage() {
             <>
               <Link
                 href={`/exam/retake/${id}`}
-                className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+                className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
               >
                 תרגל שגיאות ({wrongCount})
               </Link>
@@ -208,7 +208,7 @@ export default function ResultsPage() {
           ) : (
             <Link
               href="/exam"
-              className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               מבחן נוסף
             </Link>

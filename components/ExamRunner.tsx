@@ -133,7 +133,7 @@ export default function ExamRunner({
     cls += isCurrent ? "border-[var(--th-accent)] scale-110 " : "border-transparent ";
     if (isMarked && isAnswered) cls += "bg-[var(--th-marked-bg-strong)] text-[var(--th-marked-fg-strong)] ";
     else if (isMarked) cls += "bg-[var(--th-marked-bg)] text-[var(--th-marked-fg)] ";
-    else if (isAnswered) cls += "bg-[var(--th-accent)] text-white ";
+    else if (isAnswered) cls += "bg-[var(--th-accent)] text-[var(--th-on-accent)] ";
     else cls += "bg-[var(--th-muted-bg)] text-[var(--th-muted)] ";
     return cls;
   }
@@ -172,7 +172,7 @@ export default function ExamRunner({
             onClick={() =>
               answeredCount < questions.length ? setShowConfirm(true) : doSubmit()
             }
-            className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
+            className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
           >
             סיים מבחן
           </button>
@@ -257,7 +257,7 @@ export default function ExamRunner({
                     whileTap={{ scale: 0.98 }}
                     className={`relative overflow-hidden w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors ${
                       isSelected
-                        ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-white"
+                        ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-[var(--th-on-accent)]"
                         : "bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)]"
                     }`}
                   >
@@ -343,7 +343,7 @@ export default function ExamRunner({
                   setShowExitConfirm(false);
                   router.push("/");
                 }}
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-error)] text-[var(--th-on-error)] text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 צא מהמבחן
               </button>
@@ -373,7 +373,7 @@ export default function ExamRunner({
                   setShowConfirm(false);
                   doSubmit();
                 }}
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
               >
                 סיים בכל זאת
               </button>

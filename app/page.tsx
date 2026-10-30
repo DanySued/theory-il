@@ -48,7 +48,7 @@ export default function Home() {
         <div className="flex flex-col items-center gap-4 w-full">
           <Link
             href="/study/תמרורים?view=drill"
-            className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
+            className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
           >
             בוא נתחיל בתמרורים?
             <span aria-hidden className="ms-2">←</span>
@@ -78,8 +78,9 @@ export default function Home() {
             </p>
           </div>
                 <div className="grid sm:grid-cols-2 gap-4">
-          {STUDY_MODES.map((m, i) => (
+          {STUDY_MODES.map((m) => (
               <Link
+                key={m.href}
                 href={m.href}
                 className="flex flex-col gap-2 p-5 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all h-full"
               >
@@ -100,8 +101,9 @@ export default function Home() {
             </p>
           </div>
                 <div className="grid sm:grid-cols-2 gap-4">
-          {TOPICS.map((t, i) => (
+          {TOPICS.map((t) => (
               <Link
+                key={t.key}
                 href={t.href}
                 className="flex items-center justify-between gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
               >
@@ -127,8 +129,9 @@ export default function Home() {
             </p>
           </div>
                 <div className="flex flex-col gap-3">
-          {SIGN_CATEGORIES.map((cat, i) => (
+          {SIGN_CATEGORIES.map((cat) => (
               <Link
+                key={cat.name}
                 href="/study/תמרורים"
                 className="flex items-center gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
               >

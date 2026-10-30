@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { recordAnswer, getBookmarks, toggleBookmark } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
+import { answerOrder, getSessionSeed, peekSessionSeed } from "@/lib/answerOrder";
 
 export interface Question {
   id: string;
@@ -49,6 +50,18 @@ export default function QuestionCard({
   const { ripples, addRipple } = useRipple();
   const [bookmarked, setBookmarked] = useState(false);
 
+  // Answer order: identity on the server render, per-session shuffle once mounted.
+  const [seed, setSeed] = useState(peekSessionSeed);
+  useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSeed(getSessionSeed());
+  }, []);
+  const order = useMemo(
+    () => answerOrder(question.answers, question.id, seed),
+    [question.answers, question.id, seed]
+  );
+  const correctPos = order.indexOf(question.correctIndex);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setBookmarked(getBookmarks().has(question.id));
@@ -76,14 +89,18 @@ export default function QuestionCard({
         e.preventDefault();
         if (!showAnswer) onReveal();
       } else if (["1", "2", "3", "4"].includes(e.key)) {
-        const idx = parseInt(e.key, 10) - 1;
-        if (!showAnswer) {
+        const idx = order[parseInt(e.key, 10) - 1];
+        if (!showAnswer && idx !== undefined) {
           e.preventDefault();
+          if (trackStats) recordAnswer(question.id, idx === question.correctIndex);
           onAnswer(idx);
         }
+      } else if (e.key === "Enter" && showAnswer) {
+        e.preventDefault();
+        onNext();
       }
     },
-    [showAnswer, onReveal, onAnswer, onNext, onPrev]
+    [showAnswer, onReveal, onAnswer, onNext, onPrev, order, trackStats, question.id, question.correctIndex]
   );
 
   useEffect(() => {
@@ -183,7 +200,7 @@ export default function QuestionCard({
 
           {/* Answers */}
           <div className="flex flex-col gap-2" onPointerDown={(e) => e.stopPropagation()}>
-            {question.answers.map((answer, idx) => (
+            {order.map((idx, pos) => (
               <motion.button
                 key={idx}
                 className={`${getButtonStyle(idx)} relative overflow-hidden`}
@@ -214,9 +231,9 @@ export default function QuestionCard({
                 </AnimatePresence>
                 <span className="relative">
                   <span className="font-bold me-2 text-[var(--th-accent)]">
-                    {LABELS[idx]}.
+                    {LABELS[pos]}.
                   </span>
-                  {answer}
+                  {question.answers[idx]}
                 </span>
               </motion.button>
             ))}
@@ -233,11 +250,35 @@ export default function QuestionCard({
             </button>
           )}
 
-          {/* Explanation */}
-          {showAnswer && question.explanation && (
-            <p className="mt-1 text-sm text-[var(--th-muted)] border-t border-[var(--th-border)] pt-3 leading-relaxed">
-              {question.explanation}
-            </p>
+          {/* Feedback + explanation */}
+          {showAnswer && (
+            <div
+              role="status"
+              aria-live="polite"
+              className="mt-1 flex flex-col gap-2 border-t border-[var(--th-border)] pt-3"
+            >
+              <p
+                className={`text-sm font-bold ${
+                  selectedAnswer === null
+                    ? "text-[var(--th-fg)]"
+                    : selectedAnswer === question.correctIndex
+                      ? "text-[var(--th-success)]"
+                      : "text-[var(--th-error)]"
+                }`}
+              >
+                {selectedAnswer === null
+                  ? `התשובה הנכונה: ${LABELS[correctPos]}`
+                  : selectedAnswer === question.correctIndex
+                    ? "✓ נכון!"
+                    : `✗ לא נכון — התשובה הנכונה היא ${LABELS[correctPos]}`}
+              </p>
+              {question.explanation && (
+                <p className="text-sm text-[var(--th-fg-soft)] leading-relaxed">
+                  <span className="font-semibold">למה? </span>
+                  {question.explanation}
+                </p>
+              )}
+            </div>
           )}
         </motion.div>
       </AnimatePresence>
@@ -255,7 +296,11 @@ export default function QuestionCard({
         <button
           onClick={onNext}
           disabled={currentIndex === total - 1}
-          className="flex items-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className={`flex items-center gap-2 h-10 px-4 rounded-[var(--th-radius)] border text-sm font-medium disabled:opacity-60 disabled:cursor-not-allowed transition-colors ${
+            showAnswer && currentIndex < total - 1
+              ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-[var(--th-on-accent)] hover:bg-[var(--th-accent-hover)]"
+              : "border-[var(--th-border)] text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)]"
+          }`}
         >
           הבאה
           <span className="text-base leading-none">&#8592;</span>
@@ -264,7 +309,7 @@ export default function QuestionCard({
 
       {/* Keyboard hint (desktop only) */}
       <p className="hidden sm:block text-xs text-center text-[var(--th-muted)]">
-        ← → לניווט · 1–4 לבחירה · רווח להצגת תשובה
+        ← → לניווט · 1–4 לבחירה · רווח להצגת תשובה · Enter לשאלה הבאה
       </p>
     </div>
   );

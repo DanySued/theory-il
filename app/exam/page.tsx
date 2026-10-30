@@ -6,6 +6,7 @@ import ExamStartScreen, { type ExamConfig } from "@/components/ExamStartScreen";
 import PageShell from "@/components/PageShell";
 import { generateExam, generateExamByTopic, generateWeakFocusExam } from "@/lib/exam";
 import { loadCorpus } from "@/lib/data/corpus";
+import { isShuffleEnabled, randomSeed, withShuffledAnswers } from "@/lib/answerOrder";
 import type { Question } from "@/components/QuestionCard";
 
 export default function ExamPage() {
@@ -26,6 +27,10 @@ export default function ExamPage() {
       qs = generateExam(all, length);
     } else {
       qs = generateExamByTopic(all, topic, length);
+    }
+    if (isShuffleEnabled()) {
+      const seed = randomSeed();
+      qs = qs.map((q) => withShuffledAnswers(q, seed));
     }
     setQuestions(qs);
   }

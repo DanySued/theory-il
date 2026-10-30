@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
+import PreferencesSection from "@/components/PreferencesSection";
 import {
   summarizeBuckets,
   downloadBackup,
@@ -87,9 +88,11 @@ export default function SettingsClient() {
     <PageShell>
       <SectionHead
         eyebrow="הגדרות"
-        title="גיבוי, ייבוא ואיפוס"
+        title="העדפות וגיבוי"
         subtitle="כל הנתונים נשמרים בדפדפן שלך בלבד. גבה אותם מדי פעם אם אתה מתכוון להתחלף בין מכשירים — או לפני שמנקים את הדפדפן."
       />
+
+      <PreferencesSection />
 
       {/* Backup & restore */}
       <section className="w-full flex flex-col gap-4">
@@ -106,7 +109,7 @@ export default function SettingsClient() {
             <button
               type="button"
               onClick={handleExport}
-              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               הורד גיבוי
             </button>
@@ -216,7 +219,7 @@ export default function SettingsClient() {
                     <button
                       type="button"
                       onClick={() => handleClear(s.key)}
-                      className="text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-white font-semibold hover:opacity-90 transition-opacity"
+                      className="text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-[var(--th-on-error)] font-semibold hover:opacity-90 transition-opacity"
                     >
                       מחק
                     </button>
@@ -255,7 +258,7 @@ export default function SettingsClient() {
               <button
                 type="button"
                 onClick={() => handleClear("all")}
-                className="text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-white font-semibold hover:opacity-90 transition-opacity"
+                className="text-xs px-3 py-1.5 rounded-full bg-[var(--th-error)] text-[var(--th-on-error)] font-semibold hover:opacity-90 transition-opacity"
               >
                 מחק הכל
               </button>
