@@ -255,13 +255,21 @@ html {
     min-height: calc(100dvh - 61px);
   }
 }
-:root[data-returning] .th-hero {
-  min-height: 0;
-  padding-block: 2.5rem 0;
-  gap: 1.5rem;
+@media (min-width: 640px) {
+  :root[data-returning] .th-hero {
+    min-height: 0;
+    padding-block: 2.5rem 0;
+    gap: 1.5rem;
+  }
+  :root[data-returning] .th-hero .th-display {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+  }
 }
-:root[data-returning] .th-hero .th-display {
-  font-size: clamp(2rem, 4.5vw, 3rem);
+@media (max-width: 639px) {
+  .th-hero-title {
+    font-size: 30px;
+    line-height: 1.1;
+  }
 }
 :root[data-returning] .th-new-only,
 :root:not([data-returning]) .th-returning-only {

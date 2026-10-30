@@ -8,6 +8,8 @@ export interface ResumeTarget {
   title: string;
   subtitle: string;
   ts: number;
+  /** Drill only: 1-based position and topic size, for a progress bar. */
+  position?: { current: number; total: number };
 }
 
 function timeAgo(ts: number): string {
@@ -37,13 +39,16 @@ export function getLastSession(): ResumeTarget | null {
   if (drill) {
     const topicTotal = TOPIC_COUNTS[drill.topic] ?? 0;
     if (topicTotal > 0) {
+      const current = Math.min(drill.index + 1, topicTotal);
       candidates.push({
         kind: "drill",
-        href: `/study/${encodeURIComponent(drill.topic)}`,
+        // Resume straight into practice, not the topic's study guide.
+        href: `/study/${encodeURIComponent(drill.topic)}?view=drill`,
         eyebrow: "המשך מהמקום שעצרת",
         title: drill.topic,
-        subtitle: `שאלה ${Math.min(drill.index + 1, topicTotal)} מתוך ${topicTotal} · ${timeAgo(drill.ts)}`,
+        subtitle: `שאלה ${current} מתוך ${topicTotal} · ${timeAgo(drill.ts)}`,
         ts: drill.ts,
+        position: { current, total: topicTotal },
       });
     }
   }

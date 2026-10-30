@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getQStats } from "@/lib/storage";
+import { getSRSCards } from "@/lib/srs";
+import { localDateStr } from "@/lib/utils";
 import { getLastSession, type ResumeTarget } from "@/lib/lastSession";
 import { estimateReadiness, READINESS_MIN_SEEN, type Readiness } from "@/lib/readiness";
 import { EXAM_LENGTH } from "@/lib/constants";
@@ -10,9 +12,31 @@ import { TOPIC_COUNTS } from "@/lib/data/topics";
 
 const TOPIC_KEYS = Object.keys(TOPIC_COUNTS);
 
-function formatChance(p: number): string {
+export function formatChance(p: number): string {
   // Bidi-safe: a literal "<1%" renders as "1%>" inside RTL text.
   return p < 0.01 ? "פחות מ-1%" : `${Math.round(p * 100)}%`;
+}
+
+export interface ReturningState {
+  resume: ResumeTarget | null;
+  r: Readiness;
+  /** Flashcards reviewed before and due again today (never-seen cards don't count). */
+  dueToday: number;
+}
+
+/** Everything the returning-learner home needs, read once from localStorage after mount. */
+export function useReturningState(topicIndex: Record<string, number>): ReturningState | null {
+  const [state, setState] = useState<ReturningState | null>(null);
+
+  useEffect(() => {
+    const r = estimateReadiness(getQStats(), (id) => TOPIC_KEYS[topicIndex[id]], TOPIC_COUNTS);
+    const today = localDateStr(new Date());
+    const dueToday = Object.values(getSRSCards()).filter((c) => c.dueDate <= today).length;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setState({ resume: getLastSession(), r, dueToday });
+  }, [topicIndex]);
+
+  return state;
 }
 
 interface Props {
@@ -25,13 +49,7 @@ interface Props {
  * boot script marked <html data-returning>, so first-time visitors never see it flash.
  */
 export default function ReturningHero({ topicIndex }: Props) {
-  const [state, setState] = useState<{ resume: ResumeTarget | null; r: Readiness } | null>(null);
-
-  useEffect(() => {
-    const r = estimateReadiness(getQStats(), (id) => TOPIC_KEYS[topicIndex[id]], TOPIC_COUNTS);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setState({ resume: getLastSession(), r });
-  }, [topicIndex]);
+  const state = useReturningState(topicIndex);
 
   const r = state?.r;
   const resume = state?.resume;

@@ -9,6 +9,7 @@ import ShareCard from "@/components/ShareCard";
 import Explanation from "@/components/Explanation";
 import PageShell from "@/components/PageShell";
 import Skeleton from "@/components/Skeleton";
+import FocusActionBar, { focusPrimary, focusSecondary } from "@/components/FocusActionBar";
 import { LABELS, PASS_SCORE } from "@/lib/constants";
 
 
@@ -28,6 +29,17 @@ export default function ResultsPage() {
   const [exportingDocx, setExportingDocx] = useState(false);
   const [filter, setFilter] = useState<"all" | "wrong">("wrong");
   const [bookmarkSet, setBookmarkSet] = useState<Set<string>>(new Set());
+
+  // Phones: once the top actions scroll away, keep the next step in a bottom bar.
+  const actionsRef = useRef<HTMLDivElement>(null);
+  const [actionsVisible, setActionsVisible] = useState(true);
+  useEffect(() => {
+    const el = actionsRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setActionsVisible(entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [attempt]);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -187,8 +199,8 @@ export default function ResultsPage() {
           </span>
         </div>
 
-        {/* Actions */}
-        <div className="flex flex-col gap-3">
+        {/* Actions (phones: mirrored in a bottom bar once these scroll away) */}
+        <div ref={actionsRef} className="flex flex-col gap-3">
           {/* After failing a full exam, drill mistakes is the primary next action */}
           {isFullExam && !passed && wrongCount > 0 ? (
             <>
@@ -216,21 +228,21 @@ export default function ResultsPage() {
           <div className="grid grid-cols-2 gap-2">
             <Link
               href="/study"
-              className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+              className="inline-flex items-center justify-center h-11 sm:h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
             >
               חזרה ללמוד
             </Link>
             {wrongCount > 0 && !(isFullExam && !passed) ? (
               <Link
                 href={`/exam/retake/${id}`}
-                className="inline-flex items-center justify-center h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+                className="inline-flex items-center justify-center h-11 sm:h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
               >
                 שגיאות ({wrongCount})
               </Link>
             ) : (
               <button
                 disabled
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
+                className="h-11 sm:h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium opacity-40 cursor-not-allowed"
               >
                 שגיאות
               </button>
@@ -238,7 +250,7 @@ export default function ResultsPage() {
             <button
               onClick={handleShare}
               disabled={sharing || !isFullExam}
-              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+              className="flex items-center justify-center gap-2 h-11 sm:h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
@@ -249,7 +261,7 @@ export default function ResultsPage() {
             <button
               onClick={handleExportDocx}
               disabled={exportingDocx}
-              className="flex items-center justify-center gap-2 h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
+              className="flex items-center justify-center gap-2 h-11 sm:h-10 px-4 rounded-[var(--th-radius-lg)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] disabled:opacity-50 transition-colors"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
@@ -267,7 +279,7 @@ export default function ResultsPage() {
               <button
                 type="button"
                 onClick={() => setFilter("wrong")}
-                className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                className={`min-h-11 sm:min-h-0 px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
                   filter === "wrong"
                     ? "bg-[var(--th-card)] text-[var(--th-fg)] shadow-sm"
                     : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
@@ -278,7 +290,7 @@ export default function ResultsPage() {
               <button
                 type="button"
                 onClick={() => setFilter("all")}
-                className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                className={`min-h-11 sm:min-h-0 px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
                   filter === "all"
                     ? "bg-[var(--th-card)] text-[var(--th-fg)] shadow-sm"
                     : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
@@ -323,7 +335,7 @@ export default function ResultsPage() {
                       onClick={() => handleToggleBookmark(q.id)}
                       aria-label={bookmarkSet.has(q.id) ? "הסר מהשמורות" : "שמור שאלה"}
                       aria-pressed={bookmarkSet.has(q.id)}
-                      className={`inline-flex items-center justify-center w-6 h-6 rounded-full transition-colors ${
+                      className={`inline-flex items-center justify-center w-11 h-11 sm:w-6 sm:h-6 rounded-full transition-colors ${
                         bookmarkSet.has(q.id)
                           ? "text-[var(--th-accent)] hover:bg-[var(--th-accent-soft)]"
                           : "text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]"
@@ -390,6 +402,26 @@ export default function ResultsPage() {
           })}
         </div>
       </div>
+
+      {!actionsVisible && (
+        <FocusActionBar aboveTabBar>
+          {wrongCount > 0 ? (
+            <>
+              <Link href="/exam" className={focusSecondary}>
+                מבחן חדש
+              </Link>
+              <Link href={`/exam/retake/${id}`} className={focusPrimary}>
+                חזרה על הטעויות ({wrongCount})
+              </Link>
+            </>
+          ) : (
+            <Link href="/exam" className={focusPrimary}>
+              מבחן חדש
+            </Link>
+          )}
+        </FocusActionBar>
+      )}
+      <div aria-hidden className="sm:hidden h-[var(--th-actionbar-h)]" />
 
       {/* Off-screen share card for image export */}
       <div

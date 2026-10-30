@@ -2,6 +2,7 @@ import Link from "next/link";
 import StreakBadge from "@/components/StreakBadge";
 import DailyChallengeTile from "@/components/DailyChallengeTile";
 import ReturningHero from "@/components/ReturningHero";
+import { HomeContinueCard, HomeStartCard } from "@/components/HomeToday";
 import questionsData from "@/lib/data/questions.json";
 import { TOPIC_COUNTS, TOTAL_QUESTIONS } from "@/lib/data/topics";
 
@@ -27,11 +28,12 @@ const SIGN_CATEGORIES = [
   { name: "סימוני כביש", color: "var(--th-cat-road)", desc: "סימונים על הכביש — קווים, חצים ורצועות" },
 ];
 
+// `short`/`label` (phones) follow the iPhone design; `desc` is the desktop copy.
 const STUDY_MODES = [
-  { label: "חזרה חכמה", href: "/review", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
-  { label: "לימוד לפי נושא", href: "/study", desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם משוב מיידי" },
-  { label: "מבחן תרגול", href: "/exam", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
-  { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מרווחת (SRS) — הכרטיסים חוזרים בדיוק כשעומדים לשכוח אותם" },
+  { label: "חזרה חכמה", short: "חזרה חכמה", href: "/review", brief: "20 שאלות שבחרנו לך", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
+  { label: "לימוד לפי נושא", short: "לפי נושא", href: "/study", brief: `${TOTAL_QUESTIONS.toLocaleString("en-US")} שאלות רשמיות`, desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם משוב מיידי" },
+  { label: "מבחן תרגול", short: "מבחן תרגול", href: "/exam", brief: "30 שאלות · 40 דקות", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
+  { label: "כרטיסיות שינון", short: "כרטיסיות", href: "/flashcards", brief: "חזרה מרווחת", desc: "חזרה מרווחת (SRS) — הכרטיסים חוזרים בדיוק כשעומדים לשכוח אותם" },
 ];
 
 const cardLink =
@@ -39,17 +41,27 @@ const cardLink =
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col items-center px-6">
+    <main className="flex flex-1 flex-col items-center px-4 sm:px-6">
       {/* Hero — first-time and returning variants are toggled by <html data-returning>
-          (set before paint by the boot script in layout.tsx), so neither flashes. */}
-      <section className="th-hero w-full max-w-2xl flex flex-col items-center text-center gap-8 justify-center py-16">
-        <h1 className="th-display text-[var(--th-fg)]">
-          מתכוננים
-          <br />
-          <span className="text-[var(--th-accent)]">לתיאוריה</span>
-        </h1>
+          (set before paint by the boot script in layout.tsx), so neither flashes.
+          Phones: compact start-aligned hero with the continue/start card above the fold. */}
+      <section className="th-hero w-full max-w-2xl flex flex-col items-stretch sm:items-center text-start sm:text-center gap-4 sm:gap-8 justify-center pt-5 sm:py-16">
+        <div className="flex flex-col gap-1">
+          <span className="sm:hidden text-xs font-semibold tracking-[0.08em] text-[var(--th-accent)]">
+            הבחינה העיונית · רישיון ב׳
+          </span>
+          <h1 className="th-display th-hero-title text-[var(--th-fg)]">
+            <span className="sm:block">מתכוננים</span>{" "}
+            <span className="text-[var(--th-accent)]">לתיאוריה</span>
+          </h1>
+        </div>
 
-        <div className="th-new-only flex flex-col items-center gap-8 w-full">
+        <div className="sm:hidden flex flex-col">
+          <HomeStartCard />
+          <HomeContinueCard topicIndex={TOPIC_INDEX} />
+        </div>
+
+        <div className="th-new-only hidden sm:flex flex-col items-center gap-8 w-full">
           <p className="text-lg text-[var(--th-muted-strong)] leading-relaxed max-w-md">
             הגעת למקום הנכון :)
             <br />
@@ -72,38 +84,47 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="th-returning-only flex flex-col items-center gap-5 w-full">
+        <div className="th-returning-only hidden sm:flex flex-col items-center gap-5 w-full">
           <StreakBadge />
           <ReturningHero topicIndex={TOPIC_INDEX} />
         </div>
       </section>
 
       {/* Daily challenge ("continue where you left off" lives in the returning hero) */}
-      <section className="w-full max-w-3xl pt-10 flex flex-col gap-3">
+      <section className="w-full max-w-3xl pt-4 sm:pt-10 flex flex-col gap-3">
         <DailyChallengeTile />
       </section>
 
       {/* Study modes */}
-      <section className="w-full max-w-3xl py-14 flex flex-col gap-6">
-        <div className="flex flex-col gap-1 mb-6">
-          <span className="th-eyebrow">דרכי לימוד</span>
-          <h2 className="th-section-h">ארבע דרכים להתכונן</h2>
-          <p className="text-sm text-[var(--th-muted-strong)] mt-1">
+      <section className="w-full max-w-3xl pt-4 pb-8 sm:py-14 flex flex-col gap-2 sm:gap-6">
+        <div className="flex flex-col gap-1 sm:mb-6">
+          <h2 className="sm:hidden text-[15px] font-bold">דרכי לימוד</h2>
+          <span className="th-eyebrow hidden sm:block">דרכי לימוד</span>
+          <h2 className="th-section-h hidden sm:block">ארבע דרכים להתכונן</h2>
+          <p className="text-sm text-[var(--th-muted-strong)] mt-1 hidden sm:block">
             כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
           {STUDY_MODES.map((m) => (
-            <Link key={m.href} href={m.href} className={`flex flex-col gap-2 p-5 h-full ${cardLink}`}>
-              <span className="font-bold text-[var(--th-fg)]">{m.label}</span>
-              <span className="text-sm text-[var(--th-muted)] leading-relaxed">{m.desc}</span>
+            <Link
+              key={m.href}
+              href={m.href}
+              className={`flex flex-col gap-0.5 sm:gap-2 min-h-[76px] px-3.5 py-3 sm:p-5 h-full ${cardLink}`}
+            >
+              <span className="text-[15px] sm:text-base font-bold text-[var(--th-fg)]">
+                <span className="sm:hidden">{m.short}</span>
+                <span className="hidden sm:inline">{m.label}</span>
+              </span>
+              <span className="sm:hidden text-xs text-[var(--th-muted-strong)]">{m.brief}</span>
+              <span className="hidden sm:block text-sm text-[var(--th-muted)] leading-relaxed">{m.desc}</span>
             </Link>
           ))}
         </div>
       </section>
 
       {/* Topics */}
-      <section className="w-full max-w-3xl py-14 flex flex-col gap-6 border-t border-[var(--th-border)]">
+      <section className="w-full max-w-3xl py-8 sm:py-14 flex flex-col gap-4 sm:gap-6 border-t border-[var(--th-border)]">
         <div className="flex flex-col gap-1 mb-2">
           <span className="th-eyebrow">נושאי הלימוד</span>
           <h2 className="th-section-h">{TOTAL_QUESTIONS.toLocaleString("en-US")} שאלות מהמאגר הרשמי</h2>
@@ -131,7 +152,7 @@ export default function Home() {
       </section>
 
       {/* Signs catalog preview */}
-      <section className="w-full max-w-3xl py-14 flex flex-col gap-6 border-t border-[var(--th-border)]">
+      <section className="w-full max-w-3xl py-8 sm:py-14 flex flex-col gap-4 sm:gap-6 border-t border-[var(--th-border)]">
         <div className="flex flex-col gap-1 mb-2">
           <span className="th-eyebrow">מילון התמרורים</span>
           <h2 className="th-section-h">חמש קטגוריות של תמרורים</h2>
@@ -154,7 +175,7 @@ export default function Home() {
         <div className="text-center">
           <Link
             href="/study/תמרורים"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--th-accent)] hover:underline"
+            className="inline-flex items-center gap-2 min-h-11 text-sm font-semibold text-[var(--th-accent)] hover:underline"
           >
             לכל מילון התמרורים
             <span aria-hidden>←</span>
@@ -162,7 +183,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="h-16" />
+      <div className="h-4 sm:h-16" />
     </main>
   );
 }

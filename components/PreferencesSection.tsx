@@ -75,16 +75,21 @@ export default function PreferencesSection() {
             setShuffleEnabled(!shuffle);
             setShuffle(!shuffle);
           }}
-          className={`relative shrink-0 w-12 h-7 rounded-full transition-colors ${
-            shuffle ? "bg-[var(--th-accent)]" : "bg-[var(--th-border-strong)]"
-          }`}
+          // 44px tap area on phones around the 28px track
+          className="shrink-0 inline-flex items-center h-11 sm:h-auto"
         >
           <span
             aria-hidden
-            className={`absolute top-1 w-5 h-5 rounded-full bg-[var(--th-card)] shadow-sm transition-all ${
-              shuffle ? "start-6" : "start-1"
+            className={`relative block w-12 h-7 rounded-full transition-colors ${
+              shuffle ? "bg-[var(--th-accent)]" : "bg-[var(--th-border-strong)]"
             }`}
-          />
+          >
+            <span
+              className={`absolute top-1 w-5 h-5 rounded-full bg-[var(--th-card)] shadow-sm transition-all ${
+                shuffle ? "start-6" : "start-1"
+              }`}
+            />
+          </span>
         </button>
       </div>
     </section>

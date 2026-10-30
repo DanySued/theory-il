@@ -111,7 +111,7 @@ function Section({
             <div className="flex flex-col gap-2 pt-1">
               <button
                 onClick={() => setShowQ((s) => !s)}
-                className="self-start flex items-center gap-1 text-xs font-semibold text-[var(--th-accent)] hover:underline transition-colors"
+                className="self-start flex items-center gap-1 min-h-11 sm:min-h-0 text-xs font-semibold text-[var(--th-accent)] hover:underline transition-colors"
               >
                 <span className={`transition-transform duration-200 ${showQ ? "rotate-180" : ""}`}>
                 <ChevronDown size={13} strokeWidth={2} />

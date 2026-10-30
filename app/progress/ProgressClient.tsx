@@ -3,6 +3,7 @@
 import { PASS_SCORE } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { loadCorpus } from "@/lib/data/corpus";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
@@ -120,8 +121,9 @@ export default function ProgressClient() {
             />
           </div>
 
-          {/* Per-topic accuracy */}
-          <section className="w-full flex flex-col gap-4">
+          {/* Per-topic accuracy — phones: one card of bars, weakest in amber + a CTA */}
+          <TopicAccuracyCard topics={data.topics} />
+          <section className="hidden sm:flex w-full flex-col gap-4">
             <div className="flex items-baseline justify-between">
               <h2 className="th-section-h">דיוק לפי נושא</h2>
               <span className="text-xs text-[var(--th-muted)]">החלש קודם</span>
@@ -140,7 +142,7 @@ export default function ProgressClient() {
                 <h2 className="th-section-h">השאלות שמפילות אותך</h2>
                 <Link
                   href="/review?tab=mistakes"
-                  className="text-xs font-semibold text-[var(--th-accent)] hover:underline"
+                  className="inline-flex items-center min-h-11 sm:min-h-0 text-xs font-semibold text-[var(--th-accent)] hover:underline"
                 >
                   תרגל את כולן ←
                 </Link>
@@ -157,7 +159,7 @@ export default function ProgressClient() {
           {data.attempts.length > 0 && (
             <section className="w-full flex flex-col gap-4">
               <h2 className="th-section-h">מבחנים אחרונים</h2>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-0 sm:gap-2 rounded-[20px] sm:rounded-none border sm:border-0 border-[var(--th-border)] bg-[var(--th-card)] sm:bg-transparent px-4 sm:px-0 py-1.5 sm:py-0">
                 {data.attempts.map((a) => (
                   <AttemptRow key={a.id} a={a} />
                 ))}
@@ -289,6 +291,57 @@ function TopicRow({ t }: { t: TopicAccuracy }) {
   );
 }
 
+function TopicAccuracyCard({ topics }: { topics: TopicAccuracy[] }) {
+  // `topics` arrives weakest-first with unpracticed topics last.
+  const weakest = topics.find((t) => t.seen > 0 && t.accuracy < 0.85);
+  return (
+    <section
+      aria-label="דיוק לפי נושא"
+      className="sm:hidden w-full rounded-[20px] border border-[var(--th-border)] bg-[var(--th-card)] p-4 flex flex-col gap-3"
+    >
+      <div className="flex items-baseline justify-between">
+        <h2 className="text-base font-extrabold">דיוק לפי נושא</h2>
+        <span className="text-xs text-[var(--th-muted)]">החלש קודם</span>
+      </div>
+      {topics.map((t) => {
+        const pct = Math.round(t.accuracy * 100);
+        const isWeak = t === weakest;
+        return (
+          <div key={t.topic} className="flex flex-col gap-1.5">
+            <div className="flex justify-between text-sm">
+              <span>{t.topic}</span>
+              <span
+                className="font-bold tabular-nums"
+                style={{ color: isWeak ? "var(--th-marked-fg)" : t.seen === 0 ? "var(--th-muted)" : undefined }}
+              >
+                {t.seen === 0 ? "טרם תורגל" : `${pct}%`}
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-[var(--th-muted-bg)] overflow-hidden" aria-hidden>
+              <div
+                className="h-full rounded-full"
+                style={{
+                  width: `${t.seen === 0 ? 0 : t.accuracy * 100}%`,
+                  background: isWeak ? "var(--th-marked-border)" : "var(--th-accent)",
+                }}
+              />
+            </div>
+          </div>
+        );
+      })}
+      {weakest && (
+        <Link
+          href={`/study/${encodeURIComponent(weakest.topic)}?weak=1`}
+          className="h-11 rounded-xl bg-[var(--th-accent-soft)] text-[var(--th-accent)] text-[15px] font-bold inline-flex items-center justify-center gap-1.5"
+        >
+          תרגל את הנושא החלש: {weakest.topic}
+          <ChevronLeft size={18} aria-hidden />
+        </Link>
+      )}
+    </section>
+  );
+}
+
 function MissedRow({ m }: { m: MissedQuestion }) {
   const pct = Math.round(m.wrongRate * 100);
   return (
@@ -321,24 +374,37 @@ function AttemptRow({ a }: { a: Attempt }) {
       ? "var(--th-success)"
       : "var(--th-error)"
     : "var(--th-muted-strong)";
+  // Phones: 52px divided rows inside one card with a pass/fail chip (full exams only).
   return (
     <Link
       href={`/results/${a.id}`}
-      className="flex items-center gap-3 p-3 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] transition-colors"
+      className="flex items-center gap-2.5 sm:gap-3 min-h-[52px] sm:min-h-0 sm:p-3 border-b last:border-b-0 sm:border-b sm:last:border-b sm:rounded-[var(--th-radius-lg)] sm:bg-[var(--th-card)] sm:border border-[var(--th-border)] hover:border-[var(--th-accent)] transition-colors"
     >
       <span
-        className="shrink-0 w-2 h-2 rounded-full"
+        className="hidden sm:block shrink-0 w-2 h-2 rounded-full"
         style={{ background: color }}
         aria-hidden
       />
-      <span className="text-sm font-medium text-[var(--th-fg)]">
+      <span className="text-[15px] sm:text-sm font-semibold sm:font-medium text-[var(--th-fg)]">
+        <span className="sm:hidden">{dateStr} · </span>
         {isFullExam ? "מבחן מלא" : `${total} שאלות`}
       </span>
       <span className="flex-1" />
-      <span className="text-sm tabular-nums font-semibold" style={{ color }}>
+      <span className="text-[15px] sm:text-sm tabular-nums font-extrabold sm:font-semibold" style={{ color }}>
         {correct}/{total}
       </span>
-      <span className="shrink-0 text-xs text-[var(--th-muted)] tabular-nums w-16 text-end">
+      {isFullExam && (
+        <span
+          className="sm:hidden shrink-0 text-xs font-bold px-2 py-0.5 rounded-full"
+          style={{
+            color,
+            background: passed ? "var(--th-success-soft)" : "var(--th-error-soft)",
+          }}
+        >
+          {passed ? "עבר" : "לא עבר"}
+        </span>
+      )}
+      <span className="hidden sm:inline shrink-0 text-xs text-[var(--th-muted)] tabular-nums w-16 text-end">
         {dateStr}
       </span>
     </Link>
