@@ -15,6 +15,7 @@ import {
   DAILY_DECK_SIZE,
 } from "@/lib/dailyChallenge";
 import { localDateStr } from "@/lib/utils";
+import { loadCorpus } from "@/lib/data/corpus";
 
 type Phase = "loading" | "running" | "alreadyDone" | "finished";
 
@@ -39,9 +40,15 @@ export default function DailyClient() {
       setStreakAfter(getStreak().current);
       return;
     }
-    const deckQs = pickDailyDeck(today);
-    setDeck(deckQs);
-    setPhase("running");
+    let cancelled = false;
+    loadCorpus().then((all) => {
+      if (cancelled) return;
+      setDeck(pickDailyDeck(all, today));
+      setPhase("running");
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const goTo = useCallback(

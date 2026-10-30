@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import StreakBadge from "@/components/StreakBadge";
 import ContinueTile from "@/components/ContinueTile";
@@ -27,10 +25,6 @@ const STUDY_MODES = [
   { label: "מבחן תרגול", href: "/exam", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
   { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מהירה בשיטת SRS — מתאים לשנות מועד" },
 ];
-
-function FadeSection({ children }: { children: React.ReactNode; delay?: number }) {
-  return <>{children}</>;
-}
 
 export default function Home() {
   return (
@@ -76,7 +70,6 @@ export default function Home() {
 
       {/* Study modes */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6">
-        <FadeSection>
           <div className="flex flex-col gap-1 mb-6">
             <span className="th-eyebrow">דרכי לימוד</span>
             <h2 className="th-section-h">ארבע דרכים להתכונן</h2>
@@ -84,10 +77,8 @@ export default function Home() {
               כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
             </p>
           </div>
-        </FadeSection>
-        <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
           {STUDY_MODES.map((m, i) => (
-            <FadeSection key={m.href} delay={i * 60}>
               <Link
                 href={m.href}
                 className="flex flex-col gap-2 p-5 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all h-full"
@@ -95,14 +86,12 @@ export default function Home() {
                 <span className="font-bold text-[var(--th-fg)]">{m.label}</span>
                 <span className="text-sm text-[var(--th-muted)] leading-relaxed">{m.desc}</span>
               </Link>
-            </FadeSection>
-          ))}
+                      ))}
         </div>
       </section>
 
       {/* Topics */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6 border-t border-[var(--th-border)]">
-        <FadeSection>
           <div className="flex flex-col gap-1 mb-2">
             <span className="th-eyebrow">נושאי הלימוד</span>
             <h2 className="th-section-h">1,273 שאלות מהמאגר הרשמי</h2>
@@ -110,10 +99,8 @@ export default function Home() {
               כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
             </p>
           </div>
-        </FadeSection>
-        <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
           {TOPICS.map((t, i) => (
-            <FadeSection key={t.key} delay={i * 70}>
               <Link
                 href={t.href}
                 className="flex items-center justify-between gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
@@ -126,14 +113,12 @@ export default function Home() {
                   {t.count}
                 </span>
               </Link>
-            </FadeSection>
-          ))}
+                      ))}
         </div>
       </section>
 
       {/* Signs catalog preview */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6 border-t border-[var(--th-border)]">
-        <FadeSection>
           <div className="flex flex-col gap-1 mb-2">
             <span className="th-eyebrow">מילון התמרורים</span>
             <h2 className="th-section-h">חמש קטגוריות של תמרורים</h2>
@@ -141,10 +126,8 @@ export default function Home() {
               ניתן לסמן כל תמרור שאתה מכיר ולעקוב אחר ההתקדמות
             </p>
           </div>
-        </FadeSection>
-        <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3">
           {SIGN_CATEGORIES.map((cat, i) => (
-            <FadeSection key={cat.name} delay={i * 55}>
               <Link
                 href="/study/תמרורים"
                 className="flex items-center gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
@@ -159,10 +142,8 @@ export default function Home() {
                 </div>
                 <span className="text-[var(--th-muted)] text-sm shrink-0">←</span>
               </Link>
-            </FadeSection>
-          ))}
+                      ))}
         </div>
-        <FadeSection delay={300}>
           <div className="text-center">
             <Link
               href="/study/תמרורים"
@@ -172,8 +153,7 @@ export default function Home() {
               <span aria-hidden>←</span>
             </Link>
           </div>
-        </FadeSection>
-      </section>
+              </section>
 
       {/* Spacer */}
       <div className="h-16" />

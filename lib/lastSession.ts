@@ -1,8 +1,5 @@
 import { getLastDrill, listAttempts } from "@/lib/storage";
-import questionsData from "@/lib/data/questions.json";
-import type { Question } from "@/components/QuestionCard";
-
-const questions = questionsData as Question[];
+import { TOPIC_COUNTS } from "@/lib/data/topics";
 
 export interface ResumeTarget {
   kind: "drill" | "attempt";
@@ -38,7 +35,7 @@ export function getLastSession(): ResumeTarget | null {
 
   const drill = getLastDrill();
   if (drill) {
-    const topicTotal = questions.filter((q) => q.topic === drill.topic).length;
+    const topicTotal = TOPIC_COUNTS[drill.topic] ?? 0;
     if (topicTotal > 0) {
       candidates.push({
         kind: "drill",

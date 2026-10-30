@@ -1,4 +1,3 @@
-import questionsData from "@/lib/data/questions.json";
 import type { Question } from "@/components/QuestionCard";
 import { getQStats, type QuestionStats } from "@/lib/storage";
 import { localDateStr } from "@/lib/utils";
@@ -14,8 +13,6 @@ export {
   isDailyCompletedToday,
   type DailyChallengeRecord,
 };
-
-const allQuestions = questionsData as Question[];
 
 const DAILY_HISTORY_KEY = "theory-il:dailyHistory";
 const HISTORY_CAP = 180;
@@ -146,9 +143,11 @@ function classify(q: Question, s: QuestionStats | undefined): 0 | 1 | 2 {
  * but once the user completes the challenge we lock the record by date so the
  * deck shown on "view today's result" stays stable via the saved record.
  */
-export function pickDailyDeck(date = localDateStr(new Date())): Question[] {
-  const stats = getQStats();
-
+export function pickDailyDeck(
+  allQuestions: Question[],
+  date = localDateStr(new Date()),
+  stats: Record<string, QuestionStats> = getQStats()
+): Question[] {
   const scored: ScoredQ[] = allQuestions.map((q) => ({
     q,
     tier: classify(q, stats[q.id]),
