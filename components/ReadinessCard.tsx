@@ -71,7 +71,7 @@ export default function ReadinessCard({ r, trend }: { r: Readiness; trend?: Exam
             <span
               className="self-start mt-0.5 inline-flex items-center gap-1 text-[13px] font-bold px-2 py-0.5 rounded-full"
               style={{
-                color: trend.delta > 0 ? "var(--th-success)" : "var(--th-error)",
+                color: trend.delta > 0 ? "var(--th-success-fg)" : "var(--th-error-fg)",
                 background: trend.delta > 0 ? "var(--th-success-soft)" : "var(--th-error-soft)",
               }}
             >

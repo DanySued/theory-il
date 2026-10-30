@@ -397,7 +397,7 @@ function AttemptRow({ a }: { a: Attempt }) {
         <span
           className="sm:hidden shrink-0 text-xs font-bold px-2 py-0.5 rounded-full"
           style={{
-            color,
+            color: passed ? "var(--th-success-fg)" : "var(--th-error-fg)",
             background: passed ? "var(--th-success-soft)" : "var(--th-error-soft)",
           }}
         >

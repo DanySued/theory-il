@@ -126,10 +126,10 @@ export default function QuestionCard({
       return `${base} border bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] active:bg-[var(--th-muted-bg)] cursor-pointer`;
     }
     if (isCorrectRow(idx)) {
-      return `${base} border-2 sm:border sm:border-e-4 bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success)] font-semibold sm:font-medium cursor-default`;
+      return `${base} border-2 sm:border sm:border-e-4 bg-[var(--th-success-soft)] border-[var(--th-success)] text-[var(--th-success-fg)] font-semibold sm:font-medium cursor-default`;
     }
     if (isWrongRow(idx)) {
-      return `${base} border-2 sm:border bg-[var(--th-error-soft)] border-[var(--th-error)] text-[var(--th-error)] font-semibold sm:font-medium cursor-default`;
+      return `${base} border-2 sm:border bg-[var(--th-error-soft)] border-[var(--th-error)] text-[var(--th-error-fg)] font-semibold sm:font-medium cursor-default`;
     }
     return `${base} border bg-[var(--th-card)] border-[var(--th-border)] opacity-60 cursor-default`;
   }
@@ -290,8 +290,8 @@ export default function QuestionCard({
                     feedbackTone === "neutral"
                       ? "text-[var(--th-fg)]"
                       : feedbackTone === "success"
-                        ? "text-[var(--th-success)]"
-                        : "text-[var(--th-error)]"
+                        ? "text-[var(--th-success-fg)]"
+                        : "text-[var(--th-error-fg)]"
                   }`}
                 >
                   {selectedAnswer === null

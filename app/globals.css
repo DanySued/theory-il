@@ -17,6 +17,9 @@
   --th-error: #dc2626;
   --th-success-soft: #f0fdf4;
   --th-error-soft: #fef2f2;
+  /* Text on the soft fills (≥4.5:1); dark mode reuses the base hues */
+  --th-success-fg: #15803d;
+  --th-error-fg: #b91c1c;
   --th-muted: #6b6f78;
   --th-muted-strong: #4a4e57;
   --th-muted-bg: #ecebe4;
@@ -169,6 +172,8 @@ html {
     --th-error: #f87171;
     --th-success-soft: #052e16;
     --th-error-soft: #450a0a;
+    --th-success-fg: #22c55e;
+    --th-error-fg: #f87171;
     --th-muted: #9ca3af;
     --th-muted-strong: #b8bcc4;
     --th-muted-bg: #1a1d24;
@@ -209,6 +214,8 @@ html {
   --th-error: #f87171;
   --th-success-soft: #052e16;
   --th-error-soft: #450a0a;
+  --th-success-fg: #22c55e;
+  --th-error-fg: #f87171;
   --th-muted: #9ca3af;
   --th-muted-strong: #b8bcc4;
   --th-muted-bg: #1a1d24;

@@ -232,11 +232,11 @@ export default function FlashcardRunner({ questions }: Props) {
               )}
               <p className="text-base font-bold leading-normal text-[var(--th-fg-soft)]">{displayText}</p>
               <div className="h-px bg-[var(--th-border)]" />
-              <span className="self-start text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--th-success-soft)] text-[var(--th-success)]">
+              <span className="self-start text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--th-success-soft)] text-[var(--th-success-fg)]">
                 תשובה
               </span>
             </div>
-            <p className="text-[22px] sm:text-xl leading-snug font-extrabold sm:font-bold text-[var(--th-success)]">{displayAnswer}</p>
+            <p className="text-[22px] sm:text-xl leading-snug font-extrabold sm:font-bold text-[var(--th-success-fg)] sm:text-[var(--th-success)]">{displayAnswer}</p>
             {flipped && <Explanation question={q} />}
           </div>
         </motion.div>
@@ -290,7 +290,7 @@ export default function FlashcardRunner({ questions }: Props) {
                   onClick={() => handleRate(r.grade)}
                   className={`h-14 rounded-[14px] inline-flex flex-col items-center justify-center font-bold leading-tight text-base transition-colors ${
                     r.tone === "error"
-                      ? "border border-[var(--th-error)] bg-[var(--th-error-soft)] text-[var(--th-error)]"
+                      ? "border border-[var(--th-error)] bg-[var(--th-error-soft)] text-[var(--th-error-fg)]"
                       : r.tone === "accent"
                         ? "bg-[var(--th-accent)] text-[var(--th-on-accent)]"
                         : "border border-[var(--th-border-strong)] bg-[var(--th-card)] text-[var(--th-fg)]"
