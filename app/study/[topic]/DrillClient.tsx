@@ -62,11 +62,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     setWeakIds(weak);
   }, [questions]);
 
-  // Track study session for streak
-  useEffect(() => {
-    updateStreak();
-  }, []);
-
   // Restore last-viewed question for this topic on mount
   useEffect(() => {
     const saved = getDrillPosition(topic);
@@ -89,6 +84,14 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   const activeTotal = activeQuestions.length;
 
+  // Warm the next question's image so "next" feels instant on slow connections.
+  const nextImage = activeQuestions[currentIndex + 1]?.image;
+  useEffect(() => {
+    if (!nextImage) return;
+    const img = new Image();
+    img.src = nextImage;
+  }, [nextImage]);
+
   const goTo = useCallback(
     (idx: number) => {
       const clamped = Math.max(0, Math.min(activeTotal - 1, idx));
@@ -106,6 +109,8 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     (idx: number) => {
       setSelectedAnswer(idx);
       setShowAnswer(true);
+      // A study day counts once the learner actually answers, not on page open.
+      updateStreak();
     },
     []
   );
@@ -138,7 +143,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   const tabBtn = (v: View) =>
     `relative px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
-      view === v ? "text-white" : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
+      view === v ? "text-[var(--th-on-accent)]" : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
     }`;
 
   return (
@@ -202,7 +207,7 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
               onClick={handleWeakToggle}
               className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
                 weakOnly
-                  ? "bg-[var(--th-error)] border-[var(--th-error)] text-white"
+                  ? "bg-[var(--th-error)] border-[var(--th-error)] text-[var(--th-on-error)]"
                   : "border-[var(--th-border)] text-[var(--th-muted)] hover:border-[var(--th-error)] hover:text-[var(--th-error)]"
               }`}
             >

@@ -32,11 +32,12 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[var(--th-bg)] text-[var(--th-fg)] font-sans antialiased">
-        {/* Apply the saved theme choice before paint to avoid a flash. No stored
-            choice → leave the attribute unset so CSS follows the OS preference. */}
+        {/* Before paint: apply the saved theme (no stored choice → leave the attribute
+            unset so CSS follows the OS), and mark returning learners so the home hero
+            renders its personalized variant without a flash. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theory-il:theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t;}catch(e){}`,
+            __html: `try{var d=document.documentElement,t=localStorage.getItem("theory-il:theme");if(t==="dark"||t==="light")d.dataset.theme=t;if(localStorage.getItem("theory-il:qstats")||localStorage.getItem("theory-il:lastDrill"))d.dataset.returning="1";}catch(e){}`,
           }}
         />
         <NavBar />

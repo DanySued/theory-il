@@ -7,6 +7,7 @@ import ExamRunner from "@/components/ExamRunner";
 import BackButton from "@/components/BackButton";
 import { getAttempt } from "@/lib/storage";
 import { shuffle } from "@/lib/exam";
+import { isShuffleEnabled, randomSeed, withShuffledAnswers } from "@/lib/answerOrder";
 import type { Question } from "@/components/QuestionCard";
 
 type State =
@@ -27,7 +28,9 @@ export default function RetakePage() {
       return;
     }
     const wrong = a.questions.filter((q, i) => a.answers[i] !== q.correctIndex);
-    setState({ kind: "ready", questions: shuffle(wrong) });
+    // Re-shuffle answer positions too, so a retake tests the content, not the remembered slot.
+    const seed = isShuffleEnabled() ? randomSeed() : 0;
+    setState({ kind: "ready", questions: shuffle(wrong).map((q) => withShuffledAnswers(q, seed)) });
   }, [sourceId]);
 
   if (state.kind === "loading") {

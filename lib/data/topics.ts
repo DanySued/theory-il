@@ -5,3 +5,13 @@ export const TOPICS: Record<string, string> = {
   "בטיחות": "בטיחות", // 305 questions
   "הכרת הרכב": "הכרת הרכב", // 106 questions
 };
+
+/** Question counts per topic — lets light pages show totals without loading the corpus. */
+export const TOPIC_COUNTS: Record<string, number> = {
+  "חוקי התנועה": 501,
+  "תמרורים": 361,
+  "בטיחות": 305,
+  "הכרת הרכב": 106,
+};
+
+export const TOTAL_QUESTIONS = 1273;

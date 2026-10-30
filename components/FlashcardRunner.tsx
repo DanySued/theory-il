@@ -1,5 +1,6 @@
 "use client";
 
+import Explanation from "@/components/Explanation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
@@ -138,6 +139,9 @@ export default function FlashcardRunner({ questions }: Props) {
           <span aria-hidden="true">&#8594;</span>
           חזרה
         </Link>
+        <h1 className="text-sm font-semibold text-[var(--th-fg-soft)]">
+          כרטיסיות · {q.topic}
+        </h1>
         <span className="text-xs text-[var(--th-muted)] tabular-nums font-mono tracking-wide">
           {currentIdx + 1} / {dueIds.length}
         </span>
@@ -182,13 +186,11 @@ export default function FlashcardRunner({ questions }: Props) {
 
           {/* Back */}
           <div
-            className="absolute inset-0 backface-hidden rounded-[var(--th-radius-lg)] border border-[var(--th-success)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-4"
+            className="absolute inset-0 backface-hidden rounded-[var(--th-radius-lg)] border border-[var(--th-success)] bg-[var(--th-card)] p-8 flex flex-col justify-center gap-4 overflow-y-auto"
             style={{ transform: "rotateY(180deg)" }}
           >
             <p className="text-xl font-bold text-[var(--th-success)]">{displayAnswer}</p>
-            {q.explanation && (
-              <p className="text-sm text-[var(--th-muted)] leading-relaxed">{q.explanation}</p>
-            )}
+            {flipped && <Explanation question={q} />}
           </div>
         </motion.div>
       </div>

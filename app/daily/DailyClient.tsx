@@ -15,6 +15,7 @@ import {
   DAILY_DECK_SIZE,
 } from "@/lib/dailyChallenge";
 import { localDateStr } from "@/lib/utils";
+import { loadCorpus } from "@/lib/data/corpus";
 
 type Phase = "loading" | "running" | "alreadyDone" | "finished";
 
@@ -39,9 +40,15 @@ export default function DailyClient() {
       setStreakAfter(getStreak().current);
       return;
     }
-    const deckQs = pickDailyDeck(today);
-    setDeck(deckQs);
-    setPhase("running");
+    let cancelled = false;
+    loadCorpus().then((all) => {
+      if (cancelled) return;
+      setDeck(pickDailyDeck(all, today));
+      setPhase("running");
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const goTo = useCallback(
@@ -115,7 +122,7 @@ export default function DailyClient() {
           <div className="flex gap-3 mt-2">
             <Link
               href="/review"
-              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               חזרה חכמה
             </Link>
@@ -153,7 +160,7 @@ export default function DailyClient() {
           <div className="flex gap-3 mt-2">
             <Link
               href="/review"
-              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               להמשיך בחזרה חכמה
             </Link>

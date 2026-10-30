@@ -1,24 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExamRunner from "@/components/ExamRunner";
 import ExamStartScreen, { type ExamConfig } from "@/components/ExamStartScreen";
 import PageShell from "@/components/PageShell";
 import { generateExam, generateExamByTopic, generateWeakFocusExam } from "@/lib/exam";
+import { loadCorpus } from "@/lib/data/corpus";
+import { isShuffleEnabled, randomSeed, withShuffledAnswers } from "@/lib/answerOrder";
 import type { Question } from "@/components/QuestionCard";
 
 export default function ExamPage() {
   const [questions, setQuestions] = useState<Question[] | null>(null);
 
-  function handleStart(config: ExamConfig) {
+  // Warm the corpus while the learner reads the start screen, so "start" is instant.
+  useEffect(() => {
+    loadCorpus();
+  }, []);
+
+  async function handleStart(config: ExamConfig) {
     const { topic, length, weakFocus } = config;
+    const all = await loadCorpus();
     let qs: Question[];
     if (weakFocus) {
-      qs = generateWeakFocusExam(length, topic);
+      qs = generateWeakFocusExam(all, length, topic);
     } else if (topic === null) {
-      qs = generateExam(length);
+      qs = generateExam(all, length);
     } else {
-      qs = generateExamByTopic(topic, length);
+      qs = generateExamByTopic(all, topic, length);
+    }
+    if (isShuffleEnabled()) {
+      const seed = randomSeed();
+      qs = qs.map((q) => withShuffledAnswers(q, seed));
     }
     setQuestions(qs);
   }

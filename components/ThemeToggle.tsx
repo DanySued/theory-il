@@ -2,38 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
-
-type Theme = "light" | "dark";
-
-const STORAGE_KEY = "theory-il:theme";
-
-function resolveInitial(): Theme {
-  // Mirror the inline boot script: stored choice wins, else follow the OS.
-  if (document.documentElement.dataset.theme === "dark") return "dark";
-  if (document.documentElement.dataset.theme === "light") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
+import { THEME_EVENT, resolveTheme, setThemeChoice, type ResolvedTheme } from "@/lib/theme";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme | null>(null);
+  const [theme, setTheme] = useState<ResolvedTheme | null>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTheme(resolveInitial());
+    const sync = () => setTheme(resolveTheme());
+    sync();
+    // Stay in sync with the Settings control and with OS changes while on "system".
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    window.addEventListener(THEME_EVENT, sync);
+    mq.addEventListener("change", sync);
+    return () => {
+      window.removeEventListener(THEME_EVENT, sync);
+      mq.removeEventListener("change", sync);
+    };
   }, []);
-
-  const toggle = () => {
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.dataset.theme = next;
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // ignore quota / privacy-mode errors
-    }
-  };
 
   // Avoid a hydration mismatch: render a same-size placeholder until mounted.
   if (theme === null) {
@@ -44,7 +29,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={() => setThemeChoice(isDark ? "light" : "dark")}
       aria-label={isDark ? "מצב בהיר" : "מצב כהה"}
       title={isDark ? "מצב בהיר" : "מצב כהה"}
       className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-[var(--th-radius-sm)] text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] transition-colors"

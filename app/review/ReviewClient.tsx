@@ -34,7 +34,6 @@ export default function ReviewClient() {
       const summary = reviewDeckSummary(questions, stats, bookmarks);
       setDeck({ questions, summary });
     });
-    updateStreak();
   }, []);
 
   const goTo = useCallback(
@@ -56,6 +55,7 @@ export default function ReviewClient() {
       if (!deck) return;
       const q = deck.questions[currentIndex];
       if (idx === q.correctIndex) setCorrectCount((c) => c + 1);
+      updateStreak(); // a study day counts once the learner answers
       setSelectedAnswer(idx);
       setShowAnswer(true);
     },
@@ -103,7 +103,7 @@ export default function ReviewClient() {
           <div className="flex gap-3 mt-2">
             <Link
               href="/exam"
-              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               מבחן תרגול
             </Link>
@@ -137,7 +137,7 @@ export default function ReviewClient() {
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               סבב נוסף
             </button>

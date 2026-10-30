@@ -48,9 +48,11 @@ limud/
 # Playwright MCP scratch artifacts
 .playwright-mcp/
 
-# local tooling / scratch
+# local tooling / scratch / logs / screenshots
 /.superpowers/
 /.claude/scheduled_tasks.lock
 /qa-screenshots/
+/test-results/
+/playwright-report/
 /*.png
 *.log
