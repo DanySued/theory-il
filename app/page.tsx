@@ -1,16 +1,22 @@
-"use client";
-
 import Link from "next/link";
 import StreakBadge from "@/components/StreakBadge";
-import ContinueTile from "@/components/ContinueTile";
 import DailyChallengeTile from "@/components/DailyChallengeTile";
+import ReturningHero from "@/components/ReturningHero";
+import questionsData from "@/lib/data/questions.json";
+import { TOPIC_COUNTS, TOTAL_QUESTIONS } from "@/lib/data/topics";
 
-// Real topic data — counts from questions.json
+// Server-only: a compact id → topic map so the returning-user hero can estimate
+// readiness without shipping the full corpus to the home page.
+const TOPIC_KEYS = Object.keys(TOPIC_COUNTS);
+const TOPIC_INDEX: Record<string, number> = Object.fromEntries(
+  (questionsData as { id: string; topic: string }[]).map((q) => [q.id, TOPIC_KEYS.indexOf(q.topic)])
+);
+
 const TOPICS = [
-  { key: "חוקי התנועה", count: 501, href: "/study/חוקי התנועה", desc: "זכות קדימה, מהירות, חנייה, אותות ועוד" },
-  { key: "תמרורים", count: 361, href: "/study/תמרורים", desc: "אזהרה, חובה, איסור, מידע וסימוני כביש" },
-  { key: "בטיחות", count: 305, href: "/study/בטיחות", desc: "בטיחות בנהיגה, בטיחות ילדים ומצבי חירום" },
-  { key: "הכרת הרכב", count: 106, href: "/study/הכרת הרכב", desc: "מכניקה בסיסית, מד דלק, אורות ועוד" },
+  { key: "חוקי התנועה", desc: "זכות קדימה, מהירות, חנייה, אותות ועוד" },
+  { key: "תמרורים", desc: "אזהרה, חובה, איסור, מידע וסימוני כביש" },
+  { key: "בטיחות", desc: "בטיחות בנהיגה, בטיחות ילדים ומצבי חירום" },
+  { key: "הכרת הרכב", desc: "מכניקה בסיסית, מד דלק, אורות ועוד" },
 ];
 
 const SIGN_CATEGORIES = [
@@ -23,159 +29,139 @@ const SIGN_CATEGORIES = [
 
 const STUDY_MODES = [
   { label: "חזרה חכמה", href: "/review", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
-  { label: "לימוד לפי נושא", href: "/study", desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם הסבר מיידי" },
+  { label: "לימוד לפי נושא", href: "/study", desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם משוב מיידי" },
   { label: "מבחן תרגול", href: "/exam", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
-  { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מהירה בשיטת SRS — מתאים לשנות מועד" },
+  { label: "כרטיסיות שינון", href: "/flashcards", desc: "חזרה מרווחת (SRS) — הכרטיסים חוזרים בדיוק כשעומדים לשכוח אותם" },
 ];
 
-function FadeSection({ children }: { children: React.ReactNode; delay?: number }) {
-  return <>{children}</>;
-}
+const cardLink =
+  "rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all";
 
 export default function Home() {
   return (
     <main className="flex flex-1 flex-col items-center px-6">
-      {/* Hero */}
-      <section className="w-full max-w-2xl flex flex-col items-center text-center gap-8 min-h-[calc(100dvh-61px)] justify-center py-16">
+      {/* Hero — first-time and returning variants are toggled by <html data-returning>
+          (set before paint by the boot script in layout.tsx), so neither flashes. */}
+      <section className="th-hero w-full max-w-2xl flex flex-col items-center text-center gap-8 justify-center py-16">
         <h1 className="th-display text-[var(--th-fg)]">
           מתכוננים
           <br />
           <span className="text-[var(--th-accent)]">לתיאוריה</span>
         </h1>
 
-        <p className="text-lg text-[var(--th-muted-strong)] leading-relaxed max-w-md">
-          הגעת למקום הנכון :)
-          <br />
-          לעבור תיאוריה זה לא כזה פשוט. אבל אנחנו פה בשבילך
-        </p>
+        <div className="th-new-only flex flex-col items-center gap-8 w-full">
+          <p className="text-lg text-[var(--th-muted-strong)] leading-relaxed max-w-md">
+            הגעת למקום הנכון :)
+            <br />
+            לעבור תיאוריה זה לא כזה פשוט. אבל אנחנו פה בשבילך
+          </p>
+          <div className="flex flex-col items-center gap-4 w-full">
+            <Link
+              href="/study/תמרורים?view=drill"
+              className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
+            >
+              בוא נתחיל בתמרורים?
+              <span aria-hidden className="ms-2">←</span>
+            </Link>
+            <Link
+              href="/study"
+              className="text-sm text-[var(--th-muted)] underline underline-offset-4 hover:text-[var(--th-fg)] transition-colors"
+            >
+              רוצה להתחיל בנושא אחר?
+            </Link>
+          </div>
+        </div>
 
-        <StreakBadge />
-
-        <div className="flex flex-col items-center gap-4 w-full">
-          <Link
-            href="/study/תמרורים?view=drill"
-            className="inline-flex items-center justify-center h-14 w-full max-w-xs rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md transition-all"
-          >
-            בוא נתחיל בתמרורים?
-            <span aria-hidden className="ms-2">←</span>
-          </Link>
-          <Link
-            href="/study"
-            className="text-sm text-[var(--th-muted)] underline underline-offset-4 hover:text-[var(--th-fg)] transition-colors"
-          >
-            רוצה להתחיל בנושא אחר?
-          </Link>
+        <div className="th-returning-only flex flex-col items-center gap-5 w-full">
+          <StreakBadge />
+          <ReturningHero topicIndex={TOPIC_INDEX} />
         </div>
       </section>
 
-      {/* Daily challenge + continue tile (each renders only when relevant) */}
+      {/* Daily challenge ("continue where you left off" lives in the returning hero) */}
       <section className="w-full max-w-3xl pt-10 flex flex-col gap-3">
         <DailyChallengeTile />
-        <ContinueTile />
       </section>
 
       {/* Study modes */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6">
-        <FadeSection>
-          <div className="flex flex-col gap-1 mb-6">
-            <span className="th-eyebrow">דרכי לימוד</span>
-            <h2 className="th-section-h">ארבע דרכים להתכונן</h2>
-            <p className="text-sm text-[var(--th-muted-strong)] mt-1">
-              כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
-            </p>
-          </div>
-        </FadeSection>
+        <div className="flex flex-col gap-1 mb-6">
+          <span className="th-eyebrow">דרכי לימוד</span>
+          <h2 className="th-section-h">ארבע דרכים להתכונן</h2>
+          <p className="text-sm text-[var(--th-muted-strong)] mt-1">
+            כל שיטה מתאימה לשלב אחר — בחר את מה שמתאים לך עכשיו
+          </p>
+        </div>
         <div className="grid sm:grid-cols-2 gap-4">
-          {STUDY_MODES.map((m, i) => (
-            <FadeSection key={m.href} delay={i * 60}>
-              <Link
-                href={m.href}
-                className="flex flex-col gap-2 p-5 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all h-full"
-              >
-                <span className="font-bold text-[var(--th-fg)]">{m.label}</span>
-                <span className="text-sm text-[var(--th-muted)] leading-relaxed">{m.desc}</span>
-              </Link>
-            </FadeSection>
+          {STUDY_MODES.map((m) => (
+            <Link key={m.href} href={m.href} className={`flex flex-col gap-2 p-5 h-full ${cardLink}`}>
+              <span className="font-bold text-[var(--th-fg)]">{m.label}</span>
+              <span className="text-sm text-[var(--th-muted)] leading-relaxed">{m.desc}</span>
+            </Link>
           ))}
         </div>
       </section>
 
       {/* Topics */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6 border-t border-[var(--th-border)]">
-        <FadeSection>
-          <div className="flex flex-col gap-1 mb-2">
-            <span className="th-eyebrow">נושאי הלימוד</span>
-            <h2 className="th-section-h">1,273 שאלות מהמאגר הרשמי</h2>
-            <p className="text-sm text-[var(--th-muted-strong)] mt-1">
-              כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
-            </p>
-          </div>
-        </FadeSection>
+        <div className="flex flex-col gap-1 mb-2">
+          <span className="th-eyebrow">נושאי הלימוד</span>
+          <h2 className="th-section-h">{TOTAL_QUESTIONS.toLocaleString("en-US")} שאלות מהמאגר הרשמי</h2>
+          <p className="text-sm text-[var(--th-muted-strong)] mt-1">
+            כל השאלות לקוחות ממאגר משרד התחבורה — אותן שאלות שיופיעו במבחן
+          </p>
+        </div>
         <div className="grid sm:grid-cols-2 gap-4">
-          {TOPICS.map((t, i) => (
-            <FadeSection key={t.key} delay={i * 70}>
-              <Link
-                href={t.href}
-                className="flex items-center justify-between gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
-              >
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-bold text-[var(--th-fg)]">{t.key}</span>
-                  <span className="text-xs text-[var(--th-muted)]">{t.desc}</span>
-                </div>
-                <span className="shrink-0 font-mono text-sm font-semibold text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2.5 py-1 rounded-[var(--th-radius-sm)]">
-                  {t.count}
-                </span>
-              </Link>
-            </FadeSection>
+          {TOPICS.map((t) => (
+            <Link
+              key={t.key}
+              href={`/study/${t.key}`}
+              className={`flex items-center justify-between gap-4 p-4 ${cardLink}`}
+            >
+              <div className="flex flex-col gap-0.5">
+                <span className="font-bold text-[var(--th-fg)]">{t.key}</span>
+                <span className="text-xs text-[var(--th-muted)]">{t.desc}</span>
+              </div>
+              <span className="shrink-0 font-mono text-sm font-semibold text-[var(--th-accent)] bg-[var(--th-accent-soft)] px-2.5 py-1 rounded-[var(--th-radius-sm)]">
+                {TOPIC_COUNTS[t.key]}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
       {/* Signs catalog preview */}
       <section className="w-full max-w-3xl py-14 flex flex-col gap-6 border-t border-[var(--th-border)]">
-        <FadeSection>
-          <div className="flex flex-col gap-1 mb-2">
-            <span className="th-eyebrow">מילון התמרורים</span>
-            <h2 className="th-section-h">חמש קטגוריות של תמרורים</h2>
-            <p className="text-sm text-[var(--th-muted-strong)] mt-1">
-              ניתן לסמן כל תמרור שאתה מכיר ולעקוב אחר ההתקדמות
-            </p>
-          </div>
-        </FadeSection>
+        <div className="flex flex-col gap-1 mb-2">
+          <span className="th-eyebrow">מילון התמרורים</span>
+          <h2 className="th-section-h">חמש קטגוריות של תמרורים</h2>
+          <p className="text-sm text-[var(--th-muted-strong)] mt-1">
+            ניתן לסמן כל תמרור שאתה מכיר ולעקוב אחר ההתקדמות
+          </p>
+        </div>
         <div className="flex flex-col gap-3">
-          {SIGN_CATEGORIES.map((cat, i) => (
-            <FadeSection key={cat.name} delay={i * 55}>
-              <Link
-                href="/study/תמרורים"
-                className="flex items-center gap-4 p-4 rounded-[var(--th-radius-lg)] bg-[var(--th-card)] border border-[var(--th-border)] hover:border-[var(--th-accent)] hover:shadow-md transition-all"
-              >
-                <span
-                  className="shrink-0 w-3 h-3 rounded-full"
-                  style={{ background: cat.color }}
-                />
-                <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-                  <span className="font-bold text-[var(--th-fg)]">{cat.name}</span>
-                  <span className="text-xs text-[var(--th-muted)]">{cat.desc}</span>
-                </div>
-                <span className="text-[var(--th-muted)] text-sm shrink-0">←</span>
-              </Link>
-            </FadeSection>
+          {SIGN_CATEGORIES.map((cat) => (
+            <Link key={cat.name} href="/study/תמרורים" className={`flex items-center gap-4 p-4 ${cardLink}`}>
+              <span className="shrink-0 w-3 h-3 rounded-full" style={{ background: cat.color }} />
+              <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+                <span className="font-bold text-[var(--th-fg)]">{cat.name}</span>
+                <span className="text-xs text-[var(--th-muted)]">{cat.desc}</span>
+              </div>
+              <span className="text-[var(--th-muted)] text-sm shrink-0">←</span>
+            </Link>
           ))}
         </div>
-        <FadeSection delay={300}>
-          <div className="text-center">
-            <Link
-              href="/study/תמרורים"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--th-accent)] hover:underline"
-            >
-              לכל מילון התמרורים
-              <span aria-hidden>←</span>
-            </Link>
-          </div>
-        </FadeSection>
+        <div className="text-center">
+          <Link
+            href="/study/תמרורים"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--th-accent)] hover:underline"
+          >
+            לכל מילון התמרורים
+            <span aria-hidden>←</span>
+          </Link>
+        </div>
       </section>
 
-      {/* Spacer */}
       <div className="h-16" />
     </main>
   );

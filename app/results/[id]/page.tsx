@@ -6,11 +6,11 @@ import Link from "next/link";
 import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, getBookmarks, toggleBookmark, type Attempt } from "@/lib/storage";
 import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
+import Explanation from "@/components/Explanation";
 import PageShell from "@/components/PageShell";
 import Skeleton from "@/components/Skeleton";
-import { LABELS } from "@/lib/constants";
+import { LABELS, PASS_SCORE } from "@/lib/constants";
 
-const PASS_SCORE = 26;
 
 function formatDuration(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -194,7 +194,7 @@ export default function ResultsPage() {
             <>
               <Link
                 href={`/exam/retake/${id}`}
-                className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+                className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
               >
                 תרגל שגיאות ({wrongCount})
               </Link>
@@ -208,7 +208,7 @@ export default function ResultsPage() {
           ) : (
             <Link
               href="/exam"
-              className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="w-full flex items-center justify-center px-5 h-14 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               מבחן נוסף
             </Link>
@@ -352,7 +352,7 @@ export default function ResultsPage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={q.image}
-                      alt={q.text}
+                      alt="תמונה לשאלה" loading="lazy" decoding="async"
                       className="max-h-32 object-contain rounded-lg"
                     />
                   </div>
@@ -384,12 +384,7 @@ export default function ResultsPage() {
                   })}
                 </div>
 
-                {q.explanation && (
-                  <div className="text-xs text-[var(--th-muted-strong)] leading-relaxed border-t border-[var(--th-border)] pt-3 mt-1">
-                    <span className="font-bold text-[var(--th-fg)]">הסבר: </span>
-                    {q.explanation}
-                  </div>
-                )}
+                <Explanation question={q} className="border-t border-[var(--th-border)] pt-3 mt-1" />
               </div>
             );
           })}

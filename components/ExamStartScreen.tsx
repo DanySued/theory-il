@@ -1,5 +1,6 @@
 "use client";
 
+import { EXAM_LENGTH, PASS_SCORE } from "@/lib/constants";
 import { useState } from "react";
 import { motion } from "motion/react";
 
@@ -112,14 +113,14 @@ export default function ExamStartScreen({
         transition={{ duration: 0.2, ease: "easeOut" }}
         whileHover={{ scale: 1.015 }}
         whileTap={{ scale: 0.97 }}
-        className="w-full max-w-sm inline-flex items-center justify-center h-14 px-8 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md"
+        className="w-full max-w-sm inline-flex items-center justify-center h-14 px-8 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-base font-semibold shadow-sm hover:bg-[var(--th-accent-hover)] hover:shadow-md"
       >
         התחל מבחן
         <span aria-hidden className="ms-2">←</span>
       </motion.button>
 
       <p className="text-xs text-[var(--th-muted)] text-center">
-        לעבור צריך 26 תשובות נכונות מתוך 30.
+        לעבור צריך {PASS_SCORE} תשובות נכונות מתוך {EXAM_LENGTH}.
       </p>
     </div>
   );

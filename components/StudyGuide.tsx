@@ -45,7 +45,7 @@ function RelatedQuestion({ question }: { question: Question }) {
       <p className="text-xs font-semibold leading-snug">{question.text}</p>
       {question.image && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={question.image} alt={question.text} className="max-h-24 object-contain rounded" />
+        <img src={question.image} alt="תמונה לשאלה" loading="lazy" decoding="async" className="max-h-24 object-contain rounded" />
       )}
       <div className="flex flex-col gap-1">
         {question.answers.map((ans, idx) => (

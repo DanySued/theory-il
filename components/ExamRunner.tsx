@@ -7,6 +7,7 @@ import type { Question } from "@/components/QuestionCard";
 import { saveAttempt, generateId } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 const DEFAULT_EXAM_DURATION = 40 * 60;
 const SECONDS_PER_QUESTION = 80; // matches the official 30-question / 40-minute ratio
@@ -50,6 +51,9 @@ export default function ExamRunner({
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   // Refs so the timer callback always reads the latest state
+  const closeConfirm = useCallback(() => setShowConfirm(false), []);
+  const closeExitConfirm = useCallback(() => setShowExitConfirm(false), []);
+
   const answersRef = useRef(answers);
   const markedRef = useRef(markedForReview);
   const secondsRef = useRef(examDuration);
@@ -91,6 +95,12 @@ export default function ExamRunner({
   }, [doSubmit, noTimer]);
 
   const q = questions[currentIdx];
+  const nextImage = questions[currentIdx + 1]?.image;
+  useEffect(() => {
+    if (!nextImage) return;
+    const img = new Image();
+    img.src = nextImage;
+  }, [nextImage]);
   const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
   const isLowTime = secondsLeft < 5 * 60;
 
@@ -133,7 +143,7 @@ export default function ExamRunner({
     cls += isCurrent ? "border-[var(--th-accent)] scale-110 " : "border-transparent ";
     if (isMarked && isAnswered) cls += "bg-[var(--th-marked-bg-strong)] text-[var(--th-marked-fg-strong)] ";
     else if (isMarked) cls += "bg-[var(--th-marked-bg)] text-[var(--th-marked-fg)] ";
-    else if (isAnswered) cls += "bg-[var(--th-accent)] text-white ";
+    else if (isAnswered) cls += "bg-[var(--th-accent)] text-[var(--th-on-accent)] ";
     else cls += "bg-[var(--th-muted-bg)] text-[var(--th-muted)] ";
     return cls;
   }
@@ -170,9 +180,11 @@ export default function ExamRunner({
           <button
             disabled={submitted}
             onClick={() =>
-              answeredCount < questions.length ? setShowConfirm(true) : doSubmit()
+              answeredCount < questions.length || markedForReview.some(Boolean)
+                ? setShowConfirm(true)
+                : doSubmit()
             }
-            className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
+            className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
           >
             סיים מבחן
           </button>
@@ -236,7 +248,7 @@ export default function ExamRunner({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={q.image}
-                  alt={q.text}
+                  alt="תמונה לשאלה" decoding="async"
                   className="max-h-48 object-contain rounded-lg"
                 />
               </div>
@@ -257,7 +269,7 @@ export default function ExamRunner({
                     whileTap={{ scale: 0.98 }}
                     className={`relative overflow-hidden w-full text-start px-4 py-3 rounded-[var(--th-radius)] border text-sm font-medium transition-colors ${
                       isSelected
-                        ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-white"
+                        ? "bg-[var(--th-accent)] border-[var(--th-accent)] text-[var(--th-on-accent)]"
                         : "bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)]"
                     }`}
                   >
@@ -323,63 +335,41 @@ export default function ExamRunner({
         </p>
       </div>
 
-      {/* Exit confirmation dialog */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
-          <div className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
-            <h2 id="exit-dialog-title" className="text-xl font-bold">לצאת מהמבחן?</h2>
-            <p className="text-[var(--th-muted)] text-sm">
-              ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowExitConfirm(false)}
-                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
-              >
-                המשך מבחן
-              </button>
-              <button
-                onClick={() => {
-                  setShowExitConfirm(false);
-                  router.push("/");
-                }}
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-error)] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
-              >
-                צא מהמבחן
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog
+          title="לצאת מהמבחן?"
+          cancelLabel="המשך מבחן"
+          confirmLabel="צא מהמבחן"
+          tone="danger"
+          onCancel={closeExitConfirm}
+          onConfirm={() => {
+            setShowExitConfirm(false);
+            router.push("/");
+          }}
+        >
+          ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
+        </ConfirmDialog>
       )}
 
-      {/* Confirmation dialog */}
       {showConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
-          <div className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
-            <h2 id="confirm-dialog-title" className="text-xl font-bold">לסיים את המבחן?</h2>
-            <p className="text-[var(--th-muted)] text-sm">
-              ענית על {answeredCount} מתוך {questions.length} שאלות.{" "}
-              {questions.length - answeredCount} שאלות עדיין לא נענו.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
-              >
-                המשך מבחן
-              </button>
-              <button
-                onClick={() => {
-                  setShowConfirm(false);
-                  doSubmit();
-                }}
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
-              >
-                סיים בכל זאת
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog
+          title="לסיים את המבחן?"
+          cancelLabel="המשך מבחן"
+          confirmLabel="סיים בכל זאת"
+          onCancel={closeConfirm}
+          onConfirm={() => {
+            setShowConfirm(false);
+            doSubmit();
+          }}
+        >
+          ענית על {answeredCount} מתוך {questions.length} שאלות.
+          {answeredCount < questions.length && (
+            <> {questions.length - answeredCount} שאלות עדיין לא נענו.</>
+          )}
+          {markedForReview.some(Boolean) && (
+            <> סימנת {markedForReview.filter(Boolean).length} שאלות לבדיקה חוזרת.</>
+          )}
+        </ConfirmDialog>
       )}
     </main>
   );

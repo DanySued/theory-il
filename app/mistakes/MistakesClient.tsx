@@ -47,7 +47,6 @@ export default function MistakesClient() {
   useEffect(() => {
     const stats = getQStats();
     loadCorpus().then((all) => setDeck(buildDeck(all, stats)));
-    updateStreak();
   }, []);
 
   const goTo = useCallback(
@@ -69,6 +68,7 @@ export default function MistakesClient() {
       if (!deck) return;
       const q = deck[currentIndex].question;
       if (idx === q.correctIndex) setCorrectCount((c) => c + 1);
+      updateStreak(); // a study day counts once the learner answers
       setSelectedAnswer(idx);
       setShowAnswer(true);
     },
@@ -116,7 +116,7 @@ export default function MistakesClient() {
           <div className="flex gap-3 mt-2">
             <Link
               href="/exam"
-              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               מבחן תרגול
             </Link>
@@ -150,7 +150,7 @@ export default function MistakesClient() {
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-white text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
+              className="inline-flex items-center justify-center h-11 px-5 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
             >
               סבב נוסף
             </button>

@@ -48,7 +48,7 @@ export default function ReviewHub() {
             onClick={() => select(t.id)}
             className={`flex-1 min-h-11 px-3 rounded-[var(--th-radius-lg)] text-sm font-semibold transition-colors ${
               tab === t.id
-                ? "bg-[var(--th-accent)] text-white"
+                ? "bg-[var(--th-accent)] text-[var(--th-on-accent)]"
                 : "bg-[var(--th-card)] border border-[var(--th-border)] text-[var(--th-muted-strong)] hover:border-[var(--th-accent)]"
             }`}
           >

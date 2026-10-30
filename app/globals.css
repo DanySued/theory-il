@@ -11,6 +11,8 @@
   --th-accent: #1d4ed8;
   --th-accent-hover: #1e40af;
   --th-accent-soft: #eaf0ff;
+  --th-on-accent: #ffffff;
+  --th-on-error: #ffffff;
   --th-success: #16a34a;
   --th-error: #dc2626;
   --th-success-soft: #f0fdf4;
@@ -141,6 +143,8 @@
     --th-accent: #6aa1ff;
     --th-accent-hover: #8ab6ff;
     --th-accent-soft: #1a2540;
+    --th-on-accent: #0b1220;
+    --th-on-error: #1a0505;
     --th-success: #22c55e;
     --th-error: #f87171;
     --th-success-soft: #052e16;
@@ -179,6 +183,8 @@
   --th-accent: #6aa1ff;
   --th-accent-hover: #8ab6ff;
   --th-accent-soft: #1a2540;
+  --th-on-accent: #0b1220;
+  --th-on-error: #1a0505;
   --th-success: #22c55e;
   --th-error: #f87171;
   --th-success-soft: #052e16;
@@ -220,6 +226,23 @@
   .signs-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
+}
+
+/* Home hero: first-time vs returning learner (see the boot script in layout.tsx). */
+.th-hero {
+  min-height: calc(100dvh - 61px);
+}
+:root[data-returning] .th-hero {
+  min-height: 0;
+  padding-block: 2.5rem 0;
+  gap: 1.5rem;
+}
+:root[data-returning] .th-hero .th-display {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+}
+:root[data-returning] .th-new-only,
+:root:not([data-returning]) .th-returning-only {
+  display: none;
 }
 
 .th-card-hover {
