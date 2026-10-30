@@ -62,11 +62,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     setWeakIds(weak);
   }, [questions]);
 
-  // Track study session for streak
-  useEffect(() => {
-    updateStreak();
-  }, []);
-
   // Restore last-viewed question for this topic on mount
   useEffect(() => {
     const saved = getDrillPosition(topic);
@@ -114,6 +109,8 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     (idx: number) => {
       setSelectedAnswer(idx);
       setShowAnswer(true);
+      // A study day counts once the learner actually answers, not on page open.
+      updateStreak();
     },
     []
   );

@@ -34,7 +34,6 @@ export default function ReviewClient() {
       const summary = reviewDeckSummary(questions, stats, bookmarks);
       setDeck({ questions, summary });
     });
-    updateStreak();
   }, []);
 
   const goTo = useCallback(
@@ -56,6 +55,7 @@ export default function ReviewClient() {
       if (!deck) return;
       const q = deck.questions[currentIndex];
       if (idx === q.correctIndex) setCorrectCount((c) => c + 1);
+      updateStreak(); // a study day counts once the learner answers
       setSelectedAnswer(idx);
       setShowAnswer(true);
     },

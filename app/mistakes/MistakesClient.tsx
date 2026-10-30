@@ -47,7 +47,6 @@ export default function MistakesClient() {
   useEffect(() => {
     const stats = getQStats();
     loadCorpus().then((all) => setDeck(buildDeck(all, stats)));
-    updateStreak();
   }, []);
 
   const goTo = useCallback(
@@ -69,6 +68,7 @@ export default function MistakesClient() {
       if (!deck) return;
       const q = deck[currentIndex].question;
       if (idx === q.correctIndex) setCorrectCount((c) => c + 1);
+      updateStreak(); // a study day counts once the learner answers
       setSelectedAnswer(idx);
       setShowAnswer(true);
     },
