@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, getBookmarks, toggleBookmark, type Attempt } from "@/lib/storage";
 import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
+import Explanation from "@/components/Explanation";
 import PageShell from "@/components/PageShell";
 import Skeleton from "@/components/Skeleton";
 import { LABELS, PASS_SCORE } from "@/lib/constants";
@@ -383,12 +384,7 @@ export default function ResultsPage() {
                   })}
                 </div>
 
-                {q.explanation && (
-                  <div className="text-xs text-[var(--th-muted-strong)] leading-relaxed border-t border-[var(--th-border)] pt-3 mt-1">
-                    <span className="font-bold text-[var(--th-fg)]">הסבר: </span>
-                    {q.explanation}
-                  </div>
-                )}
+                <Explanation question={q} className="border-t border-[var(--th-border)] pt-3 mt-1" />
               </div>
             );
           })}

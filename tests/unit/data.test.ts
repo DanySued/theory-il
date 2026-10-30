@@ -20,3 +20,14 @@ describe("question corpus", () => {
     }
   });
 });
+
+describe("explanations", () => {
+  it("only reference real questions and are non-empty", async () => {
+    const explanations = (await import("@/lib/data/explanations.json")).default as Record<string, string>;
+    const ids = new Set(ALL.map((x) => x.id));
+    for (const [id, text] of Object.entries(explanations)) {
+      expect(ids.has(id), id).toBe(true);
+      expect(text.trim().length).toBeGreaterThan(10);
+    }
+  });
+});

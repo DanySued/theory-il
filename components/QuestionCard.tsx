@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { recordAnswer, getBookmarks, toggleBookmark } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
+import Explanation from "@/components/Explanation";
 import { answerOrder, getSessionSeed, peekSessionSeed } from "@/lib/answerOrder";
 
 export interface Question {
@@ -272,12 +273,7 @@ export default function QuestionCard({
                     ? "✓ נכון!"
                     : `✗ לא נכון — התשובה הנכונה היא ${LABELS[correctPos]}`}
               </p>
-              {question.explanation && (
-                <p className="text-sm text-[var(--th-fg-soft)] leading-relaxed">
-                  <span className="font-semibold">למה? </span>
-                  {question.explanation}
-                </p>
-              )}
+              <Explanation question={question} />
             </div>
           )}
         </motion.div>
