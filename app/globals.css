@@ -291,7 +291,7 @@ html {
 }
 
 /* Phone chrome. Browse screens: global header + bottom tab bar, so the page keeps
-   clear of the fixed bar. Focus screens (a .th-focus-marker from <FocusMode/> is on
+   clear of the fixed bar. Focus screens (a .th-focus-marker from <FocusHeader/> is on
    the page): FocusHeader + FocusActionBar replace both, and the page clears the bar. */
 @media (max-width: 639px) {
   body {
@@ -308,6 +308,11 @@ html {
   body:has(.th-focus-marker) .th-page {
     padding-top: 0;
   }
+  /* Scrolling/focus targets stay clear of the sticky header and the fixed bottom bar */
+  html:has(.th-focus-marker) {
+    scroll-padding-top: calc(59px + var(--th-safe-t));
+    scroll-padding-bottom: calc(var(--th-actionbar-h) + var(--th-safe-b) + 0.75rem);
+  }
 }
 
 /* Bottom sheets slide up on phones */
@@ -322,13 +327,13 @@ html {
   }
 }
 
-/* Flashcard fills the space between FocusHeader (56 + 3px) and the rating bar */
+/* Flashcard: phones fill the space between FocusHeader (56 + 3px) and the rating bar */
+.th-flashcard {
+  min-height: 260px;
+}
 @media (max-width: 639px) {
   .th-flashcard {
-    min-height: max(
-      260px,
-      calc(100svh - 59px - var(--th-safe-t) - 6.75rem - var(--th-safe-b) - 2rem)
-    ) !important;
+    min-height: max(260px, calc(100svh - 59px - var(--th-safe-t) - 6.75rem - var(--th-safe-b) - 2rem));
   }
 }
 

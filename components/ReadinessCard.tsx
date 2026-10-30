@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { EXAM_LENGTH, PASS_SCORE } from "@/lib/constants";
-import { READINESS_MIN_SEEN, type ExamTrend, type Readiness } from "@/lib/readiness";
+import { formatChance, READINESS_MIN_SEEN, type ExamTrend, type Readiness } from "@/lib/readiness";
 
 function tone(r: Readiness): { color: string; label: string } {
   if (r.passChance >= 0.8) return { color: "var(--th-success)", label: "מוכן לבחינה ✓" };
@@ -114,7 +114,7 @@ export default function ReadinessCard({ r, trend }: { r: Readiness; trend?: Exam
         <dl className="grid grid-cols-3 gap-2 text-center pt-1">
           <div className="flex flex-col">
             <dt className="th-caption">סיכוי לעבור</dt>
-            <dd className="font-bold tabular-nums text-[var(--th-fg)]">{chance < 1 ? "פחות מ-1%" : `${chance}%`}</dd>
+            <dd className="font-bold tabular-nums text-[var(--th-fg)]">{formatChance(r.passChance)}</dd>
           </div>
           <div className="flex flex-col">
             <dt className="th-caption">כיסוי המאגר</dt>

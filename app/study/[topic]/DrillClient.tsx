@@ -7,9 +7,9 @@ import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import { motion } from "motion/react";
 import StudyGuide from "@/components/StudyGuide";
-import FocusMode from "@/components/FocusMode";
 import FocusHeader, { focusIconBtn } from "@/components/FocusHeader";
 import BookmarkButton from "@/components/BookmarkButton";
+import { goBack } from "@/components/BackButton";
 import SignsCatalog from "@/components/SignsCatalog";
 import { SIGNS, type SignCategory } from "@/lib/data/signs";
 import { getQStats, updateStreak, getDrillPosition, saveDrillPosition } from "@/lib/storage";
@@ -156,10 +156,6 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
   const isDrill = view === "drill";
   const current = activeQuestions[currentIndex];
 
-  const leave = () => {
-    if (window.history.length > 1) router.back();
-    else router.push("/study");
-  };
 
   const weakToggle = (size: string) => (
     <button
@@ -178,11 +174,10 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   return (
     <div className="w-full flex flex-col items-center gap-3 sm:gap-6">
-      {isDrill && <FocusMode />}
       {isDrill && (
         <FocusHeader
           bleed
-          back={{ label: "חזרה", onClick: leave }}
+          back={{ label: "חזרה", onClick: () => goBack(router, "/study") }}
           title={topic}
           subtitle={
             activeTotal > 0

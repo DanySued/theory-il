@@ -8,6 +8,8 @@ export interface ResumeTarget {
   title: string;
   subtitle: string;
   ts: number;
+  /** Short stat for compact cards ("27/30 נכון", "שאלה 48 מתוך 361"). */
+  meta: string;
   /** Drill only: 1-based position and topic size, for a progress bar. */
   position?: { current: number; total: number };
 }
@@ -47,6 +49,7 @@ export function getLastSession(): ResumeTarget | null {
         eyebrow: "המשך מהמקום שעצרת",
         title: drill.topic,
         subtitle: `שאלה ${current} מתוך ${topicTotal} · ${timeAgo(drill.ts)}`,
+        meta: `שאלה ${current} מתוך ${topicTotal}`,
         ts: drill.ts,
         position: { current, total: topicTotal },
       });
@@ -63,6 +66,7 @@ export function getLastSession(): ResumeTarget | null {
       eyebrow: "סקירת המבחן האחרון",
       title: latest.questions.length === 30 ? "מבחן מלא" : `${latest.questions.length} שאלות`,
       subtitle: `${correct}/${latest.questions.length} נכון · ${timeAgo(latest.startedAt)}`,
+      meta: `${correct}/${latest.questions.length} נכון`,
       ts: latest.startedAt,
     });
   }

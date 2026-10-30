@@ -23,7 +23,9 @@ interface Props {
 
 /**
  * Phone-only top bar for focus screens (drill, exam, flashcards). Desktop keeps each
- * screen's own header, so this renders nothing visible at ≥640px.
+ * screen's own header, so this renders nothing visible at ≥640px. Its marker span is
+ * what globals.css keys focus mode on (`body:has(.th-focus-marker)`): the global header
+ * and tab bar step aside, straight from the server HTML, so nothing flashes on load.
  */
 export default function FocusHeader({ back, title, subtitle, center, trailing, progress, bleed = false }: Props) {
   const BackIcon = back.icon === "close" ? X : ChevronRight; // RTL: "back" points right
@@ -34,6 +36,7 @@ export default function FocusHeader({ back, title, subtitle, center, trailing, p
       className={`sm:hidden sticky top-0 z-40 self-stretch ${bleed ? "-mx-[var(--th-page-px)]" : ""} bg-[var(--th-bg)]/90 backdrop-blur-md border-b border-[var(--th-border)]`}
       style={{ paddingTop: "var(--th-safe-t)" }}
     >
+      <span className="th-focus-marker" hidden />
       <div className="h-14 px-1 flex items-center gap-1">
         {back.href ? (
           <Link href={back.href} aria-label={back.label} className={focusIconBtn}>

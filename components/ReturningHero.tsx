@@ -3,19 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getQStats } from "@/lib/storage";
-import { getSRSCards } from "@/lib/srs";
-import { localDateStr } from "@/lib/utils";
+import { countReviewedDue } from "@/lib/srs";
 import { getLastSession, type ResumeTarget } from "@/lib/lastSession";
-import { estimateReadiness, READINESS_MIN_SEEN, type Readiness } from "@/lib/readiness";
+import { estimateReadiness, formatChance, READINESS_MIN_SEEN, type Readiness } from "@/lib/readiness";
 import { EXAM_LENGTH } from "@/lib/constants";
 import { TOPIC_COUNTS } from "@/lib/data/topics";
 
 const TOPIC_KEYS = Object.keys(TOPIC_COUNTS);
-
-export function formatChance(p: number): string {
-  // Bidi-safe: a literal "<1%" renders as "1%>" inside RTL text.
-  return p < 0.01 ? "פחות מ-1%" : `${Math.round(p * 100)}%`;
-}
 
 export interface ReturningState {
   resume: ResumeTarget | null;
@@ -30,10 +24,8 @@ export function useReturningState(topicIndex: Record<string, number>): Returning
 
   useEffect(() => {
     const r = estimateReadiness(getQStats(), (id) => TOPIC_KEYS[topicIndex[id]], TOPIC_COUNTS);
-    const today = localDateStr(new Date());
-    const dueToday = Object.values(getSRSCards()).filter((c) => c.dueDate <= today).length;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setState({ resume: getLastSession(), r, dueToday });
+    setState({ resume: getLastSession(), r, dueToday: countReviewedDue() });
   }, [topicIndex]);
 
   return state;

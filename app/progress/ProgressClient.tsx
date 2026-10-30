@@ -15,14 +15,15 @@ import {
   type Attempt,
   type QuestionStats,
 } from "@/lib/storage";
-import { getSRSCards } from "@/lib/srs";
-import { localDateStr } from "@/lib/utils";
+import { countReviewedDue } from "@/lib/srs";
 import ReadinessCard from "@/components/ReadinessCard";
 import { estimateReadiness, examTrend, type ExamTrend, type Readiness } from "@/lib/readiness";
 import { TOPIC_COUNTS } from "@/lib/data/topics";
 import { getTopicAccuracy, getMostMissed, type TopicAccuracy, type MissedQuestion } from "@/lib/progress";
 
 const TOPIC_ORDER = ["חוקי התנועה", "תמרורים", "בטיחות", "הכרת הרכב"];
+/** Below this accuracy a practiced topic counts as weak (drill links use ?weak=1). */
+const WEAK_ACCURACY = 0.85;
 
 interface DataState {
   stats: Record<string, QuestionStats>;
@@ -58,9 +59,7 @@ export default function ProgressClient() {
       const missed = getMostMissed(questions, stats, 10);
       const attempts = listAttempts().slice(0, 5);
       // FIX-03: only count SRS cards that have been reviewed before and are due — not unseen questions
-      const srsCards = getSRSCards();
-      const today = localDateStr(new Date());
-      const dueCount = Object.values(srsCards).filter((c) => c.dueDate <= today).length;
+      const dueCount = countReviewedDue();
       const streak = getStreak();
       const bookmarkCount = getBookmarks().size;
       const totalSeen = topics.reduce((s, t) => s + t.seen, 0);
@@ -261,7 +260,7 @@ function TopicRow({ t }: { t: TopicAccuracy }) {
   return (
     <Link
       href={
-        t.seen > 0 && pct < 85
+        t.seen > 0 && t.accuracy < WEAK_ACCURACY
           ? `/study/${encodeURIComponent(t.topic)}?weak=1`
           : `/study/${encodeURIComponent(t.topic)}`
       }
@@ -293,7 +292,7 @@ function TopicRow({ t }: { t: TopicAccuracy }) {
 
 function TopicAccuracyCard({ topics }: { topics: TopicAccuracy[] }) {
   // `topics` arrives weakest-first with unpracticed topics last.
-  const weakest = topics.find((t) => t.seen > 0 && t.accuracy < 0.85);
+  const weakest = topics.find((t) => t.seen > 0 && t.accuracy < WEAK_ACCURACY);
   return (
     <section
       aria-label="דיוק לפי נושא"

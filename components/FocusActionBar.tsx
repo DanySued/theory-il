@@ -18,22 +18,25 @@ export const focusIcon = `${focusBase} w-14 shrink-0 border border-[var(--th-bor
 export default function FocusActionBar({
   children,
   aboveTabBar = false,
-  className = "",
 }: {
   children: ReactNode;
   aboveTabBar?: boolean;
-  className?: string;
 }) {
+  // Focus screens already pad <body> for the bar (globals.css); above the tab bar the
+  // page only pads for the tab bar, so this variant reserves its own height in flow.
   return (
-    <div
-      className={`th-actionbar sm:hidden fixed inset-x-0 z-40 px-4 pt-2.5 border-t border-[var(--th-border)] bg-[var(--th-card)]/95 backdrop-blur-md ${className}`}
-      style={
-        aboveTabBar
-          ? { bottom: "calc(var(--th-tabbar-h) + var(--th-safe-b))", paddingBottom: "10px" }
-          : { bottom: 0, paddingBottom: "calc(10px + var(--th-safe-b))" }
-      }
-    >
-      <div className="flex gap-2.5">{children}</div>
-    </div>
+    <>
+      {aboveTabBar && <div aria-hidden className="sm:hidden h-[var(--th-actionbar-h)]" />}
+      <div
+        className="sm:hidden fixed inset-x-0 z-40 px-4 pt-2.5 border-t border-[var(--th-border)] bg-[var(--th-card)]/95 backdrop-blur-md"
+        style={
+          aboveTabBar
+            ? { bottom: "calc(var(--th-tabbar-h) + var(--th-safe-b))", paddingBottom: "10px" }
+            : { bottom: 0, paddingBottom: "calc(10px + var(--th-safe-b))" }
+        }
+      >
+        <div className="flex gap-2.5">{children}</div>
+      </div>
+    </>
   );
 }

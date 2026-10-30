@@ -145,7 +145,7 @@ export default function NavBar() {
         <div className="mx-auto max-w-6xl w-full ps-3 pe-2 sm:px-6 h-14 sm:h-[61px] flex items-center gap-1 sm:gap-3 sm:grid sm:grid-cols-[1fr_auto_1fr]">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 text-[var(--th-fg)] shrink-0 min-h-11 px-1"
+            className="group inline-flex items-center gap-2 text-[var(--th-fg)] shrink-0 min-h-11 px-1 sm:px-0"
           >
             <span className="text-[22px] sm:text-xl font-extrabold tracking-tight">תיאוריה</span>
           </Link>

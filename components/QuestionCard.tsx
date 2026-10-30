@@ -73,7 +73,7 @@ export default function QuestionCard({
   const correctPos = order.indexOf(question.correctIndex);
 
   // Bring the feedback into view on reveal (it sits below the answers on small screens);
-  // its scroll-margin keeps it clear of the fixed bottom bar.
+  // focus screens set scroll-padding so it lands clear of the fixed bottom bar.
   useEffect(() => {
     if (showAnswer) feedbackRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }, [showAnswer, question.id]);
@@ -121,7 +121,7 @@ export default function QuestionCard({
   // Phones: 56px rows, 16px text, 14px radius, 2px state borders. ≥sm keeps the original.
   function getButtonStyle(idx: number): string {
     const base =
-      "w-full min-h-14 sm:min-h-0 flex sm:block items-center gap-2.5 text-start px-3.5 sm:px-4 py-3 rounded-[14px] sm:rounded-[var(--th-radius)] text-base sm:text-sm leading-snug font-medium transition-colors";
+      "w-full min-h-14 sm:min-h-0 flex sm:block items-center gap-2.5 text-start px-3.5 sm:px-4 py-3 rounded-[14px] sm:rounded-[var(--th-radius)] text-base sm:text-sm leading-snug sm:leading-normal font-medium transition-colors";
     if (!showAnswer) {
       return `${base} border bg-[var(--th-card)] border-[var(--th-border)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)] active:bg-[var(--th-muted-bg)] cursor-pointer`;
     }
@@ -277,7 +277,7 @@ export default function QuestionCard({
                 ref={feedbackRef}
                 role="status"
                 aria-live="polite"
-                className={`sm:mt-1 flex flex-col gap-2 rounded-xl sm:rounded-none px-3 py-2.5 sm:px-0 sm:py-0 sm:pt-3 sm:border-t sm:border-[var(--th-border)] sm:bg-transparent scroll-mb-[calc(var(--th-actionbar-h)+var(--th-safe-b)+0.75rem)] ${
+                className={`sm:mt-1 flex flex-col gap-2 rounded-xl sm:rounded-none px-3 py-2.5 sm:px-0 sm:py-0 sm:pt-3 sm:border-t sm:border-[var(--th-border)] sm:bg-transparent ${
                   feedbackTone === "success"
                     ? "bg-[var(--th-success-soft)]"
                     : feedbackTone === "error"

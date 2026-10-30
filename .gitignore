@@ -56,3 +56,6 @@ limud/
 /playwright-report/
 /*.png
 *.log
+
+# Full iPhone screenshot matrix (regenerable; curated shots are committed)
+analysis/screenshots/*/matrix/

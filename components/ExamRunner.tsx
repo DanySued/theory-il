@@ -9,7 +9,6 @@ import { saveAttempt, generateId } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
 import ConfirmDialog from "@/components/ConfirmDialog";
-import FocusMode from "@/components/FocusMode";
 import FocusHeader from "@/components/FocusHeader";
 import FocusActionBar, { focusBase, focusIcon, focusPrimary } from "@/components/FocusActionBar";
 
@@ -195,7 +194,6 @@ export default function ExamRunner({
 
   return (
     <main className="flex flex-1 flex-col">
-      <FocusMode />
       {/* Phone top bar: exit · timer · submit */}
       <FocusHeader
         back={{ label: "יציאה מהמבחן", icon: "close", onClick: () => setShowExitConfirm(true) }}
@@ -373,7 +371,7 @@ export default function ExamRunner({
                     whileTap={{ scale: 0.98 }}
                     // Phones: 56px radio rows (2px accent border + soft fill when chosen);
                     // ≥sm keeps the solid accent selection.
-                    className={`relative overflow-hidden w-full min-h-14 sm:min-h-0 flex sm:block items-center gap-2.5 text-start px-3.5 sm:px-4 py-3 rounded-[14px] sm:rounded-[var(--th-radius)] text-base sm:text-sm leading-snug font-medium transition-colors ${
+                    className={`relative overflow-hidden w-full min-h-14 sm:min-h-0 flex sm:block items-center gap-2.5 text-start px-3.5 sm:px-4 py-3 rounded-[14px] sm:rounded-[var(--th-radius)] text-base sm:text-sm leading-snug sm:leading-normal font-medium transition-colors ${
                       isSelected
                         ? "border-2 sm:border bg-[var(--th-accent-soft)] sm:bg-[var(--th-accent)] border-[var(--th-accent)] text-[var(--th-fg)] sm:text-[var(--th-on-accent)] font-semibold sm:font-medium"
                         : "border bg-[var(--th-card)] border-[var(--th-border)] text-[var(--th-fg-soft)] sm:text-[var(--th-fg)] hover:border-[var(--th-accent)] hover:bg-[var(--th-muted-bg)]"

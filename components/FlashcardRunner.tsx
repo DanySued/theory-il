@@ -5,11 +5,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import type { SuperMemoGrade } from "supermemo";
-import { getDueCards, previewInterval, reviewCard } from "@/lib/srs";
+import { getDueCards, previewIntervals, reviewCard } from "@/lib/srs";
 import type { Question } from "@/components/QuestionCard";
 import PageShell from "@/components/PageShell";
 import SectionHead from "@/components/SectionHead";
-import FocusMode from "@/components/FocusMode";
 import FocusHeader from "@/components/FocusHeader";
 import FocusActionBar, { focusPrimary } from "@/components/FocusActionBar";
 
@@ -142,13 +141,13 @@ export default function FlashcardRunner({ questions }: Props) {
   const q = questions.find((q) => q.id === dueIds[currentIdx])!;
   const displayText = q.text;
   const displayAnswer = q.answers[q.correctIndex];
+  const intervals = flipped ? previewIntervals(q.id, RATINGS.map((r) => r.grade)) : null;
 
   return (
     <main
       className="flex flex-1 flex-col items-center pb-[calc(2rem+var(--th-safe-b))] sm:py-8 gap-4 sm:gap-6"
       style={{ paddingInline: "var(--th-page-px)" }}
     >
-      <FocusMode />
       <FocusHeader
         bleed
         back={{ label: "חזרה לכרטיסיות", href: "/flashcards" }}
@@ -195,7 +194,7 @@ export default function FlashcardRunner({ questions }: Props) {
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
           className="th-flashcard"
-          style={{ transformStyle: "preserve-3d", position: "relative", minHeight: 260 }}
+          style={{ transformStyle: "preserve-3d", position: "relative" }}
         >
           {/* Front */}
           <div
@@ -298,7 +297,7 @@ export default function FlashcardRunner({ questions }: Props) {
                 >
                   {r.label}
                   <span className="text-[11px] font-medium opacity-85">
-                    {intervalHint(previewInterval(q.id, r.grade))}
+                    {intervals && intervalHint(intervals[r.grade])}
                   </span>
                 </button>
               ))}

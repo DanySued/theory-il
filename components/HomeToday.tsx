@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { formatChance, useReturningState } from "@/components/ReturningHero";
+import { useReturningState } from "@/components/ReturningHero";
+import { focusBase } from "@/components/FocusActionBar";
+import { formatChance } from "@/lib/readiness";
 import { TOPIC_COUNTS } from "@/lib/data/topics";
 
-const primaryBtn =
-  "h-[52px] rounded-[14px] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-[17px] font-bold inline-flex items-center justify-center gap-2 active:bg-[var(--th-accent-hover)] transition-colors";
+const primaryBtn = `${focusBase} text-[17px] bg-[var(--th-accent)] text-[var(--th-on-accent)] active:bg-[var(--th-accent-hover)]`;
 const card =
   "rounded-[20px] border border-[var(--th-border)] bg-[var(--th-card)] p-4 flex flex-col gap-3 shadow-[var(--th-shadow-md)]";
 
@@ -75,9 +76,7 @@ export function HomeContinueCard({ topicIndex }: { topicIndex: Record<string, nu
                   {resume.position.current} / {resume.position.total}
                 </span>
               ) : (
-                <span className="shrink-0 text-sm font-semibold text-[var(--th-muted-strong)]">
-                  {resume.subtitle.split(" · ")[0]}
-                </span>
+                <span className="shrink-0 text-sm font-semibold text-[var(--th-muted-strong)]">{resume.meta}</span>
               )}
             </div>
             {resume.position && (

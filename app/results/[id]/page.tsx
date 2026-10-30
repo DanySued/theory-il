@@ -3,12 +3,13 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, getBookmarks, toggleBookmark, type Attempt } from "@/lib/storage";
+import { getAttempt, saveAttempt, recordAnswersBatch, updateStreak, type Attempt } from "@/lib/storage";
 import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
 import Explanation from "@/components/Explanation";
 import PageShell from "@/components/PageShell";
 import Skeleton from "@/components/Skeleton";
+import BookmarkButton from "@/components/BookmarkButton";
 import FocusActionBar, { focusPrimary, focusSecondary } from "@/components/FocusActionBar";
 import { LABELS, PASS_SCORE } from "@/lib/constants";
 
@@ -28,29 +29,18 @@ export default function ResultsPage() {
   const [sharing, setSharing] = useState(false);
   const [exportingDocx, setExportingDocx] = useState(false);
   const [filter, setFilter] = useState<"all" | "wrong">("wrong");
-  const [bookmarkSet, setBookmarkSet] = useState<Set<string>>(new Set());
 
   // Phones: once the top actions scroll away, keep the next step in a bottom bar.
   const actionsRef = useRef<HTMLDivElement>(null);
   const [actionsVisible, setActionsVisible] = useState(true);
   useEffect(() => {
     const el = actionsRef.current;
-    if (!el) return;
+    if (!el || !window.matchMedia("(max-width: 639px)").matches) return;
     const io = new IntersectionObserver(([entry]) => setActionsVisible(entry.isIntersecting));
     io.observe(el);
     return () => io.disconnect();
   }, [attempt]);
   const shareCardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setBookmarkSet(getBookmarks());
-  }, []);
-
-  const handleToggleBookmark = (qid: string) => {
-    const next = toggleBookmark(qid);
-    setBookmarkSet(new Set(next));
-  };
 
   useEffect(() => {
     const a = getAttempt(id);
@@ -330,21 +320,17 @@ export default function ResultsPage() {
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs text-[var(--th-muted)]">שאלה {i + 1}</span>
                   <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleBookmark(q.id)}
-                      aria-label={bookmarkSet.has(q.id) ? "הסר מהשמורות" : "שמור שאלה"}
-                      aria-pressed={bookmarkSet.has(q.id)}
-                      className={`inline-flex items-center justify-center w-11 h-11 sm:w-6 sm:h-6 rounded-full transition-colors ${
-                        bookmarkSet.has(q.id)
-                          ? "text-[var(--th-accent)] hover:bg-[var(--th-accent-soft)]"
-                          : "text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]"
-                      }`}
-                    >
-                      <span aria-hidden className="text-sm leading-none">
-                        {bookmarkSet.has(q.id) ? "★" : "☆"}
-                      </span>
-                    </button>
+                    <BookmarkButton
+                      questionId={q.id}
+                      size={14}
+                      className={(saved) =>
+                        `inline-flex items-center justify-center w-11 h-11 sm:w-6 sm:h-6 rounded-full transition-colors ${
+                          saved
+                            ? "text-[var(--th-accent)] hover:bg-[var(--th-accent-soft)]"
+                            : "text-[var(--th-muted)] hover:text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)]"
+                        }`
+                      }
+                    />
                     <span
                       className={`text-xs font-bold ${
                         unanswered
@@ -421,7 +407,6 @@ export default function ResultsPage() {
           )}
         </FocusActionBar>
       )}
-      <div aria-hidden className="sm:hidden h-[var(--th-actionbar-h)]" />
 
       {/* Off-screen share card for image export */}
       <div

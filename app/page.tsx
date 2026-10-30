@@ -28,11 +28,11 @@ const SIGN_CATEGORIES = [
   { name: "סימוני כביש", color: "var(--th-cat-road)", desc: "סימונים על הכביש — קווים, חצים ורצועות" },
 ];
 
-// `short`/`label` (phones) follow the iPhone design; `desc` is the desktop copy.
-const STUDY_MODES = [
-  { label: "חזרה חכמה", short: "חזרה חכמה", href: "/review", brief: "20 שאלות שבחרנו לך", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
+// Phones show `short ?? label` + `brief` (the iPhone design); desktop shows `label` + `desc`.
+const STUDY_MODES: { label: string; short?: string; href: string; brief: string; desc: string }[] = [
+  { label: "חזרה חכמה", href: "/review", brief: "20 שאלות שבחרנו לך", desc: "סבב של 20 שאלות שבחרנו עבורך לפי הנתונים שלך" },
   { label: "לימוד לפי נושא", short: "לפי נושא", href: "/study", brief: `${TOTAL_QUESTIONS.toLocaleString("en-US")} שאלות רשמיות`, desc: "קרא, ענה ולמד — שאלות מהמאגר הרשמי עם משוב מיידי" },
-  { label: "מבחן תרגול", short: "מבחן תרגול", href: "/exam", brief: "30 שאלות · 40 דקות", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
+  { label: "מבחן תרגול", href: "/exam", brief: "30 שאלות · 40 דקות", desc: "30 שאלות אקראיות, ממשק דומה למבחן האמיתי" },
   { label: "כרטיסיות שינון", short: "כרטיסיות", href: "/flashcards", brief: "חזרה מרווחת", desc: "חזרה מרווחת (SRS) — הכרטיסים חוזרים בדיוק כשעומדים לשכוח אותם" },
 ];
 
@@ -113,7 +113,7 @@ export default function Home() {
               className={`flex flex-col gap-0.5 sm:gap-2 min-h-[76px] px-3.5 py-3 sm:p-5 h-full ${cardLink}`}
             >
               <span className="text-[15px] sm:text-base font-bold text-[var(--th-fg)]">
-                <span className="sm:hidden">{m.short}</span>
+                <span className="sm:hidden">{m.short ?? m.label}</span>
                 <span className="hidden sm:inline">{m.label}</span>
               </span>
               <span className="sm:hidden text-xs text-[var(--th-muted-strong)]">{m.brief}</span>

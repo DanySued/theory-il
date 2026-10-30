@@ -25,7 +25,7 @@ function isActive(tab: Tab, pathname: string): boolean {
   return tab.match.some((m) => pathname === m || pathname.startsWith(m + "/"));
 }
 
-/** Phone-only primary navigation. Hidden on focus screens (see FocusMode + globals.css). */
+/** Phone-only primary navigation. Hidden on focus screens (see FocusHeader + globals.css). */
 export default function BottomTabBar() {
   const pathname = decodeURI(usePathname() ?? "/");
 
@@ -42,7 +42,6 @@ export default function BottomTabBar() {
             <li key={tab.href}>
               <Link
                 href={tab.href}
-                prefetch
                 aria-current={active ? "page" : undefined}
                 className={`h-[50px] flex flex-col items-center justify-center gap-[3px] rounded-[var(--th-radius)] text-[11px] leading-none transition-colors ${
                   active
