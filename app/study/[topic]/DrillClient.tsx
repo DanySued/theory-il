@@ -2,11 +2,14 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import QuestionCard, { type Question } from "@/components/QuestionCard";
 import ProgressBar from "@/components/ProgressBar";
 import { motion } from "motion/react";
 import StudyGuide from "@/components/StudyGuide";
+import FocusMode from "@/components/FocusMode";
+import FocusHeader, { focusIconBtn } from "@/components/FocusHeader";
+import BookmarkButton from "@/components/BookmarkButton";
 import SignsCatalog from "@/components/SignsCatalog";
 import { SIGNS, type SignCategory } from "@/lib/data/signs";
 import { getQStats, updateStreak, getDrillPosition, saveDrillPosition } from "@/lib/storage";
@@ -30,6 +33,7 @@ interface DrillClientProps {
 type View = "guide" | "drill";
 
 export default function DrillClient({ topic, questions, guide }: DrillClientProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const weakInitial = searchParams?.get("weak") === "1";
   const viewParam = searchParams?.get("view");
@@ -141,23 +145,85 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
     );
   }
 
+  // Phones: a full-width segmented control (card pill on muted track); ≥sm keeps the accent pill.
   const tabBtn = (v: View) =>
-    `relative px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
-      view === v ? "text-[var(--th-on-accent)]" : "text-[var(--th-muted)] hover:text-[var(--th-fg)]"
+    `relative h-11 sm:h-auto px-4 py-1.5 rounded-[10px] sm:rounded-full text-[15px] sm:text-sm font-semibold transition-colors ${
+      view === v
+        ? "font-bold sm:font-semibold text-[var(--th-fg)] sm:text-[var(--th-on-accent)]"
+        : "text-[var(--th-muted-strong)] sm:text-[var(--th-muted)] hover:text-[var(--th-fg)]"
     }`;
 
+  const isDrill = view === "drill";
+  const current = activeQuestions[currentIndex];
+
+  const leave = () => {
+    if (window.history.length > 1) router.back();
+    else router.push("/study");
+  };
+
+  const weakToggle = (size: string) => (
+    <button
+      type="button"
+      onClick={handleWeakToggle}
+      aria-pressed={weakOnly}
+      className={`${size} rounded-full text-xs font-semibold border transition-colors ${
+        weakOnly
+          ? "bg-[var(--th-error)] border-[var(--th-error)] text-[var(--th-on-error)]"
+          : "border-[var(--th-border)] text-[var(--th-muted)] hover:border-[var(--th-error)] hover:text-[var(--th-error)]"
+      }`}
+    >
+      {weakOnly ? "✕ שאלות קשות" : "שאלות קשות"}
+    </button>
+  );
+
   return (
-    <div className="w-full flex flex-col items-center gap-6">
+    <div className="w-full flex flex-col items-center gap-3 sm:gap-6">
+      {isDrill && <FocusMode />}
+      {isDrill && (
+        <FocusHeader
+          bleed
+          back={{ label: "חזרה", onClick: leave }}
+          title={topic}
+          subtitle={
+            activeTotal > 0
+              ? `שאלה ${currentIndex + 1} מתוך ${activeTotal}${weakOnly ? " · שאלות קשות" : ""}`
+              : undefined
+          }
+          progress={activeTotal > 0 ? (currentIndex + 1) / activeTotal : 0}
+          trailing={
+            current && (
+              <BookmarkButton
+                questionId={current.id}
+                size={22}
+                className={(saved) =>
+                  `${focusIconBtn} ${saved ? "text-[var(--th-accent)]" : "text-[var(--th-muted-strong)]"}`
+                }
+              />
+            )
+          }
+        />
+      )}
+
       {/* Header */}
       <div className="w-full flex items-center justify-end gap-3">
         {guide ? (
-          <div className="flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-full p-1">
+          <div
+            role="tablist"
+            aria-label="מצב"
+            className="grid grid-cols-2 w-full sm:w-auto sm:flex items-center gap-1 bg-[var(--th-muted-bg)] rounded-[14px] sm:rounded-full p-1"
+          >
             {(["guide", "drill"] as const).map((v) => (
-              <button key={v} className={tabBtn(v)} onClick={() => setView(v)}>
+              <button
+                key={v}
+                role="tab"
+                aria-selected={view === v}
+                className={tabBtn(v)}
+                onClick={() => setView(v)}
+              >
                 {view === v && (
                   <motion.div
                     layoutId="tab-pill"
-                    className="absolute inset-0 bg-[var(--th-accent)] rounded-full"
+                    className="absolute inset-0 bg-[var(--th-card)] sm:bg-[var(--th-accent)] rounded-[10px] sm:rounded-full shadow-sm sm:shadow-none"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -169,8 +235,10 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
       </div>
 
-      {/* Topic title */}
-      <div className={`w-full flex flex-col gap-1 ${view === "guide" ? "text-center items-center" : ""}`}>
+      {/* Topic title (phones show it in the FocusHeader while drilling) */}
+      <div
+        className={`w-full flex-col gap-1 ${view === "guide" ? "flex text-center items-center" : "hidden sm:flex"}`}
+      >
         <span className="th-eyebrow">נושא</span>
         <h1 className="th-page-title">{topic}</h1>
         <p className="text-sm text-[var(--th-muted)]">
@@ -200,19 +268,10 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
       {view === "drill" && (
         <>
-          {/* Weak questions toggle */}
-          <div className="w-full max-w-2xl flex items-center justify-between gap-3">
+          {/* Weak questions toggle (phones: in the tools row under the card) */}
+          <div className="hidden sm:flex w-full max-w-2xl items-center justify-between gap-3">
             <ProgressBar current={currentIndex + 1} total={activeTotal} />
-            <button
-              onClick={handleWeakToggle}
-              className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
-                weakOnly
-                  ? "bg-[var(--th-error)] border-[var(--th-error)] text-[var(--th-on-error)]"
-                  : "border-[var(--th-border)] text-[var(--th-muted)] hover:border-[var(--th-error)] hover:text-[var(--th-error)]"
-              }`}
-            >
-              {weakOnly ? "✕ שאלות קשות" : "שאלות קשות"}
-            </button>
+            {weakToggle("shrink-0 px-3 py-1.5")}
           </div>
 
           {/* No weak questions message */}
@@ -236,32 +295,37 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
                 total={activeTotal}
                 direction={direction}
                 trackStats
+                focusBar
               />
 
-              <form
-                onSubmit={handleJump}
-                className="flex items-center gap-2 text-sm text-[var(--th-muted)]"
-              >
-                <label htmlFor="jump-input" className="whitespace-nowrap">
-                  קפוץ לשאלה:
-                </label>
-                <input
-                  id="jump-input"
-                  type="number"
-                  min={1}
-                  max={activeTotal}
-                  value={jumpInput}
-                  onChange={(e) => setJumpInput(e.target.value)}
-                  className="w-16 text-center rounded-[var(--th-radius-sm)] border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  placeholder="מס׳"
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-1 rounded-[var(--th-radius-sm)] border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
+              <div className="w-full max-w-2xl flex flex-wrap items-center justify-between sm:justify-center gap-2">
+                <div className="sm:hidden">{weakToggle("min-h-11 px-4")}</div>
+                <form
+                  onSubmit={handleJump}
+                  className="flex items-center gap-2 text-sm text-[var(--th-muted)]"
                 >
-                  עבור
-                </button>
-              </form>
+                  <label htmlFor="jump-input" className="whitespace-nowrap">
+                    קפוץ לשאלה:
+                  </label>
+                  <input
+                    id="jump-input"
+                    type="number"
+                    min={1}
+                    max={activeTotal}
+                    value={jumpInput}
+                    onChange={(e) => setJumpInput(e.target.value)}
+                    inputMode="numeric"
+                    className="w-16 h-11 sm:h-auto text-center text-base sm:text-sm rounded-[var(--th-radius-sm)] border border-[var(--th-border)] bg-[var(--th-card)] px-2 py-1 text-[var(--th-fg)] focus:outline-none focus:border-[var(--th-accent)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    placeholder="מס׳"
+                  />
+                  <button
+                    type="submit"
+                    className="min-h-11 sm:min-h-0 px-3 py-1 rounded-[var(--th-radius-sm)] border border-[var(--th-border)] hover:bg-[var(--th-muted-bg)] transition-colors"
+                  >
+                    עבור
+                  </button>
+                </form>
+              </div>
 
               <p className="text-[0.7rem] text-[var(--th-muted)] hidden sm:block" aria-hidden>
                 קיצורי מקלדת: ← → לניווט · 1-4 לתשובה · רווח / R לחשיפה

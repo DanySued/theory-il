@@ -56,7 +56,8 @@ for (const theme of ["light", "dark"]) {
   await startBtn.click();
   await page.waitForTimeout(300);
   await page.keyboard.press("1");
-  await page.getByRole("button", { name: "סיים מבחן" }).click();
+  // Phones submit from the focus header ("הגשה"); ≥sm from the sticky bar ("סיים מבחן").
+  await page.getByRole("button", { name: /^(הגשה|סיים מבחן)$/ }).first().click();
   const confirm = page.getByRole("dialog").getByRole("button", { name: /סיים/ });
   if (await confirm.count()) await confirm.first().click();
   await page.waitForURL(/\/results\//, { timeout: 10_000 }).catch(() => fail("exam: did not reach results"));
@@ -76,7 +77,7 @@ for (const theme of ["light", "dark"]) {
 
   // Bottom tab bar: shown on browse routes, hidden on focus routes
   const tabbar = page.getByRole("navigation", { name: "ניווט ראשי" });
-  for (const [route, shown] of [["/", true], ["/progress", true]]) {
+  for (const [route, shown] of [["/", true], ["/progress", true], ["/study/בטיחות?view=drill", false]]) {
     await page.goto(BASE + encodeURI(route), { waitUntil: "networkidle" });
     if ((await tabbar.isVisible()) !== shown) fail(`tab bar: expected ${shown ? "visible" : "hidden"} on ${route}`);
     else console.log(`  ✓ tab bar ${shown ? "visible" : "hidden"} on ${route}`);

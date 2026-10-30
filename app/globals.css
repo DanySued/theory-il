@@ -291,7 +291,29 @@ html {
     display: none;
   }
   body:has(.th-focus-marker) .th-page {
-    padding-top: 0.75rem;
+    padding-top: 0;
+  }
+}
+
+/* Bottom sheets slide up on phones */
+@media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+  .th-sheet {
+    animation: th-sheet-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+@keyframes th-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* Flashcard fills the space between FocusHeader (56 + 3px) and the rating bar */
+@media (max-width: 639px) {
+  .th-flashcard {
+    min-height: max(
+      260px,
+      calc(100svh - 59px - var(--th-safe-t) - 6.75rem - var(--th-safe-b) - 2rem)
+    ) !important;
   }
 }
 

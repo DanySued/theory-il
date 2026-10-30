@@ -34,6 +34,12 @@ export function reviewCard(id: string, grade: SuperMemoGrade): SRSCard {
   return updated;
 }
 
+/** Days until a card would be due again if rated `grade` now (same math as reviewCard). */
+export function previewInterval(id: string, grade: SuperMemoGrade): number {
+  const existing: SuperMemoItem = getSRSCards()[id] ?? { interval: 0, repetition: 0, efactor: 2.5 };
+  return supermemo(existing, grade).interval;
+}
+
 export function getDueCards(allIds: string[]): string[] {
   const cards = getSRSCards();
   const today = localDateStr(new Date());

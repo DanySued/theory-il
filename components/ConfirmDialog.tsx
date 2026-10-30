@@ -12,7 +12,10 @@ interface Props {
   onConfirm: () => void;
 }
 
-/** Modal confirm: focuses the safe (cancel) action, traps Tab, Escape cancels, restores focus. */
+/**
+ * Modal confirm: focuses the safe (cancel) action, traps Tab, Escape cancels, restores focus.
+ * Phones get a bottom sheet (thumb-reachable, 48px buttons); ≥sm a centered card.
+ */
 export default function ConfirmDialog({
   title,
   children,
@@ -57,7 +60,7 @@ export default function ConfirmDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 sm:px-4"
       onClick={(e) => e.target === e.currentTarget && onCancel()}
     >
       <div
@@ -65,25 +68,26 @@ export default function ConfirmDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4"
+        className="th-sheet bg-[var(--th-card)] rounded-t-3xl sm:rounded-[var(--th-radius-lg)] border border-b-0 sm:border-b border-[var(--th-border)] px-5 pt-3 pb-[calc(1.25rem+var(--th-safe-b))] sm:p-6 w-full sm:max-w-sm flex flex-col gap-4"
       >
+        <span aria-hidden className="sm:hidden self-center w-10 h-1 rounded-full bg-[var(--th-border-strong)]" />
         <h2 id={titleId} className="text-xl font-bold">
           {title}
         </h2>
-        <div className="text-[var(--th-muted)] text-sm">{children}</div>
+        <div className="text-[var(--th-muted-strong)] sm:text-[var(--th-muted)] text-[15px] sm:text-sm leading-relaxed">{children}</div>
         <div className="flex gap-3 justify-end">
           <button
             ref={cancelRef}
             type="button"
             onClick={onCancel}
-            className="h-11 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
+            className="flex-1 sm:flex-none h-12 sm:h-11 px-4 rounded-[14px] sm:rounded-[var(--th-radius)] border border-[var(--th-border)] text-base sm:text-sm font-semibold sm:font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
           >
             {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className={`h-11 px-4 rounded-[var(--th-radius-lg)] text-sm font-semibold transition-colors ${
+            className={`flex-1 sm:flex-none h-12 sm:h-11 px-4 rounded-[14px] sm:rounded-[var(--th-radius-lg)] text-base sm:text-sm font-bold sm:font-semibold transition-colors ${
               tone === "danger"
                 ? "bg-[var(--th-error)] text-[var(--th-on-error)] hover:opacity-90"
                 : "bg-[var(--th-accent)] text-[var(--th-on-accent)] hover:bg-[var(--th-accent-hover)]"
