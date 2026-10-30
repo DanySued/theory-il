@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>כרטיסיות — חוקי התנועה</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1d4ed8;text-decoration:none}a:hover{color:#1e40af}
+</style>
+</helmet>
+<div dir="rtl" style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #f6f4ee; color: #14171c; font-family: Heebo, Arial, sans-serif; display: flex; flex-direction: column;">
+
+  <header style="flex-shrink: 0; background: rgba(246,244,238,0.92); border-bottom: 1px solid #e4e1d8;">
+    <div style="height: 56px; box-sizing: border-box; padding: 0 4px; display: flex; align-items: center; gap: 4px;">
+      <a href="Main.dc.html" aria-label="חזרה" style="width: 44px; height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #14171c;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <div style="flex-grow: 1; display: flex; flex-direction: column; line-height: 1.2;">
+        <span style="font-size: 17px; font-weight: 800;">חוקי התנועה</span>
+        <span style="font-size: 12px; color: #4a4e57;">כרטיס 12 מתוך 40 להיום</span>
+      </div>
+    </div>
+    <div style="height: 3px; background: #ecebe4;">
+      <div style="width: 30%; height: 100%; background: #1d4ed8;"></div>
+    </div>
+  </header>
+
+  <main style="flex-grow: 1; overflow: hidden; padding: 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px;">
+    <article style="flex-grow: 1; background: #ffffff; border: 1px solid #e4e1d8; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 10px 28px -12px rgba(0,0,0,0.14);">
+      <span style="align-self: flex-start; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #ecebe4; color: #4a4e57;">שאלה</span>
+      <p style="margin: 0; font-size: 20px; line-height: 1.5; font-weight: 700;">מהי המהירות המרבית המותרת לרכב פרטי בדרך עירונית, כשאין תמרור אחר?</p>
+      <div style="height: 1px; background: #e4e1d8;"></div>
+      <span style="align-self: flex-start; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #f0fdf4; color: #14532d;">תשובה</span>
+      <p style="margin: 0; font-size: 22px; line-height: 1.4; font-weight: 800; color: #15803d;">50 קמ״ש</p>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #2a2f38;">בדרך עירונית ללא תמרור הגבלה אחר, המהירות המרבית היא 50 קמ״ש. בדרך שאינה עירונית ללא קו הפרדה — 80 קמ״ש.</p>
+      <div style="flex-grow: 1;"></div>
+      <span style="font-size: 13px; color: #6b6f78; text-align: center;">הקש על הכרטיס כדי להפוך · החלק לדילוג</span>
+    </article>
+  </main>
+
+  <div style="flex-shrink: 0; box-sizing: border-box; padding: 10px 16px 34px; border-top: 1px solid #e4e1d8; background: rgba(255,255,255,0.96); display: flex; flex-direction: column; gap: 8px;">
+    <span style="font-size: 13px; color: #4a4e57; text-align: center;">כמה טוב ידעת?</span>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+      <button type="button" style="height: 56px; border-radius: 14px; border: 1px solid #fecaca; background: #fef2f2; color: #b91c1c; font-family: inherit; font-size: 16px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2;">
+        לא ידעתי
+        <span style="font-size: 11px; font-weight: 500; color: #991b1b;">שוב היום</span>
+      </button>
+      <button type="button" style="height: 56px; border-radius: 14px; border: 1px solid #c9c4b6; background: #ffffff; color: #14171c; font-family: inherit; font-size: 16px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2;">
+        בערך
+        <span style="font-size: 11px; font-weight: 500; color: #4a4e57;">בעוד יום</span>
+      </button>
+      <button type="button" style="height: 56px; border-radius: 14px; border: 0; background: #1d4ed8; color: #ffffff; font-family: inherit; font-size: 16px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2;">
+        ידעתי
+        <span style="font-size: 11px; font-weight: 500; color: #dbe5ff;">בעוד 4 ימים</span>
+      </button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
