@@ -7,6 +7,7 @@ import type { Question } from "@/components/QuestionCard";
 import { saveAttempt, generateId } from "@/lib/storage";
 import { LABELS } from "@/lib/constants";
 import { useRipple } from "@/hooks/useRipple";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 const DEFAULT_EXAM_DURATION = 40 * 60;
 const SECONDS_PER_QUESTION = 80; // matches the official 30-question / 40-minute ratio
@@ -50,6 +51,9 @@ export default function ExamRunner({
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   // Refs so the timer callback always reads the latest state
+  const closeConfirm = useCallback(() => setShowConfirm(false), []);
+  const closeExitConfirm = useCallback(() => setShowExitConfirm(false), []);
+
   const answersRef = useRef(answers);
   const markedRef = useRef(markedForReview);
   const secondsRef = useRef(examDuration);
@@ -170,7 +174,9 @@ export default function ExamRunner({
           <button
             disabled={submitted}
             onClick={() =>
-              answeredCount < questions.length ? setShowConfirm(true) : doSubmit()
+              answeredCount < questions.length || markedForReview.some(Boolean)
+                ? setShowConfirm(true)
+                : doSubmit()
             }
             className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] disabled:opacity-50 transition-colors"
           >
@@ -323,63 +329,41 @@ export default function ExamRunner({
         </p>
       </div>
 
-      {/* Exit confirmation dialog */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
-          <div className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
-            <h2 id="exit-dialog-title" className="text-xl font-bold">לצאת מהמבחן?</h2>
-            <p className="text-[var(--th-muted)] text-sm">
-              ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowExitConfirm(false)}
-                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
-              >
-                המשך מבחן
-              </button>
-              <button
-                onClick={() => {
-                  setShowExitConfirm(false);
-                  router.push("/");
-                }}
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-error)] text-[var(--th-on-error)] text-sm font-semibold hover:opacity-90 transition-opacity"
-              >
-                צא מהמבחן
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog
+          title="לצאת מהמבחן?"
+          cancelLabel="המשך מבחן"
+          confirmLabel="צא מהמבחן"
+          tone="danger"
+          onCancel={closeExitConfirm}
+          onConfirm={() => {
+            setShowExitConfirm(false);
+            router.push("/");
+          }}
+        >
+          ההתקדמות שלך לא תישמר ויציאה מהמבחן תבטל את התשובות שסימנת.
+        </ConfirmDialog>
       )}
 
-      {/* Confirmation dialog */}
       {showConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
-          <div className="bg-[var(--th-card)] rounded-[var(--th-radius-lg)] border border-[var(--th-border)] p-6 max-w-sm w-full flex flex-col gap-4">
-            <h2 id="confirm-dialog-title" className="text-xl font-bold">לסיים את המבחן?</h2>
-            <p className="text-[var(--th-muted)] text-sm">
-              ענית על {answeredCount} מתוך {questions.length} שאלות.{" "}
-              {questions.length - answeredCount} שאלות עדיין לא נענו.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium hover:bg-[var(--th-muted-bg)] transition-colors"
-              >
-                המשך מבחן
-              </button>
-              <button
-                onClick={() => {
-                  setShowConfirm(false);
-                  doSubmit();
-                }}
-                className="h-10 px-4 rounded-[var(--th-radius-lg)] bg-[var(--th-accent)] text-[var(--th-on-accent)] text-sm font-semibold hover:bg-[var(--th-accent-hover)] transition-colors"
-              >
-                סיים בכל זאת
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog
+          title="לסיים את המבחן?"
+          cancelLabel="המשך מבחן"
+          confirmLabel="סיים בכל זאת"
+          onCancel={closeConfirm}
+          onConfirm={() => {
+            setShowConfirm(false);
+            doSubmit();
+          }}
+        >
+          ענית על {answeredCount} מתוך {questions.length} שאלות.
+          {answeredCount < questions.length && (
+            <> {questions.length - answeredCount} שאלות עדיין לא נענו.</>
+          )}
+          {markedForReview.some(Boolean) && (
+            <> סימנת {markedForReview.filter(Boolean).length} שאלות לבדיקה חוזרת.</>
+          )}
+        </ConfirmDialog>
       )}
     </main>
   );

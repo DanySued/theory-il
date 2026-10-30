@@ -138,6 +138,9 @@ export default function FlashcardRunner({ questions }: Props) {
           <span aria-hidden="true">&#8594;</span>
           חזרה
         </Link>
+        <h1 className="text-sm font-semibold text-[var(--th-fg-soft)]">
+          כרטיסיות · {q.topic}
+        </h1>
         <span className="text-xs text-[var(--th-muted)] tabular-nums font-mono tracking-wide">
           {currentIdx + 1} / {dueIds.length}
         </span>
