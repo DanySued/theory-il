@@ -60,6 +60,26 @@
   --th-page-py: 2rem;           /* py-8 */
   --th-page-gap: 2rem;          /* gap-8 between page-level blocks */
   --th-section-gap: 3.5rem;     /* py-14 between marketing sections */
+
+  /* Mobile chrome (iPhone × Chrome) */
+  --th-header-h: 56px;          /* global header on phones (desktop keeps 61px) */
+  --th-tabbar-h: 56px;          /* bottom tab bar, excluding the safe area */
+  --th-actionbar-h: 72px;       /* 52px button + 10px + 10px padding */
+  --th-safe-b: env(safe-area-inset-bottom, 0px);
+  --th-safe-t: env(safe-area-inset-top, 0px);
+  --th-tap: 44px;               /* minimum touch target */
+}
+
+@media (max-width: 639px) {
+  :root {
+    --th-page-px: 1rem;
+    --th-page-py: 1.25rem;
+    --th-page-gap: 1.25rem;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 .th-page-title {
@@ -228,9 +248,12 @@
   }
 }
 
-/* Home hero: first-time vs returning learner (see the boot script in layout.tsx). */
-.th-hero {
-  min-height: calc(100dvh - 61px);
+/* Home hero: first-time vs returning learner (see the boot script in layout.tsx).
+   Phones get a compact hero (no full-screen min-height) so "continue" sits above the fold. */
+@media (min-width: 640px) {
+  .th-hero {
+    min-height: calc(100dvh - 61px);
+  }
 }
 :root[data-returning] .th-hero {
   min-height: 0;
@@ -248,15 +271,26 @@
 .th-card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.th-card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.12);
-  border-color: var(--th-accent);
+/* Gated like Tailwind's hover: so the lift doesn't stick after a tap on touch screens. */
+@media (hover: hover) {
+  .th-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.12);
+    border-color: var(--th-accent);
+  }
 }
 
 body {
   background: var(--th-bg);
   color: var(--th-fg);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-x: none;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
 }
 
 :focus-visible {

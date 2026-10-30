@@ -10,7 +10,7 @@ export default function GlobalError({
 }) {
   return (
     <html lang="he" dir="rtl">
-      <body className="min-h-screen flex items-center justify-center bg-[var(--th-bg)] text-[var(--th-fg)] font-sans px-6">
+      <body className="min-h-dvh flex items-center justify-center bg-[var(--th-bg)] text-[var(--th-fg)] font-sans px-6">
         <title>שגיאה — תיאוריה</title>
         <div className="flex flex-col items-center text-center gap-4 max-w-md">
           <h1 className="th-page-title">משהו השתבש</h1>
