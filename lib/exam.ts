@@ -1,14 +1,8 @@
 import type { Question } from "@/components/QuestionCard";
 import { getQStats, getBookmarks } from "@/lib/storage";
 import { rankQuestions } from "@/lib/review";
+import { EXAM_TOPIC_ALLOC } from "@/lib/constants";
 
-// Proportional allocation across the 4 ב topics (totals 30, scaled when length ≠ 30)
-const TOPIC_ALLOC: Record<string, number> = {
-  "חוקי התנועה": 12,
-  "תמרורים": 9,
-  "בטיחות": 7,
-  "הכרת הרכב": 2,
-};
 
 export function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -34,7 +28,7 @@ export function generateExam(all: Question[], length = 30): Question[] {
   // Scale topic allocation proportionally when length differs from 30
   const ratio = length / 30;
   const selected: Question[] = [];
-  for (const [topic, count] of Object.entries(TOPIC_ALLOC)) {
+  for (const [topic, count] of Object.entries(EXAM_TOPIC_ALLOC)) {
     const pool = shuffle(byTopic.get(topic) ?? []);
     selected.push(...pool.slice(0, Math.round(count * ratio)));
   }

@@ -8,9 +8,8 @@ import { exportResultCard, exportAttemptToDocx } from "@/lib/export";
 import ShareCard from "@/components/ShareCard";
 import PageShell from "@/components/PageShell";
 import Skeleton from "@/components/Skeleton";
-import { LABELS } from "@/lib/constants";
+import { LABELS, PASS_SCORE } from "@/lib/constants";
 
-const PASS_SCORE = 26;
 
 function formatDuration(seconds: number): string {
   const m = Math.floor(seconds / 60);

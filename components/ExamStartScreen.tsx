@@ -1,5 +1,6 @@
 "use client";
 
+import { EXAM_LENGTH, PASS_SCORE } from "@/lib/constants";
 import { useState } from "react";
 import { motion } from "motion/react";
 
@@ -119,7 +120,7 @@ export default function ExamStartScreen({
       </motion.button>
 
       <p className="text-xs text-[var(--th-muted)] text-center">
-        לעבור צריך 26 תשובות נכונות מתוך 30.
+        לעבור צריך {PASS_SCORE} תשובות נכונות מתוך {EXAM_LENGTH}.
       </p>
     </div>
   );

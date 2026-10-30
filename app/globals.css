@@ -228,6 +228,23 @@
   }
 }
 
+/* Home hero: first-time vs returning learner (see the boot script in layout.tsx). */
+.th-hero {
+  min-height: calc(100dvh - 61px);
+}
+:root[data-returning] .th-hero {
+  min-height: 0;
+  padding-block: 2.5rem 0;
+  gap: 1.5rem;
+}
+:root[data-returning] .th-hero .th-display {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+}
+:root[data-returning] .th-new-only,
+:root:not([data-returning]) .th-returning-only {
+  display: none;
+}
+
 .th-card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
