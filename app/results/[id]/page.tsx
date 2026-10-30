@@ -352,7 +352,7 @@ export default function ResultsPage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={q.image}
-                      alt={q.text}
+                      alt="תמונה לשאלה" loading="lazy" decoding="async"
                       className="max-h-32 object-contain rounded-lg"
                     />
                   </div>

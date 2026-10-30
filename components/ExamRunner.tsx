@@ -95,6 +95,12 @@ export default function ExamRunner({
   }, [doSubmit, noTimer]);
 
   const q = questions[currentIdx];
+  const nextImage = questions[currentIdx + 1]?.image;
+  useEffect(() => {
+    if (!nextImage) return;
+    const img = new Image();
+    img.src = nextImage;
+  }, [nextImage]);
   const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
   const isLowTime = secondsLeft < 5 * 60;
 
@@ -242,7 +248,7 @@ export default function ExamRunner({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={q.image}
-                  alt={q.text}
+                  alt="תמונה לשאלה" decoding="async"
                   className="max-h-48 object-contain rounded-lg"
                 />
               </div>

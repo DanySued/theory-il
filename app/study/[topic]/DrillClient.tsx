@@ -89,6 +89,14 @@ export default function DrillClient({ topic, questions, guide }: DrillClientProp
 
   const activeTotal = activeQuestions.length;
 
+  // Warm the next question's image so "next" feels instant on slow connections.
+  const nextImage = activeQuestions[currentIndex + 1]?.image;
+  useEffect(() => {
+    if (!nextImage) return;
+    const img = new Image();
+    img.src = nextImage;
+  }, [nextImage]);
+
   const goTo = useCallback(
     (idx: number) => {
       const clamped = Math.max(0, Math.min(activeTotal - 1, idx));

@@ -189,7 +189,7 @@ export default function QuestionCard({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={question.image}
-                alt={question.text}
+                alt="תמונה לשאלה" decoding="async"
                 className="max-h-48 object-contain rounded-lg"
                 draggable={false}
               />
