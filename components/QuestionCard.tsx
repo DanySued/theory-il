@@ -314,7 +314,7 @@ export default function QuestionCard({
           disabled={currentIndex === 0}
           className="flex items-center gap-2 h-11 sm:h-10 px-4 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
-          <span className="text-base leading-none">&#8594;</span>
+          <span aria-hidden="true" className="text-base leading-none">&#8594;</span>
           הקודמת
         </button>
         <button
@@ -327,7 +327,7 @@ export default function QuestionCard({
           }`}
         >
           הבאה
-          <span className="text-base leading-none">&#8592;</span>
+          <span aria-hidden="true" className="text-base leading-none">&#8592;</span>
         </button>
       </div>
 
