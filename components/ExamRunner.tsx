@@ -106,6 +106,7 @@ export default function ExamRunner({
   }, [nextImage]);
   const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
   const markedCount = markedForReview.filter(Boolean).length;
+  const unansweredCount = questions.length - answeredCount;
   const isLowTime = secondsLeft < 5 * 60;
   const isLastQuestion = currentIdx === questions.length - 1;
 
@@ -412,7 +413,7 @@ export default function ExamRunner({
               onClick={() => setCurrentIdx((i) => i - 1)}
               className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
-              <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
+              <span aria-hidden="true" className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8594;</span>
               הקודמת
             </button>
             <button
@@ -421,7 +422,7 @@ export default function ExamRunner({
               className="flex items-center gap-2 px-4 py-2 rounded-[var(--th-radius)] border border-[var(--th-border)] text-sm font-medium text-[var(--th-fg)] hover:bg-[var(--th-muted-bg)] hover:border-[var(--th-accent)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
               הבאה
-              <span className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8592;</span>
+              <span aria-hidden="true" className="text-xl font-bold leading-none text-[var(--th-accent)]">&#8592;</span>
             </button>
           </div>
         </div>
@@ -514,11 +515,11 @@ export default function ExamRunner({
           }}
         >
           ענית על {answeredCount} מתוך {questions.length} שאלות.
-          {answeredCount < questions.length && (
-            <> {questions.length - answeredCount} שאלות עדיין לא נענו.</>
+          {unansweredCount > 0 && (
+            <> {unansweredCount === 1 ? "שאלה אחת עדיין לא נענתה." : `${unansweredCount} שאלות עדיין לא נענו.`}</>
           )}
-          {markedForReview.some(Boolean) && (
-            <> סימנת {markedForReview.filter(Boolean).length} שאלות לבדיקה חוזרת.</>
+          {markedCount > 0 && (
+            <> {markedCount === 1 ? "סימנת שאלה אחת" : `סימנת ${markedCount} שאלות`} לבדיקה חוזרת.</>
           )}
         </ConfirmDialog>
       )}
