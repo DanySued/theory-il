@@ -1,0 +1,346 @@
+[
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:drill-explanation",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:exam-submit-results",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:flashcards",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:search",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:drill-explanation",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:exam-submit-results",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:flashcards",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:search",
+  "issues": []
+ },
+ {
+  "route": "pwa",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/study/תמרורים?view=drill",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/exam",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/progress",
+  "issues": []
+ }
+]

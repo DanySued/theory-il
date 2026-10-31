@@ -1,0 +1,892 @@
+[
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhone15-light.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhone15-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "light",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhoneSE-light.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone SE",
+  "theme": "dark",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhoneSE-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "light",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhone15ProMax-light.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/",
+  "status": 200,
+  "issues": [],
+  "file": "home-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/study",
+  "status": 200,
+  "issues": [],
+  "file": "study-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/study/חוקי התנועה",
+  "status": 200,
+  "issues": [],
+  "file": "topic-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/study/תמרורים",
+  "status": 200,
+  "issues": [],
+  "file": "signs-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/study/תמרורים?view=drill",
+  "status": 200,
+  "issues": [],
+  "file": "drill-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/exam",
+  "status": 200,
+  "issues": [],
+  "file": "exam-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/flashcards",
+  "status": 200,
+  "issues": [],
+  "file": "flashcards-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/flashcards/בטיחות",
+  "status": 200,
+  "issues": [],
+  "file": "deck-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/review",
+  "status": 200,
+  "issues": [],
+  "file": "review-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/review?tab=mistakes",
+  "status": 200,
+  "issues": [],
+  "file": "review-mistakes-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/review?tab=saved",
+  "status": 200,
+  "issues": [],
+  "file": "review-saved-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/progress",
+  "status": 200,
+  "issues": [],
+  "file": "progress-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/daily",
+  "status": 200,
+  "issues": [],
+  "file": "daily-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/daily/history",
+  "status": 200,
+  "issues": [],
+  "file": "daily-history-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/settings",
+  "status": 200,
+  "issues": [],
+  "file": "settings-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/q/0693",
+  "status": 200,
+  "issues": [],
+  "file": "q-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15 Pro Max",
+  "theme": "dark",
+  "route": "/no-such-page-xyz",
+  "status": 404,
+  "issues": [],
+  "file": "404-iPhone15ProMax-dark.png"
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:drill-explanation",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:exam-submit-results",
+  "issues": [
+   "Error: results: no h1"
+  ]
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:flashcards",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "light",
+  "route": "flow:search",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:drill-explanation",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:exam-submit-results",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:flashcards",
+  "issues": []
+ },
+ {
+  "dev": "iPhone 15",
+  "theme": "dark",
+  "route": "flow:search",
+  "issues": []
+ },
+ {
+  "route": "pwa",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/study/תמרורים?view=drill",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/exam",
+  "issues": []
+ },
+ {
+  "dev": "desktop 1280",
+  "route": "/progress",
+  "issues": []
+ }
+]
